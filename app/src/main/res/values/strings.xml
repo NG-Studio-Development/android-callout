@@ -87,9 +87,12 @@
     <string name="info_executor_subcategories">Ваши подкатегории</string>
     <string name="info_login">Войдите в свой кабинет через социальные сети или E-mail</string>
     <string name="info_login_email">Войдите в свой кабинет через E-mail</string>
-    <string name="info_performer">Исполнитель</string>
+    <!-- <string name="info_performer">Исполнитель</string> -->
+    <string name="info_performer">Специалист</string>
     <string name="info_reviews">Отзывы исполнителя, вы можете оставить свой</string>
     <string name="info_search_main">Информация о поиске</string>
     <string name="info_subcategories">Выберите необходимую подкатегорию</string>
+
+    <string name="cancel">Закрыть</string>
 
 </resources>

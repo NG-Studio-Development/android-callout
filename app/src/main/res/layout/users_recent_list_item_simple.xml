@@ -87,6 +87,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:visibility="invisible"
         android:layout_toRightOf="@+id/avatarView"
         android:src="@drawable/ic_circle_red_small" />
 

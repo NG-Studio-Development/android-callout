@@ -1,18 +1,5 @@
 package su.whs.call.adapters;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-
-import su.whs.call.Constants;
-import su.whs.call.R;
-import su.whs.call.models.UserInfo;
-import su.whs.call.net.ConnectionHandler;
-import su.whs.call.views.RateStarsView;
-import su.whs.call.views.RoundedImageView;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.location.Location;
@@ -27,9 +14,20 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import su.whs.call.Constants;
+import su.whs.call.R;
+import su.whs.call.models.UserInfo;
+import su.whs.call.net.ConnectionHandler;
+import su.whs.call.views.RateStarsView;
+import su.whs.call.views.RoundedImageView;
 
 public class UsersAdapter extends BaseAdapter {
 
@@ -132,6 +130,24 @@ public class UsersAdapter extends BaseAdapter {
         TextView mUserName;
         RateStarsView mRate;
         TextView mDistance;
+
+        void setAlphaForAllView(float alpha) {
+
+            if ( mAvatar != null )
+                mAvatar.setAlpha(alpha);
+
+            if ( mCategory != null )
+                mCategory.setAlpha(alpha);
+
+            if ( mUserName != null )
+                mUserName.setAlpha(alpha);
+
+            if ( mRate != null )
+                mRate.setAlpha(alpha);
+
+            if ( mDistance != null )
+                mDistance.setAlpha(alpha);
+        }
     }
 
     private Holder createHolder(View row) {
@@ -166,6 +182,12 @@ public class UsersAdapter extends BaseAdapter {
         holder.mUserName.setText(ui.getUserName());
         holder.mRate.setStars(ui.getRate());
         holder.mBusyMark.setImageResource(ui.isBusy() ? R.drawable.ic_circle_red_small : R.drawable.ic_circle_green_small);
+        //holder.mBusyMark.setImageResource(ui.isBusy() ? R.drawable.ic_circle_red_small : R.drawable.ic_circle_red_small);
+        holder.setAlphaForAllView(ui.isBusy() ? Constants.ALPHA_VIEW_FOR_BUSY : 1f);
+        //if (ui.isBusy())
+            //holder.setAlphaForAllView(0.3f);
+        //else
+            //holder.mAvatar.setEnabled(false);
 
         if (mLastLocation != null && ui.getLocation() != null) {
             int distance = (int) mLastLocation.distanceTo(ui.getLocation());

@@ -20,7 +20,7 @@
         android:layout_centerVertical="true"
         android:paddingLeft="10dp"
         android:layout_alignParentRight="true"
-        android:layout_toRightOf="@+id/busyMark"
+        android:layout_toRightOf="@+id/avatarView"
         tools:ignore="RtlSymmetry">
 
         <su.whs.call.views.RateStarsView
@@ -70,11 +70,12 @@
 
     </RelativeLayout>
 
-    <ImageView
+     <ImageView
         android:id="@+id/busyMark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:visibility="gone"
         android:layout_toRightOf="@+id/avatarView"
         android:src="@drawable/ic_circle_red_small" />
 

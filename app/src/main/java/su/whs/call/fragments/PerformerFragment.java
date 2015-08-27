@@ -1,27 +1,10 @@
 package su.whs.call.fragments;
 
-import su.whs.call.Constants;
-import su.whs.call.R;
-import su.whs.call.database.DBConnector;
-import su.whs.call.dialog.InfoDialog;
-import su.whs.call.dialog.PerformerInfoDialog;
-import su.whs.call.form.MainActivity;
-import su.whs.call.models.RecentCall;
-import su.whs.call.models.Review;
-import su.whs.call.models.UserInfo;
-import su.whs.call.net.ConnectionHandler;
-import su.whs.call.register.User;
-import su.whs.call.views.IconButton;
-import su.whs.call.views.RateStarsView;
-import su.whs.call.views.RoundedImageView;
-
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -40,6 +23,19 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import su.whs.call.Constants;
+import su.whs.call.R;
+import su.whs.call.dialog.AdvancedInfoDialogFragment;
+import su.whs.call.dialog.PerformerInfoDialog;
+import su.whs.call.form.MainActivity;
+import su.whs.call.models.RecentCall;
+import su.whs.call.models.Review;
+import su.whs.call.models.UserInfo;
+import su.whs.call.net.ConnectionHandler;
+import su.whs.call.register.User;
+import su.whs.call.views.RateStarsView;
+import su.whs.call.views.RoundedImageView;
 
 public class PerformerFragment extends BaseFragment {
 
@@ -100,8 +96,6 @@ public class PerformerFragment extends BaseFragment {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-
-
                 rootView.findViewById(R.id.childScrollView).getParent()
                         .requestDisallowInterceptTouchEvent(false);
                 return false;
@@ -127,10 +121,26 @@ public class PerformerFragment extends BaseFragment {
                     mRateView.setStars((int) mUserInfo.getRate());
                     imageLoader.displayImage(Constants.API + mUserInfo.getAvatar(), mAvatarView, options);
                     mTextDescription.setText(mUserInfo.getDescription());
+                    mTextDescription.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AdvancedInfoDialogFragment.newInstance(mUserInfo.getDescription()).show(getFragmentManager(), null);
+                        }
+                    });
+
                     if (mUserInfo.isBusy()) {
+                        mAvatarView.setAlpha(Constants.ALPHA_VIEW_FOR_BUSY);
+                        mRateView.setAlpha(Constants.ALPHA_VIEW_FOR_BUSY);
+                        mNameView.setAlpha(Constants.ALPHA_VIEW_FOR_BUSY);
+                        mCallButton.setAlpha(Constants.ALPHA_VIEW_FOR_BUSY);
+
                         mBusyMark.setImageResource(R.drawable.ic_circle_red_small);
                         mCallButton.setImageResource(R.drawable.ic_call_button_disabled);
                     } else {
+                        mAvatarView.setAlpha(1f);
+                        mRateView.setAlpha(1f);
+                        mNameView.setAlpha(1f);
+
                         mBusyMark.setImageResource(R.drawable.ic_circle_green_small);
                         mCallButton.setOnClickListener(callBtnListener);
                         mCallButton.setImageResource(R.drawable.ic_call_button_green);
@@ -146,9 +156,20 @@ public class PerformerFragment extends BaseFragment {
                     imageLoader.displayImage(Constants.API + mUserInfo1.getAvatarURL(), mAvatarView, options);
                     mTextDescription.setText(mUserInfo1.getDescription());
                     if (mUserInfo1.isBusy()) {
+                        mAvatarView.setAlpha(Constants.ALPHA_VIEW_FOR_BUSY);
+                        mRateView.setAlpha(Constants.ALPHA_VIEW_FOR_BUSY);
+                        mNameView.setAlpha(Constants.ALPHA_VIEW_FOR_BUSY);
+                        mCallButton.setAlpha(Constants.ALPHA_VIEW_FOR_BUSY);
+
                         mBusyMark.setImageResource(R.drawable.ic_circle_red_small);
                         mCallButton.setImageResource(R.drawable.ic_call_button_disabled);
+
                     } else {
+
+                        mAvatarView.setAlpha(1f);
+                        mRateView.setAlpha(1f);
+                        mNameView.setAlpha(1f);
+
                         mBusyMark.setImageResource(R.drawable.ic_circle_green_small);
                         mCallButton.setOnClickListener(callBtnListener);
                         mCallButton.setImageResource(R.drawable.ic_call_button_green);
@@ -158,8 +179,6 @@ public class PerformerFragment extends BaseFragment {
 
                     queryReviews(mUserInfo1.getId(), mSubCategoryId);
                 }
-
-
         }
 
         isFromUserProfile = arguments.getBoolean(FROM_HISTORY, false);

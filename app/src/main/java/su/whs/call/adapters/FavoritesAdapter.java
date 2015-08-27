@@ -15,7 +15,6 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import java.text.ParseException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -48,15 +47,41 @@ public class FavoritesAdapter extends ArrayAdapter<RecentCall> {
         this.item= item;
     }
 
+    /*public class Holder {
+
+    }*/
+
+
     public class Holder {
         RoundedImageView mAvatar;
         ImageView mBusyMark;
         TextView mCategory;
         TextView mUserName;
         RateStarsView mRate;
+        TextView mDistance;
+
         TextView mDate;
         TextView mTime;
+
+        void setAlphaForAllView(float alpha) {
+
+            if ( mAvatar != null )
+                mAvatar.setAlpha(alpha);
+
+            if ( mCategory != null )
+                mCategory.setAlpha(alpha);
+
+            if ( mUserName != null )
+                mUserName.setAlpha(alpha);
+
+            if ( mRate != null )
+                mRate.setAlpha(alpha);
+
+            if ( mDistance != null )
+                mDistance.setAlpha(alpha);
+        }
     }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -91,6 +116,8 @@ public class FavoritesAdapter extends ArrayAdapter<RecentCall> {
 
 
         h.mBusyMark.setImageResource(item.isBusy() ? R.drawable.ic_circle_red_small : R.drawable.ic_circle_green_small);
+        h.setAlphaForAllView(item.isBusy() ? Constants.ALPHA_VIEW_FOR_BUSY : 1f );
+
 
             h.mCategory.setText(item.getSubCategoryTitle());
             h.mDate.setText(item.getDate());

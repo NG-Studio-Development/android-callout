@@ -18,9 +18,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -29,7 +27,6 @@ import su.whs.call.R;
 import su.whs.call.models.CallItem;
 import su.whs.call.models.FavoriteItem;
 import su.whs.call.models.RecentCall;
-import su.whs.call.models.UserInfo;
 import su.whs.call.net.ConnectionHandler;
 import su.whs.call.register.User;
 import su.whs.call.views.RateStarsView;
@@ -89,17 +86,44 @@ public class RecentCallsAdapter extends BaseAdapter {
 	public long getItemId(int position) {
 		return position;
 	}
-	
+
+
 	public class Holder {
+
+		TextView mDistance;
 		RoundedImageView mAvatar;
 		ImageView mBusyMark;
 		TextView mCategory;
 		TextView mUserName;
 		RateStarsView mRate;
 		TextView mDate;
-        TextView mTime;
+		TextView mTime;
+
+		void setAlphaForAllView(float alpha) {
+
+			if ( mAvatar != null )
+				mAvatar.setAlpha(alpha);
+
+			if ( mCategory != null )
+				mCategory.setAlpha(alpha);
+
+			if ( mUserName != null )
+				mUserName.setAlpha(alpha);
+
+			if ( mRate != null )
+				mRate.setAlpha(alpha);
+
+			if ( mDistance != null )
+				mDistance.setAlpha(alpha);
+
+			if ( mDate != null )
+				mDate.setAlpha(alpha);
+
+			if ( mTime != null )
+				mTime.setAlpha(alpha);
+		}
 	}
-	
+
 	private Holder createHolder(View row) {
 		Holder h = new Holder();
 		h.mAvatar = (RoundedImageView) row.findViewById(R.id.avatarView);
@@ -126,10 +150,12 @@ public class RecentCallsAdapter extends BaseAdapter {
 		RecentCall call = mCalls.get(position);
 		if (call.getAvatar() != null) {
             imageLoader.displayImage(Constants.API + call.getAvatar(), holder.mAvatar, options, animateFirstListener);
-        }
+		}
 		holder.mUserName.setText(call.getUserName());
 		holder.mRate.setStars(call.getRate());
-        holder.mBusyMark.setImageResource(call.isBusy() ? R.drawable.ic_circle_red_small : R.drawable.ic_circle_green_small);
+		holder.mBusyMark.setImageResource(call.isBusy() ? R.drawable.ic_circle_red_small : R.drawable.ic_circle_green_small);
+
+		holder.setAlphaForAllView(call.isBusy() ? Constants.ALPHA_VIEW_FOR_BUSY : 1f);
 
         holder.mCategory.setText(call.getSubCategoryTitle());
         try {
