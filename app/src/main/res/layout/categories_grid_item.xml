@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/buttonIcon"
+            android:layout_width="@dimen/iconButtonShadowDiameter"
+            android:layout_height="@dimen/iconButtonShadowDiameter"
+            android:layout_centerInParent="true"
+            android:adjustViewBounds="false"
+            android:background="@drawable/circle_icon_light_bg"
+            android:clickable="true"
+            android:cropToPadding="false"
+            android:padding="5dp"
+            android:scaleType="center" />
+
+        <ImageView
+            android:id="@+id/categoryIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/categoryName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonIcon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:text="Button"
+        android:textAllCaps="true"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="?attr/textColorPrimary" />
+
+
+</LinearLayout>

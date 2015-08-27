@@ -1,0 +1,134 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+
+    <declare-styleable name="AppBaseTheme">
+        <attr name="ic_map" format="reference" />
+        <attr name="iconButtonBackground" format="reference" />
+        <attr name="iconButtonBackgroundColor" format="reference|color" />
+        <attr name="iconButtonBorderColor" format="reference|color" />
+        <attr name="frameBackground" format="reference|color" />
+        <attr name="textColorPrimary" format="color" />
+        <attr name="actionBarBackground" format="reference|color" />
+        <attr name="listDivider" format="reference" />
+        <attr name="userListDivider" format="reference" />
+        <attr name="iconNormalColor" format="reference|color" />
+    </declare-styleable>
+
+    <style name="AppBaseTheme" parent="@android:style/Theme.Black.NoTitleBar">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="ic_map">@drawable/ic_map_location</item>
+        <item name="android:windowBackground">@drawable/background_splash</item>
+
+        <!-- IconButton -->
+        <item name="iconButtonBackground">@drawable/circle_icon_bg</item>
+        <item name="iconButtonBackgroundColor">@color/black</item>
+        <item name="iconButtonBorderColor">@color/white</item>
+
+        <item name="frameBackground">@drawable/background</item>
+        <item name="textColorPrimary">@color/white</item>
+        <item name="actionBarBackground">@color/mask</item>
+        <item name="listDivider">@drawable/list_divider</item>
+        <item name="userListDivider">@drawable/users_list_divider</item>
+        <item name="iconNormalColor">@android:color/white</item>
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme.Light" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="ic_map">@drawable/ic_map_location_light_set</item>
+        <item name="android:windowBackground">@drawable/background_splash</item>
+
+        <!-- IconButton -->
+        <item name="iconButtonBackground">@drawable/circle_icon_light_bg</item>
+        <item name="iconButtonBackgroundColor">@color/white</item>
+        <item name="iconButtonBorderColor">#f18800</item>
+
+        <item name="frameBackground">@color/white</item>
+        <item name="textColorPrimary">@color/black</item>
+        <item name="actionBarBackground">#E69200</item>
+        <item name="listDivider">@drawable/list_divider_light</item>
+        <item name="userListDivider">@drawable/users_list_divider_light</item>
+        <item name="iconNormalColor">#E69200</item>
+    </style>
+
+
+    <style name="titleBarInputControl"></style>
+
+    <style name="roundedEditText">
+        <item name="android:background">@drawable/oval_white</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+        <item name="android:minHeight">34dp</item>
+    </style>
+
+    <style name="searchInput" parent="@style/roundedEditText">
+        <item name="android:layout_marginLeft">16dp</item>
+    </style>
+
+    <style name="starsRatingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/rating_bar_full</item>
+        <item name="android:indeterminateDrawable">@drawable/rating_bar_full</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:maxHeight">48dp</item>
+    </style>
+
+    <style name="roundedButtonDark" parent="@style/roundedEditText">
+        <item name="android:background">@drawable/rounded_dark_button</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="roundedButtonLight" parent="@style/roundedEditText">
+        <item name="android:background">@drawable/rounded_light_button</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="leftFilterButton">
+        <item name="android:background">@drawable/left_filter_button_bg</item>
+        <item name="android:minHeight">35dp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="leftFilterButtonNew">
+        <item name="android:background">@drawable/left_filter_new</item>
+        <item name="android:minHeight">35dp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="leftFilterButtonColored">
+        <item name="android:background">@drawable/left_filter_button_bg_colored</item>
+        <item name="android:minHeight">35dp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="rightFilterButton">
+        <item name="android:background">@drawable/right_filter_button_bg</item>
+        <item name="android:minHeight">35dp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="rightFilterButtonNew">
+        <item name="android:background">@drawable/right_filter_new</item>
+        <item name="android:minHeight">35dp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="filterButton">
+        <item name="android:background">@drawable/filter_button_bg</item>
+        <item name="android:minHeight">35dp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+</resources>

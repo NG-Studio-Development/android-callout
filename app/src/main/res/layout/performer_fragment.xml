@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/frameBackground">
+
+    <ScrollView
+        android:id="@+id/parentScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/fragmentsBottomMargin"
+        android:layout_marginTop="40dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="120dp">
+
+                <su.whs.call.views.RoundedImageView
+                    android:id="@+id/avatarView"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/avatar_icon" />
+
+                <ImageView
+                    android:id="@+id/busyMark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignRight="@+id/avatarView"
+                    android:layout_alignTop="@+id/avatarView"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_circle_red_small" />
+
+            </RelativeLayout>
+
+            <su.whs.call.views.RateStarsView
+                android:id="@+id/rateView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal" />
+
+            <TextView
+                android:id="@+id/nameText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:text="Sample text"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="?attr/textColorPrimary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/filterPanelButtonHeight"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+
+                <Button
+                    android:id="@+id/reviewsBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:background="@drawable/left_selected"
+                    android:minWidth="125dp"
+                    android:text="@string/reviews_cap"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/favoritesSwitcher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+
+                    android:background="@drawable/right_tab"
+                    android:minWidth="124dp"
+                    android:text="@string/to_favorites"
+                    android:textAllCaps="true" />
+
+            </LinearLayout>
+
+            <ScrollView
+                android:id="@+id/childScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginBottom="7dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="7dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/textDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Simple text and text and text"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="?attr/textColorPrimary" />
+
+            </ScrollView>
+
+            <ImageView
+                android:id="@+id/callButton"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_call_button_disabled" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

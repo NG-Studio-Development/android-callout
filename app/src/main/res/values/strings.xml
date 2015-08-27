@@ -1,0 +1,95 @@
+<resources>
+
+    <string name="app_name">Вызывай</string>
+
+    <string name="signin">Login</string>
+    <string name="signin_cap">LOGIN</string>
+    <string name="facebook">Facebook</string>
+    <string name="facebook_cap">FACEBOOK</string>
+    <string name="vkontakte">vk.com</string>
+    <string name="vkontakte_cap">VK.COM</string>
+    <string name="odnoklassniki">Odnoklassniki</string>
+    <string name="odnoklassniki_cap">ODNOKLASSNIKI</string>
+    <string name="email">E-Mail</string>
+    <string name="email_cap">E-MAIL</string>
+    <string name="p_choose_location">Select your location</string>
+    <string name="next_cap">NEXT</string>
+    <string name="next">Next</string>
+    <string name="register">Register</string>
+    <string name="register_cap">REGISTER</string>
+    <string name="cabinet">Cabinet</string>
+    <string name="h_username">Username</string>
+    <string name="h_email">e-mail</string>
+    <string name="h_phone">Phone number</string>
+    <string name="h_password">password</string>
+    <string name="h_password_confirm">password confirm</string>
+    <string name="p_search">find</string>
+    <string name="search">search</string>
+    <string name="categories">categories</string>
+    <string name="subcategories">subcategories</string>
+    <string name="my_subcategories">My subcategories</string>
+    <string name="favorites">favorites</string>
+    <string name="executor">executor</string>
+    <string name="exit">exit</string>
+    <string name="favorites_only_for_registered">Favorites list only for registered users</string>
+    <string name="choose_location_before">Please, choose location before process</string>
+    <string name="loading_error">Loading error</string>
+    <string name="empty"></string>
+    <string name="cant_send_empty_review">You can\'t send empty review</string>
+    <string name="review_need_login">You need to login in order to post reviews</string>
+    <string name="review_will_be_published">You review will be published after moderation</string>
+    <string name="review_posting_error">Error on review posting. Please check your Internet connection</string>
+    <string name="your_review">your review</string>
+    <string name="write_review">write review</string>
+    <string name="send_review">send review</string>
+    <string name="reviews_cap">REVIEWS</string>
+    <string name="reviews_cap_with_count">REVIEWS (%d)</string>
+    <string name="to_favorites">TO FAVORITES</string>
+    <string name="number_of_calls">calls</string>
+    <string name="my_categories">My categories</string>
+    <string name="current_state_free">free</string>
+    <string name="current_state_busy">busy</string>
+    <string name="from_favorites">FROM_FAVORITES</string>
+    <string name="favorites_restrictions">Add to favorites can only registered users</string>
+    <string name="call_cap">CALL</string>
+    <string name="distance_m">%d m</string>
+    <string name="distance_km">%d km</string>
+    <string name="stars_for_rating">Stars for rating</string>
+    <string name="recent_calls">Recent calls</string>
+
+    <string name="select_avatar_source">Select avatar</string>
+    <string name="from_camera">from camera</string>
+    <string name="from_galery">from galery</string>
+    <string name="remove">delete</string>
+
+    <string name="loading">Загрузка…</string>
+    <string name="facebook_app_id">802193569871496</string>
+    <string name="facebook_app_namespace">com_featzima_call</string>
+    <string name="vk_app_id">4839678</string>
+
+    <string name="unsupported_social_network">Unsupported socail network</string>
+    <string name="by_distance">By range</string>
+    <string name="by_rate">By rating</string>
+
+    <string name="exit_confirm">Are you sure you want to exit now?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="info_favorites">Избранные исполнители</string>
+    <string name="info_profile_change_avatar">Нажмите для смены аватара</string>
+    <string name="info_profile_share">Поделитесь приложением с друзьями</string>
+    <string name="info_register">Зарегестрируйтесь через социальные сети или E-mail</string>
+    <string name="info_register_email">Введите свои данные и зарегестрируйтесь через E-mail</string>
+    <string name="info_search_main_icon">Выберите адрес, куда вызвать исполнителя</string>
+    <string name="info_calls_total">Общее количество звонков по всем категориям</string>
+    <string name="info_select_category">Выберите необходимую категорию</string>
+    <string name="info_map_dialog">Выберите адрес тапнув на карте</string>
+    <string name="info_executor_subcategories">Ваши подкатегории</string>
+    <string name="info_login">Войдите в свой кабинет через социальные сети или E-mail</string>
+    <string name="info_login_email">Войдите в свой кабинет через E-mail</string>
+    <string name="info_performer">Исполнитель</string>
+    <string name="info_reviews">Отзывы исполнителя, вы можете оставить свой</string>
+    <string name="info_search_main">Информация о поиске</string>
+    <string name="info_subcategories">Выберите необходимую подкатегорию</string>
+
+</resources>

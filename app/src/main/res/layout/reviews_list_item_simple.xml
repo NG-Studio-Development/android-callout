@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="5dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingBottom="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/textUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Kris Kross"
+            android:textColor="?attr/textColorPrimary"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <su.whs.call.views.RateStarsView
+            android:id="@+id/rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textSize="15sp"
+        android:textColor="?attr/textColorPrimary"
+        android:text="sfjsakd jklsj adkj sdlkfjs klf;sjkfds fklsdj lkjsdkl fsdlkfj sdklf sdlkfjsdlkjsdlkjsdkf sdklf jsdlkfjsdlkfj"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+</LinearLayout>

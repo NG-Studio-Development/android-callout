@@ -1,0 +1,88 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+
+    <TabHost
+        android:id="@android:id/tabhost"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </FrameLayout>
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_height="@dimen/tabIndicatorHeight"
+                >
+            </TabWidget>
+        </RelativeLayout>
+    </TabHost>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/linearLayout">
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tabIndicatorHeight"
+            android:layout_weight="1.00"
+            android:paddingTop="20dp"
+            android:id="@+id/btnRegistration" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tabIndicatorHeight"
+            android:layout_weight="1.00"
+            android:textSize="9dp"
+            android:text="Мой кабинет"
+            android:id="@+id/btnCabinet" />
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tabIndicatorHeight"
+            android:layout_weight="1.00"
+            android:textSize="9dp"
+            android:paddingTop="20dp"
+
+            android:text="Поиск"
+            android:id="@+id/btnSearch" />
+
+        <Button
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tabIndicatorHeight"
+            android:layout_weight="1.00"
+            android:textSize="9dp"
+            android:text="Избранное"
+            android:id="@+id/btnFavorites" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tabIndicatorHeight"
+            android:layout_weight="1.00"
+
+            android:textSize="9dp"
+            android:text="Выход"
+            android:id="@+id/btnExit" />
+
+        </LinearLayout>
+
+
+</RelativeLayout>

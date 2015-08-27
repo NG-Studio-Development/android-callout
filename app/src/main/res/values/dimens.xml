@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="formInputWitdh">240dp</dimen>
+    <dimen name="formInputHeight">24dp</dimen> 
+    <dimen name="selectorButtonWidth">120dp</dimen>
+    <dimen name="iconButtonDiameter">122dp</dimen>
+    <dimen name="iconButtonShadowDiameter">80dp</dimen>
+    <dimen name="iconButtonBackgroundOffset">4dp</dimen>
+    <dimen name="loginSelectorHorizontalSpace">30dp</dimen>
+    <!-- tabs -->
+    <dimen name="tabIndicatorTransparentSpace">16dp</dimen>
+    <dimen name="tabIndicatorHeight">76dp</dimen>
+    <dimen name="tabIndicatorHalfHeight">56dp</dimen>
+    <dimen name="tabIndicatorWidth">72dp</dimen>
+    <dimen name="tabIndicatorOvalOffset">-10dp</dimen>
+    <dimen name="titleBarHeight">60dp</dimen>
+
+    <dimen name="filterPanelButtonHeight">40dp</dimen>
+    <dimen name="usersListDividerPaddingLeft">48dp</dimen>
+    <dimen name="usersListDividerPaddingRight">16dp</dimen>
+    <dimen name="usersListItemHeight">54dp</dimen>
+    <dimen name="usersListAvatarSize">64dp</dimen>
+    <!-- subcategories -->
+    <dimen name="subcategoryItemHeight">52dp</dimen>
+    <dimen name="subcategoryItemMarginLeft">16dp</dimen>
+    <!-- fragments -->
+    <dimen name="fragmentsTopMartin">50dp</dimen>
+    <dimen name="fragmentsBottomMargin">76dp</dimen>
+</resources>

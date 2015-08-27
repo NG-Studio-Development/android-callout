@@ -1,0 +1,40 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion '20.0.0'
+
+    defaultConfig {
+        applicationId "su.whs.call"
+        minSdkVersion 11
+        targetSdkVersion 18
+        versionCode 7
+        versionName "1.0.17"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile 'com.android.support:support-v4:19.+'
+    compile "com.android.support:gridlayout-v7:19.+"
+    compile 'com.google.android.gms:play-services:4.+'
+    compile 'com.googlecode.android-query:android-query:0.25.9'
+    compile 'com.crittercism:crittercism-android-agent:+'
+    compile 'com.github.johnkil.android-progressfragment:progressfragment:1.4.+'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.+'
+    //compile 'com.github.nicolasjafelle:paginggridview:1.+'
+    compile 'com.google.collections:google-collections:1.+'
+    compile files('libs/armeabi.jar')
+    compile 'com.google.code.gson:gson:2.+'
+    // compile files('libs/simple.facebook-2.1.jar')
+    compile project(':facebook')
+    compile project(':SimpleFacebook')
+    compile project(':vksdk_library')
+    compile project(':yandexmapkit-library')
+}

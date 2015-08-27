@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/left_filter_button_background_white"></item>
+    <item
+        android:id="@+id/gray_background"
+        android:drawable="@drawable/left_filter_button_background_gray"></item>
+</layer-list>

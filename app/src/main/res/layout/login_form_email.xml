@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="@dimen/formInputWitdh"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <su.whs.call.views.IconButton
+        android:id="@+id/iconButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        app:drawable="@drawable/email_icon"
+        app:text="@string/email_cap">
+
+    </su.whs.call.views.IconButton>
+
+    <EditText
+        android:id="@+id/editLoginEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:imeActionLabel="@string/next"
+        android:imeOptions="actionNext"
+        android:text=""
+        android:nextFocusForward="@+id/editPasswordEmail"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:singleLine="true">
+
+    </EditText>
+
+    <EditText
+        android:id="@+id/editPasswordEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:imeActionLabel="@string/signin"
+        android:imeOptions="actionGo"
+        android:text=""
+        android:inputType="textPassword"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:singleLine="true" />
+
+    <Button
+        android:id="@+id/buttonLoginEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_backgrounds"
+        android:text="@string/signin"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/tvLostPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:text="Забыли пароль?"
+        android:textColor="@color/black" />
+
+</LinearLayout>

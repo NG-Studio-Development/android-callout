@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialogLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#40000000"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/searchInfoArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="90dp"
+        android:src="@drawable/arrow_up_right" />
+
+    <TextView
+        android:id="@+id/screenInfo"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/searchInfoArrow"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/left_filter_button_active"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="Перейти к выбору исполнителя"
+        android:textColor="@color/white"
+        android:textSize="13dp" />
+
+    <TextView
+        android:id="@+id/screenAddress"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searchInfoArrow"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@id/screenInfo"
+        android:background="@drawable/left_filter_button_active"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="Введите адрес, куда вызвать исполнителя"
+        android:textColor="@color/white"
+        android:textSize="13dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/screenAddress"
+        android:layout_toLeftOf="@+id/screenInfo"
+        android:layout_marginRight="70dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/arrow_up_left" />
+
+    <ImageView
+        android:id="@+id/searchLeftArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="120dp"
+        android:layout_marginLeft="30dp"
+        android:src="@drawable/arrow_two" />
+
+    <TextView
+        android:id="@+id/screenRegistration"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/left_filter_button_active"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="Выберите адрес тапнув по карте"
+        android:textColor="@color/white"
+        android:textSize="13dp" />
+
+    <TextView
+        android:id="@+id/screenCabinet"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="80dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/left_filter_button_active"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="Растяните карту для увеливения"
+        android:textColor="@color/white"
+        android:textSize="13dp" />
+
+    <ImageView
+        android:id="@+id/searchRightArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="95dp"
+        android:layout_marginRight="30dp"
+        android:src="@drawable/arrow_down" />
+
+    <TextView
+        android:id="@+id/screenExit"
+        android:layout_width="155dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/searchRightArrow"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/left_filter_button_active"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="Определите свое местоположение"
+        android:textColor="@color/white"
+        android:textSize="13dp" />
+
+
+</RelativeLayout>

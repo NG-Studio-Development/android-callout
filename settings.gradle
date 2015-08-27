@@ -1,0 +1,1 @@
+include ':yandexmapkit-library', ':SimpleFacebook', ':facebook', ':vksdk_library',':app'

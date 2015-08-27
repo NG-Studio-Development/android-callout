@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
+
+    <su.whs.call.views.RoundedImageView
+        android:id="@+id/avatarView"
+        android:layout_width="@dimen/usersListAvatarSize"
+        android:layout_height="@dimen/usersListAvatarSize"
+        android:layout_marginLeft="4dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/avatar_icon" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:paddingLeft="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/busyMark"
+        tools:ignore="RtlSymmetry">
+
+        <su.whs.call.views.RateStarsView
+            android:id="@+id/rate"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/textCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rate"
+            android:layout_marginTop="5dp"
+            android:text="Вокал"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_toLeftOf="@+id/textTime"
+            android:layout_alignLeft="@+id/textUserName"
+            android:layout_alignStart="@+id/textUserName" />
+
+        <TextView
+            android:id="@+id/textUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textCategory"
+            android:text="Kris Kross"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_toLeftOf="@+id/textDate"
+            android:layout_alignLeft="@+id/rate"
+            android:layout_alignStart="@+id/rate" />
+
+        <TextView
+            android:id="@+id/textTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textCategory"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
+            android:textColor="@color/black"
+            android:text="12:05"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/textDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textUserName"
+            android:layout_alignBottom="@+id/textUserName"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black"
+            android:text="24.12.13"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/busyMark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/avatarView"
+        android:src="@drawable/ic_circle_red_small" />
+
+</RelativeLayout>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/formInputWitdh"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/LinearLayout1"
+        android:layout_width="@dimen/formInputWitdh"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/editRegisterName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:hint="@string/h_username"
+            android:imeActionLabel="@string/next"
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@+id/editRegisterEmail"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:singleLine="true"></EditText>
+
+        <EditText
+            android:id="@+id/editRegisterEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="@string/h_email"
+            android:imeActionLabel="@string/signin"
+            android:imeOptions="actionNext"
+            android:nextFocusForward="@+id/editRegisterPhone"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/editRegisterPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="@string/h_password"
+            android:imeActionLabel="@string/next"
+            android:imeOptions="actionNext"
+            android:inputType="textPassword"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/editRegisterPasswordConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="@string/h_password_confirm"
+            android:imeActionLabel="@string/next"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword"
+            android:nextFocusForward="@+id/editRegisterPassword"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:singleLine="true" />
+
+        <Button
+            android:id="@+id/buttonRegisterEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_backgrounds"
+            android:text="Зарегестрироваться"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+</LinearLayout>

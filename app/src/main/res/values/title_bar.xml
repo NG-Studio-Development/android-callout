@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="whsTitleBar">
+        <attr name="title" format="string|reference"></attr>
+        <attr name="homeEnabled" format="boolean"></attr>
+        <attr name="infoEnabled" format="boolean"></attr>
+        <attr name="searchEnabled" format="boolean"></attr>
+        <attr name="searchPrompt" format="string|reference"></attr>
+        <attr name="infoDrawable" format="reference"></attr>
+        <attr name="homeDrawable" format="reference"></attr>
+    </declare-styleable>    
+</resources>

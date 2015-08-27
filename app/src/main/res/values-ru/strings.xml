@@ -1,0 +1,86 @@
+<resources>
+
+    <string name="app_name">вызывай</string>
+
+    <string name="signin">Вход</string>
+    <string name="signin_cap">Мой кабинет</string>
+    <string name="facebook">Facebook</string>
+    <string name="facebook_cap">FACEBOOK</string>
+    <string name="vkontakte">ВКонтакте</string>
+    <string name="vkontakte_cap">ВКОНТАКТЕ</string>
+    <string name="odnoklassniki">Одноклассники</string>
+    <string name="odnoklassniki_cap">ОДНОКЛАССНИКИ</string>
+    <string name="email">E-Mail</string>
+    <string name="email_cap">E-MAIL</string>
+    <string name="p_choose_location">ВЫБЕРИТЕ СВОЁ\nМЕСТОПОЛОЖЕНИЕ</string>
+    <string name="next_cap">ДАЛЕЕ</string>
+    <string name="next">Далее</string>
+    <string name="register">Регистрация</string>
+    <string name="register_cap">РЕГИСТРАЦИЯ</string>
+    <string name="cabinet">Мой кабинет</string>
+    <string name="h_username">Имя</string>
+    <string name="h_email">E-mail</string>
+    <string name="h_phone">№ телефона</string>
+    <string name="h_password">Пароль</string>
+    <string name="h_password_confirm">Подтвердить пароль</string>
+    <string name="p_search">Искать</string>
+    <string name="search">Поиск</string>
+    <string name="categories">категории</string>
+    <string name="subcategories">подкатегории</string>
+    <string name="my_subcategories">Мои подкатегории</string>
+    <string name="favorites">Избранное</string>
+    <string name="exit">Выход</string>
+    <string name="choose_location_before">Пожалуйста, сначала выберите местоположение</string>
+    <string name="loading_error">Ошибка загрузки</string>
+    <string name="number_of_calls">звонки</string>
+    <string name="my_categories">Мои подкатегории</string>
+    <string name="executor">исполнитель</string>
+    <string name="current_state_free">свободен</string>
+    <string name="current_state_busy">занят</string>
+    <string name="empty"></string>
+    <string name="distance_m">%d м</string>
+    <string name="distance_km">%d км</string>
+    <string name="favorites_restrictions">Добавлять в избранное могут только зарегистрированные пользователи</string>
+    <string name="comment_restrictions">Добавлять отзыв могут только зарегистрированные пользователи</string>
+
+    <string name="recent_calls">История вызовов</string>
+    <string name="favorites_only_for_registered">Список избранного доступен только для зарегистрированных пользователей</string>
+    <string name="review_posting_error">Ошибка при публикации отзыва. Пожалуйстуа, проверьте ваше Интернет соединение</string>
+    <string name="review_will_be_published">Ваш отзыв успешно добавлен</string>
+    <string name="cant_send_empty_review">Отзыв не может быть пустым</string>
+    <string name="review_need_login">Для отправки отзыва нужно авторизоваться</string>
+    <string name="stars_for_rating">Звёзды для рейтинга</string>
+    <string name="your_review">ваш отзыв</string>
+    <string name="write_review">написать отзыв</string>
+    <string name="send_review">отправить отзыв</string>
+    <string name="reviews_cap">отзывы</string>
+    <string name="reviews_cap_with_count">отзывы (%d)</string>
+    <string name="to_favorites">в избранное</string>
+    <string name="from_favorites">из избранного</string>
+    <string name="call_cap">позвонить</string>
+
+    <string name="loading">Загрузка…</string>
+    <string name="select_avatar_source">Выберите аватар</string>
+    <string name="from_camera">сделать снимок</string>
+    <string name="from_galery">из галереи</string>
+    <string name="remove">удалить</string>
+
+    <string name="facebook_app_id">802193569871496</string>
+    <string name="facebook_app_namespace">com_featzima_call</string>
+    <string name="unsupported_social_network">Данная социальная сеть не поддерживается</string>
+    <string name="by_distance">По расстоянию</string>
+    <string name="by_rate">По рейтингу</string>
+
+    <string name="exit_confirm">Вы действительно хотите выйти?</string>\
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+
+    <string name="info_favorites">Избранные исполнители</string>
+    <string name="info_profile_change_avatar">Нажмите для смены аватара</string>
+    <string name="info_profile_share">Поделитесь приложением с друзьями</string>
+    <string name="info_register">Зарегестрируйтесь через социальные сети или E-mail</string>
+    <string name="info_register_email">Введите свои данные и зарегестрируйтесь через E-mail</string>
+    <string name="info_search_main_icon">Выберите адрес, куда вызвать исполнителя</string>
+
+
+</resources>

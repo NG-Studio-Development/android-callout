@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="15dp">
+
+    <TextView
+        android:id="@+id/categoryName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:singleLine="true"
+        android:text="Преподаватель"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:layout_toLeftOf="@+id/rate"
+        android:layout_toStartOf="@+id/rate" />
+
+    <Button
+        android:id="@+id/reviewsBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_below="@+id/categoryName"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="@drawable/button_shape"
+        android:layout_marginTop="15dp"
+        android:width="170dp"
+        android:text="@string/reviews_cap_with_count" />
+
+    <su.whs.call.views.RateStarsView
+        android:id="@+id/rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/categoryName"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:id="@+id/lastDays"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/reviewsBtn"
+        android:layout_marginTop="10dp"
+        android:text="21 день"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/black" />
+
+
+</RelativeLayout>
