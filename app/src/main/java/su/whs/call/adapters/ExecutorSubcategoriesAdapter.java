@@ -1,30 +1,18 @@
 package su.whs.call.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.location.Location;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
-import su.whs.call.Constants;
 import su.whs.call.R;
 import su.whs.call.models.ExecutorSubcategory;
-import su.whs.call.models.UserInfo;
 import su.whs.call.views.RateStarsView;
-import su.whs.call.views.RoundedImageView;
 
 public class ExecutorSubcategoriesAdapter extends BaseAdapter {
 
@@ -58,17 +46,18 @@ public class ExecutorSubcategoriesAdapter extends BaseAdapter {
 		TextView categoryName;
 		RateStarsView rate;
         Button reviews;
-		TextView lastDays;
+		Button lastDays;
 	}
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		final Holder holder;
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.executor_subcategory_list_item, parent, false);
+			//convertView = inflater.inflate(R.layout.executor_subcategory_list_item, parent, false);
+			convertView = inflater.inflate(R.layout.executor_subcat_item, parent, false);
 			holder = new Holder();
-            holder.categoryName = (TextView) convertView.findViewById(R.id.categoryName);
-            holder.lastDays = (TextView) convertView.findViewById(R.id.lastDays);
+            holder.categoryName = (TextView) convertView.findViewById(R.id.categoryNameTv);
+            holder.lastDays = (Button) convertView.findViewById(R.id.daysBtn);
             holder.rate = (RateStarsView) convertView.findViewById(R.id.rate);
             holder.reviews = (Button) convertView.findViewById(R.id.reviewsBtn);
 			convertView.setTag(holder);

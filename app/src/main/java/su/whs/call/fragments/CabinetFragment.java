@@ -9,15 +9,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +36,6 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -47,14 +43,12 @@ import su.whs.call.Constants;
 import su.whs.call.R;
 import su.whs.call.adapters.RecentCallsAdapter;
 import su.whs.call.dialog.ExecutorInfoDialog;
-import su.whs.call.dialog.InfoDialog;
 import su.whs.call.dialog.ProfileInfoDialog;
 import su.whs.call.form.CabinetActivity;
 import su.whs.call.models.ExecutorSubcategory;
 import su.whs.call.models.RecentCall;
 import su.whs.call.models.RegisteredYear;
 import su.whs.call.models.UserExtra;
-import su.whs.call.form.MainActivity;
 import su.whs.call.models.UserInfo;
 import su.whs.call.net.ConnectionHandler;
 import su.whs.call.register.User;
@@ -250,6 +244,7 @@ public class CabinetFragment extends BaseFragment {
     private View.OnClickListener executorCategoriesListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+
             if (subcategories != null) {
                 openFragment(ExecutorSubcategoriesFragment.newInstance(subcategories));
             }

@@ -1,9 +1,6 @@
 package su.whs.call;
 
-import su.whs.call.crashreport.ReportHandler;
-import su.whs.call.models.SubCategory;
-import su.whs.call.net.ConnectionHandler;
-
+//import su.whs.call.crashreport.ReportHandler;
 import android.app.Application;
 import android.content.Context;
 import android.location.Location;
@@ -12,6 +9,9 @@ import android.location.LocationManager;
 import android.os.Bundle;
 
 import com.crittercism.app.Crittercism;
+
+import su.whs.call.models.SubCategory;
+import su.whs.call.net.ConnectionHandler;
 
 public class CallApp extends Application {
     private SubCategory mActiveSubCategory = null;
@@ -57,7 +57,7 @@ public class CallApp extends Application {
     public void onCreate() {
         super.onCreate();
         mConnectionHandler = ConnectionHandler.getInstance(getApplicationContext());
-        ReportHandler.install(this, "frederikos@mail.ru");
+        //ReportHandler.install(this, "frederikos@mail.ru");
         Crittercism.initialize(getApplicationContext(), "54063c3407229a6a92000005");
     }
 
