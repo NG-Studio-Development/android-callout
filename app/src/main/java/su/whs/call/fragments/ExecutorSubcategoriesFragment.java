@@ -5,32 +5,39 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import su.whs.call.R;
 import su.whs.call.adapters.ExecutorSubcategoriesAdapter;
-import su.whs.call.adapters.SubCategoryAdapter;
 import su.whs.call.dialog.InfoDialog;
 import su.whs.call.models.ExecutorSubcategory;
-import su.whs.call.models.SubCategory;
+import su.whs.call.models.RegisteredYear;
+import su.whs.call.models.UserInfo;
+import su.whs.call.net.ConnectionHandler;
 import su.whs.call.register.User;
 
 public class ExecutorSubcategoriesFragment extends BaseSearchTabFragment {
     private static final String SUBCATEGORIES_ARGS = "subcats";
+    private static final String USERINFO_ARGS = "userinfo";
 
     private ListView mList;
+    private UserInfo mUserInfo;
     private List<ExecutorSubcategory> mSubcategories;
     private static ExecutorSubcategoriesFragment mInstance = null;
+    private RegisteredYear mYear;
 
-    public static ExecutorSubcategoriesFragment newInstance(ArrayList<ExecutorSubcategory> data) {
+    public static ExecutorSubcategoriesFragment newInstance(ArrayList<ExecutorSubcategory> data, UserInfo userInfo) {
         Bundle arguments = new Bundle();
-        if (data != null) {
+        if (data != null && userInfo != null) {
             arguments.putSerializable(SUBCATEGORIES_ARGS, data);
+            arguments.putSerializable(USERINFO_ARGS, userInfo);
         }
         ExecutorSubcategoriesFragment f = new ExecutorSubcategoriesFragment();
         f.setArguments(arguments);
@@ -49,18 +56,75 @@ public class ExecutorSubcategoriesFragment extends BaseSearchTabFragment {
         Bundle args = getArguments();
         if (args.containsKey(SUBCATEGORIES_ARGS)) {
             mSubcategories = (List<ExecutorSubcategory>) args.getSerializable(SUBCATEGORIES_ARGS);
-            ExecutorSubcategoriesAdapter adapter = new ExecutorSubcategoriesAdapter(getActivity(), mSubcategories);
+            mUserInfo = (UserInfo) args.getSerializable(USERINFO_ARGS);
+            /*ExecutorSubcategoriesAdapter adapter = new ExecutorSubcategoriesAdapter(getActivity(), mUserInfo, mSubcategories);
             mList.setAdapter(adapter);
             adapter.setReviewsBtnClickListener(new ExecutorSubcategoriesAdapter.ReviewsBtnClickListener() {
                 @Override
                 public void onClick(ExecutorSubcategory subcategory) {
                     openFragment(SubcategoryReviewsFragment.newInstance(subcategory.getReviews()));
                 }
-            });
+            });*/
         }
+
+
+
+        ConnectionHandler handler = ConnectionHandler.getInstance(getActivity());
+        handler.queryExecutiveCalls(User.create(getActivity()).getToken(), new ConnectionHandler.OnCallsListener() {
+            @Override
+            public void onCallsResponse(RegisteredYear year) {
+                mYear = year;
+                String numberOfCalls = String.format("%S (%d)",getString(R.string.number_of_calls),getTotalCalls());
+
+                ExecutorSubcategoriesAdapter adapter = new ExecutorSubcategoriesAdapter(getActivity(), mUserInfo, mSubcategories, year, numberOfCalls);
+
+                adapter.setReviewsBtnClickListener(new ExecutorSubcategoriesAdapter.ReviewsBtnClickListener() {
+                    @Override
+                    public void onClick(ExecutorSubcategory subcategory) {
+                        openFragment(SubcategoryReviewsFragment.newInstance(subcategory.getReviews()));
+                    }
+                });
+
+                adapter.setCountCallClickListener(new ExecutorSubcategoriesAdapter.CountCallClickListener() {
+                    @Override
+                    public void onCountCallClickListener() {
+                        if (mYear == null) return;
+                        openFragment(CallsFragment.newInstance(mYear));
+                    }
+                });
+
+                mList.setAdapter(adapter);
+
+            }
+        });
+
+
 
         mContentView = v;
         return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+
+    public int getTotalCalls() {
+        int total = 0;
+
+        try {
+            for(int i = 0; i < ConnectionHandler.jsonYears.length(); i++) {
+                JSONObject object = ConnectionHandler.jsonYears.getJSONObject(i);
+                JSONArray month = object.getJSONArray("months");
+
+
+                for(int j = 0; j < month.length(); j++) {
+                    JSONObject o = month.getJSONObject(j);
+                    JSONArray calls =  o.getJSONArray("calls");
+                    total += calls.length();
+
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return total;
     }
 
     @Override
@@ -90,5 +154,7 @@ public class ExecutorSubcategoriesFragment extends BaseSearchTabFragment {
         infoDialog.setTitle(getString(R.string.info_executor_subcategories));
         infoDialog.show();
     }
+
+
 
 }

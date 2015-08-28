@@ -246,7 +246,7 @@ public class CabinetFragment extends BaseFragment {
         public void onClick(View view) {
 
             if (subcategories != null) {
-                openFragment(ExecutorSubcategoriesFragment.newInstance(subcategories));
+                openFragment(ExecutorSubcategoriesFragment.newInstance(subcategories, mUserInfo));
             }
         }
     };
