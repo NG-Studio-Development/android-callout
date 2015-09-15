@@ -1,14 +1,14 @@
 package su.whs.call.models;
 
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import android.location.Location;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.location.Location;
-import android.util.Log;
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class UserInfo implements Serializable {
     /**

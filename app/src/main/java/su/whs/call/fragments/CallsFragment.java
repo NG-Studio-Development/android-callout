@@ -1,41 +1,20 @@
 package su.whs.call.fragments;
 
-import android.location.Location;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import ru.yandex.yandexmapkit.utils.GeoPoint;
 import su.whs.call.R;
-import su.whs.call.adapters.CallsAdapter;
-import su.whs.call.adapters.GridCategoriesAdapter;
 import su.whs.call.adapters.PagerAdapter;
 import su.whs.call.dialog.InfoDialog;
-import su.whs.call.form.MainActivity;
-import su.whs.call.models.Category;
 import su.whs.call.models.RegisteredYear;
-import su.whs.call.models.SubCategory;
 import su.whs.call.net.ConnectionHandler;
-import su.whs.call.net.ConnectionHandler.OnDistanceResponseListener;
-import su.whs.call.register.User;
 
 public class CallsFragment extends BaseSearchTabFragment implements View.OnClickListener {
 
@@ -141,7 +120,6 @@ public class CallsFragment extends BaseSearchTabFragment implements View.OnClick
         arguments.putSerializable(YEAR_ARG, year);
         CallsFragment mInstance = new CallsFragment();
         mInstance.setArguments(arguments);
-
 
         return mInstance;
     }

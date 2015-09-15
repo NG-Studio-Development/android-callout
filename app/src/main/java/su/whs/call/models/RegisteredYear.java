@@ -1,7 +1,5 @@
 package su.whs.call.models;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,9 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import su.whs.call.fragments.CallsFragment;
-import su.whs.call.net.ConnectionHandler;
 
 /**
  * Created by featZima on 10.09.2014.
@@ -34,6 +29,7 @@ public class RegisteredYear implements Serializable {
         for (int i = 0; i < jsonMonths.length(); i++) {
             months.add(new RegisteredMonth(jsonMonths.getJSONObject(i)));
         }
+
     }
 
 

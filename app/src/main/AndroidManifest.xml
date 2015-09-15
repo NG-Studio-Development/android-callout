@@ -76,9 +76,7 @@
             android:hardwareAccelerated="@bool/hw_acceleration"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" >
-         </activity>
-
-
+        </activity>
 
         <activity
             android:name=".crashreport.ReportActivity"

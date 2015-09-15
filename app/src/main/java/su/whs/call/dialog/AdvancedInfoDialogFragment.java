@@ -18,7 +18,7 @@ public class AdvancedInfoDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(text)
                /*.setPositiveButton(R.string.fire, new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialog, int id) {
+                   public void onReviewsClick(DialogInterface dialog, int id) {
                        // FIRE ZE MISSILES!
                    }
                })*/

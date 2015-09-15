@@ -18,7 +18,6 @@ import java.util.List;
 import su.whs.call.Constants;
 import su.whs.call.R;
 import su.whs.call.models.ExecutorSubcategory;
-import su.whs.call.models.RegisteredYear;
 import su.whs.call.models.UserInfo;
 import su.whs.call.views.RateStarsView;
 import su.whs.call.views.RoundedImageView;
@@ -31,18 +30,17 @@ public class ExecutorSubcategoriesAdapter extends BaseAdapter {
 	UserInfo mUserInfo;
 	private LayoutInflater inflater;
     private Context context;
-    private ReviewsBtnClickListener reviewsBtnClickListener;
-	private CountCallClickListener countCallClickListener;
+    private BtnClickListener btnClickListener;
+	//private CountCallClickListener countCallClickListener;
 	private String numberOfCalls;
 
-	public ExecutorSubcategoriesAdapter(Context context, UserInfo mUserInfo, List<ExecutorSubcategory> subcategories, RegisteredYear year, String numberOfCalls ) {
+	public ExecutorSubcategoriesAdapter(Context context, UserInfo mUserInfo, List<ExecutorSubcategory> subcategories, /*RegisteredYear year,*/ String numberOfCalls ) {
         this.context = context;
 		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.subcategories = subcategories;
 		this.mUserInfo = mUserInfo;
 		this.numberOfCalls = numberOfCalls;
 	}
-
 
 
 	@Override
@@ -66,6 +64,7 @@ public class ExecutorSubcategoriesAdapter extends BaseAdapter {
         Button reviews;
 		Button lastDays;
 		Button numberOfCallsBtn;
+		Button descriptionBtn;
 		RoundedImageView executorAvatar;
 
 
@@ -111,6 +110,7 @@ public class ExecutorSubcategoriesAdapter extends BaseAdapter {
             holder.rate = (RateStarsView) convertView.findViewById(R.id.rate);
             holder.reviews = (Button) convertView.findViewById(R.id.reviewsBtn);
 			holder.numberOfCallsBtn = (Button) convertView.findViewById(R.id.numberOfCallsBtn);
+			holder.descriptionBtn = (Button) convertView.findViewById(R.id.descriptionBtn);
 			holder.executorAvatar = (RoundedImageView) convertView.findViewById(R.id.executorAvatar);
 			convertView.setTag(holder);
 		} else {
@@ -130,17 +130,28 @@ public class ExecutorSubcategoriesAdapter extends BaseAdapter {
 		holder.numberOfCallsBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				countCallClickListener.onCountCallClickListener();
+				if (btnClickListener != null)
+					btnClickListener.onCountCallClick(subcategory);
 			}
 		});
 
+		holder.descriptionBtn.setText(context.getString(R.string.description));
+
+		holder.descriptionBtn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (btnClickListener != null) {
+					btnClickListener.onDescriptionClick(subcategory);
+				}
+			}
+		});
 
 		holder.categoryName.setText(subcategory.getName());
         holder.reviews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (reviewsBtnClickListener != null) {
-                    reviewsBtnClickListener.onClick(subcategory);
+                if (btnClickListener != null) {
+                    btnClickListener.onReviewsClick(subcategory);
                 }
             }
         });
@@ -149,21 +160,23 @@ public class ExecutorSubcategoriesAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-    public void setReviewsBtnClickListener(ReviewsBtnClickListener listener) {
-        reviewsBtnClickListener = listener;
+    public void setBtnClickListener(BtnClickListener listener) {
+        btnClickListener = listener;
     }
 
-	public void setCountCallClickListener(CountCallClickListener countCallClickListener) {
+	/* public void setCountCallClickListener(CountCallClickListener countCallClickListener) {
 		this.countCallClickListener = countCallClickListener;
-	}
+	} */
 
 
-	public interface CountCallClickListener {
+	/*public interface CountCallClickListener {
 		public void onCountCallClickListener();
-	}
+	} */
 
 
-    public interface ReviewsBtnClickListener {
-        public void onClick(ExecutorSubcategory subcategory);
+    public interface BtnClickListener {
+        void onReviewsClick(ExecutorSubcategory subcategory);
+        void onDescriptionClick(ExecutorSubcategory subcategory);
+		void onCountCallClick(ExecutorSubcategory subcategory);
     }
 }

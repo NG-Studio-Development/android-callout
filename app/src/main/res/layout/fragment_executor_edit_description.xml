@@ -1,0 +1,23 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="su.whs.call.fragments.ExecutorEditDescriptionFragment"
+    android:paddingBottom="@dimen/fragmentsBottomMargin"
+    android:paddingTop="@dimen/fragmentsTopMartin" >
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/etDescription"
+        android:layout_above="@+id/buttonRedact"
+        android:layout_alignParentTop="true" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/redact"
+        android:id="@+id/buttonRedact"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>

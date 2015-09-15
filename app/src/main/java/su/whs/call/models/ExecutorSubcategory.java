@@ -1,20 +1,14 @@
 package su.whs.call.models;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-
-import su.whs.call.views.RateStarsView;
 
 /**
  * Created by featZima on 10.09.2014.
@@ -25,8 +19,10 @@ public class ExecutorSubcategory implements Serializable {
     private int id;
     private String name;
     private ArrayList<SubCategoryReview> reviews;
+    //private ArrayList<SubCategoryReview> reviews;
     private String dateFrom;
     private String dateTo;
+    private String description;
 
     public ExecutorSubcategory(JSONObject json) throws JSONException {
         reviews = new ArrayList<SubCategoryReview>();
@@ -34,11 +30,17 @@ public class ExecutorSubcategory implements Serializable {
         name = json.getString("sub_category_name");
         dateFrom = json.getString("date_from");
         dateTo = json.getString("date_to");
+        description = json.getString("description");
+        //List<>
 
         JSONArray reviewsJson = json.getJSONArray("reviews");
         for (int i = 0; i < reviewsJson.length(); i++) {
             reviews.add(new SubCategoryReview(reviewsJson.getJSONObject(i)));
         }
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public int getReviewCount() {

@@ -21,7 +21,6 @@ import su.whs.call.models.ExecutorSubcategory;
 import su.whs.call.models.RegisteredYear;
 import su.whs.call.models.UserInfo;
 import su.whs.call.net.ConnectionHandler;
-import su.whs.call.register.User;
 
 public class ExecutorSubcategoriesFragment extends BaseSearchTabFragment {
     private static final String SUBCATEGORIES_ARGS = "subcats";
@@ -57,19 +56,32 @@ public class ExecutorSubcategoriesFragment extends BaseSearchTabFragment {
         if (args.containsKey(SUBCATEGORIES_ARGS)) {
             mSubcategories = (List<ExecutorSubcategory>) args.getSerializable(SUBCATEGORIES_ARGS);
             mUserInfo = (UserInfo) args.getSerializable(USERINFO_ARGS);
-            /*ExecutorSubcategoriesAdapter adapter = new ExecutorSubcategoriesAdapter(getActivity(), mUserInfo, mSubcategories);
+
+            ExecutorSubcategoriesAdapter adapter = new ExecutorSubcategoriesAdapter(getActivity(), mUserInfo, mSubcategories, "4");
+
             mList.setAdapter(adapter);
-            adapter.setReviewsBtnClickListener(new ExecutorSubcategoriesAdapter.ReviewsBtnClickListener() {
+
+            adapter.setBtnClickListener(new ExecutorSubcategoriesAdapter.BtnClickListener() {
                 @Override
-                public void onClick(ExecutorSubcategory subcategory) {
+                public void onReviewsClick(ExecutorSubcategory subcategory) {
                     openFragment(SubcategoryReviewsFragment.newInstance(subcategory.getReviews()));
                 }
-            });*/
+
+                public void onDescriptionClick(ExecutorSubcategory subcategory) {
+                    //openFragment(SubcategoryReviewsFragment.newInstance(subcategory.getReviews()));
+                    openFragment(ExecutorEditDescriptionFragment.newInstance(subcategory));
+                }
+
+                public void onCountCallClick(ExecutorSubcategory subcategory) {
+                    openFragment(ExecutorEditDescriptionFragment.newInstance(subcategory));
+                }
+
+            });
         }
 
 
 
-        ConnectionHandler handler = ConnectionHandler.getInstance(getActivity());
+        /*ConnectionHandler handler = ConnectionHandler.getInstance(getActivity());
         handler.queryExecutiveCalls(User.create(getActivity()).getToken(), new ConnectionHandler.OnCallsListener() {
             @Override
             public void onCallsResponse(RegisteredYear year) {
@@ -78,9 +90,9 @@ public class ExecutorSubcategoriesFragment extends BaseSearchTabFragment {
 
                 ExecutorSubcategoriesAdapter adapter = new ExecutorSubcategoriesAdapter(getActivity(), mUserInfo, mSubcategories, year, numberOfCalls);
 
-                adapter.setReviewsBtnClickListener(new ExecutorSubcategoriesAdapter.ReviewsBtnClickListener() {
+                adapter.setBtnClickListener(new ExecutorSubcategoriesAdapter.ReviewsBtnClickListener() {
                     @Override
-                    public void onClick(ExecutorSubcategory subcategory) {
+                    public void onReviewsClick(ExecutorSubcategory subcategory) {
                         openFragment(SubcategoryReviewsFragment.newInstance(subcategory.getReviews()));
                     }
                 });
@@ -96,7 +108,7 @@ public class ExecutorSubcategoriesFragment extends BaseSearchTabFragment {
                 mList.setAdapter(adapter);
 
             }
-        });
+        }); */
 
 
 

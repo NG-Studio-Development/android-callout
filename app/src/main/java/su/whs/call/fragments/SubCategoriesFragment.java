@@ -1,21 +1,21 @@
 package su.whs.call.fragments;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import su.whs.call.R;
-import su.whs.call.dialog.InfoDialog;
-import su.whs.call.models.SubCategory;
-import su.whs.call.adapters.SubCategoryAdapter;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import su.whs.call.R;
+import su.whs.call.adapters.SubCategoryAdapter;
+import su.whs.call.dialog.InfoDialog;
+import su.whs.call.models.SubCategory;
 
 public class SubCategoriesFragment extends BaseSearchTabFragment implements OnItemClickListener {
 	private ListView mList;
@@ -28,6 +28,7 @@ public class SubCategoriesFragment extends BaseSearchTabFragment implements OnIt
 			arguments.putSerializable("subcats", data);
 
 		}
+
 		SubCategoriesFragment f = new SubCategoriesFragment();
 		f.setArguments(arguments);
 		mInstance = f;

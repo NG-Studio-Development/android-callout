@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -174,7 +175,7 @@ public class CabinetFragment extends BaseFragment {
 
             @Override
             public void onFail() {
-
+                Toast.makeText(getActivity(), "Fail in loadUserInformation()", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -247,6 +248,8 @@ public class CabinetFragment extends BaseFragment {
 
             if (subcategories != null) {
                 openFragment(ExecutorSubcategoriesFragment.newInstance(subcategories, mUserInfo));
+            } else {
+                Toast.makeText(getActivity(), "You do not have catigories", Toast.LENGTH_LONG).show();
             }
         }
     };

@@ -1,41 +1,16 @@
 package su.whs.call.fragments;
 
-import su.whs.call.R;
-import su.whs.call.dialog.InfoDialog;
-import su.whs.call.net.ConnectionHandler;
-import su.whs.call.register.User;
-import su.whs.call.views.EmailLoginView;
-import su.whs.call.views.EmailRegisterView;
-import su.whs.call.views.IconButton;
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
-import com.facebook.Session;
-import com.sromku.simple.fb.Permission;
-import com.sromku.simple.fb.SimpleFacebook;
-import com.sromku.simple.fb.SimpleFacebookConfiguration;
-import com.sromku.simple.fb.listeners.OnLoginListener;
-import com.vk.sdk.VKAccessToken;
-import com.vk.sdk.VKScope;
-import com.vk.sdk.VKSdk;
-import com.vk.sdk.VKSdkListener;
-import com.vk.sdk.VKUIHelper;
-import com.vk.sdk.api.VKApi;
-import com.vk.sdk.api.VKApiConst;
-import com.vk.sdk.api.VKError;
-import com.vk.sdk.api.VKParameters;
-import com.vk.sdk.api.VKRequest;
-import com.vk.sdk.api.VKResponse;
-import com.vk.sdk.api.model.VKApiUserFull;
-import com.vk.sdk.api.model.VKList;
+import su.whs.call.R;
+import su.whs.call.dialog.InfoDialog;
+import su.whs.call.views.EmailLoginView;
+import su.whs.call.views.IconButton;
 
 public class LoginFragment extends SocialFragment {
 
@@ -53,6 +28,7 @@ public class LoginFragment extends SocialFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.login_fragment, container, false);
+
         mSelector = view.findViewById(R.id.loginSelector);
         mEmailForm = (EmailLoginView) view.findViewById(R.id.emailLoginView);
         selectEmail = (IconButton) view.findViewById(R.id.selectEmail);

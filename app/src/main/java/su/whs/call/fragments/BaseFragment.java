@@ -1,13 +1,5 @@
 package su.whs.call.fragments;
 
-import su.whs.call.CallApp;
-import su.whs.call.Constants;
-import su.whs.call.R;
-import su.whs.call.form.SearchActivity;
-import su.whs.call.views.SearchPanel;
-import su.whs.call.views.TitleBar;
-import su.whs.call.views.TitleBar.TitleBarActivity;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
@@ -27,6 +19,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.devspark.progressfragment.ProgressFragment;
+
+import su.whs.call.CallApp;
+import su.whs.call.R;
+import su.whs.call.views.SearchPanel;
+import su.whs.call.views.TitleBar;
+import su.whs.call.views.TitleBar.TitleBarActivity;
 
 public abstract class BaseFragment extends ProgressFragment implements NavigationBarClient {
     private TitleBarActivity mActivity = null;
@@ -156,7 +154,7 @@ public abstract class BaseFragment extends ProgressFragment implements Navigatio
         mTitleBar.setInfoIconResource(getCustomInfoIconId());
         mTitleBar.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onReviewsClick(View view) {
 
                 return;
             }

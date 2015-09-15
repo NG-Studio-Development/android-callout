@@ -1,12 +1,12 @@
 package su.whs.call.models;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SubCategory implements Serializable {
 	/**
@@ -25,6 +25,7 @@ public class SubCategory implements Serializable {
 			try {
 				users = json.getJSONArray("users");
 			} catch (JSONException e) {
+				e.printStackTrace();
 				return;
 			}
 			for(int i=0; i<users.length(); i++) {
@@ -32,12 +33,13 @@ public class SubCategory implements Serializable {
 				try {
 					user = users.getJSONObject(i);
 				} catch (JSONException e) {
+					e.printStackTrace();
 					continue;
 				}
 				try {
 					mUsers.add(new UserInfo(user));
 				} catch (JSONException e) {
-					
+					e.printStackTrace();
 				}
 			}
 		}

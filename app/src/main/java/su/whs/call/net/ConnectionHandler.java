@@ -252,7 +252,6 @@ public class ConnectionHandler {
                 if (response != null) {
                     try {
 
-
                         JSONObject result = response.getJSONObject("data");
                         JSONObject jsonUserInfo = result.getJSONObject("user_info");
                         final int userId = jsonUserInfo.getInt("id");
@@ -312,13 +311,21 @@ public class ConnectionHandler {
         }
         // login request
         try {
-            String url = String.format("%s/api/auth/%s?token=%s&name=%s&uid=%s&avatar=%s",
+            //String url = String.format("%s/api/auth/%s?token=%s&name=%s&uid=%s&avatar=%s",
+            JSONObject jsonAvatar = new JSONObject();
+            jsonAvatar.put("url", avatarUrl);
+            String url = String.format("%s/api/auth/%s/%s/%s/%s/%s",
                     Constants.API,
                     network,
                     token,
                     URLEncoder.encode(userName, "utf8"),
                     userId,
-                    avatarUrl == null ? "" : URLEncoder.encode(avatarUrl, "utf8"));
+                    //avatarUrl == null ? "" : URLEncoder.encode(jsonAvatar.toString(), "utf8"));
+                    //avatarUrl == null ? "" : URLEncoder.encode(avatarUrl, "utf8"));
+                    avatarUrl == null ? "" : URLEncoder.encode("ss", "utf8"));
+                    //jsonAvatar.toString());
+
+            url.isEmpty();
             mQuery.ajax(url, JSONObject.class, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject response, AjaxStatus status) {
@@ -355,6 +362,9 @@ public class ConnectionHandler {
             });
         } catch (UnsupportedEncodingException e) {
             listener.fail("UnsupportedEncodingException");
+            e.printStackTrace();
+        } catch (JSONException e) {
+            listener.fail("JSONException");
             e.printStackTrace();
         }
     }
@@ -394,20 +404,36 @@ public class ConnectionHandler {
 
     public void postAvatar(String token, String imageType, String imageBase64) {
         String url = null;
+        Map<String, Object> params = new HashMap<String, Object>();
         try {
-            url = String.format("%s/api/set/avatar/%s?type=%s&avatar=%s",
+            /*url = String.format("%s/api/set/avatar/%s?type=%s&avatar=%s",
                     Constants.API,
                     token,
                     imageType,
-                    URLEncoder.encode(imageBase64, "utf8"));
+                    URLEncoder.encode(imageBase64, "utf8"));*/
+
+            url = String.format("%s/api/set/avatar", Constants.API);
+
+            url.isEmpty();
+
+            params.put("token", token);
+            params.put("type",imageType);
+            params.put("avatar", URLEncoder.encode(imageBase64, "utf8"));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        mQuery.ajax(url, JSONObject.class, new AjaxCallback<JSONObject>() {
+
+
+
+
+        mQuery.ajax(url, params, JSONObject.class, new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
                 if (json != null && json.has("data")) {
-
+                    Log.d("CONNECTION_HANDLER","Post image json: "+json.toString());
+                } else {
+                    Log.d("CONNECTION_HANDLER","Post image json is null ");
                 }
             }
         });
@@ -461,7 +487,7 @@ public class ConnectionHandler {
         });
     }
 
-    public void queryExecutiveCalls(String userToken, final OnCallsListener listener) {
+    /*public void queryExecutiveCalls(String userToken, final OnCallsListener listener) {
         String url = String.format("%s/api/calls/get/%s", Constants.API, userToken);
         Log.e("test", url);
         mQuery.ajax(url, JSONObject.class, new AjaxCallback<JSONObject>() {
@@ -482,7 +508,7 @@ public class ConnectionHandler {
                 }
             }
         });
-    }
+    } */
 
 
 
@@ -523,6 +549,7 @@ public class ConnectionHandler {
         mQuery.ajax(url, JSONObject.class, new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
+                Log.d("QUERY_CATEGORIES", "Json complete");
                 if (json != null && json.has("data")) {
                     try {
                         ArrayList<ExecutorSubcategory> subcategories = new ArrayList<ExecutorSubcategory>();
@@ -535,7 +562,10 @@ public class ConnectionHandler {
                     }
                     // catch (ParseException e) { }
                     catch (JSONException e) {
+                        e.printStackTrace();
                     }
+                } else {
+                    Log.d("QUERY_CATEGORIES", "Json is null");
                 }
             }
         });
