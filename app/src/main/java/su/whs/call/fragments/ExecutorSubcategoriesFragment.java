@@ -57,7 +57,7 @@ public class ExecutorSubcategoriesFragment extends BaseSearchTabFragment {
             mSubcategories = (List<ExecutorSubcategory>) args.getSerializable(SUBCATEGORIES_ARGS);
             mUserInfo = (UserInfo) args.getSerializable(USERINFO_ARGS);
 
-            ExecutorSubcategoriesAdapter adapter = new ExecutorSubcategoriesAdapter(getActivity(), mUserInfo, mSubcategories, "4");
+            ExecutorSubcategoriesAdapter adapter = new ExecutorSubcategoriesAdapter(getActivity(), mUserInfo, mSubcategories/*, "4"*/);
 
             mList.setAdapter(adapter);
 
@@ -73,7 +73,7 @@ public class ExecutorSubcategoriesFragment extends BaseSearchTabFragment {
                 }
 
                 public void onCountCallClick(ExecutorSubcategory subcategory) {
-                    openFragment(ExecutorEditDescriptionFragment.newInstance(subcategory));
+                    openFragment(CallsFragment.newInstance(subcategory.getCallsList()));
                 }
 
             });

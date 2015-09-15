@@ -8,17 +8,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.json.JSONException;
+import java.util.ArrayList;
+import java.util.List;
 
 import su.whs.call.R;
 import su.whs.call.adapters.PagerAdapter;
 import su.whs.call.dialog.InfoDialog;
-import su.whs.call.models.RegisteredYear;
-import su.whs.call.net.ConnectionHandler;
+import su.whs.call.models.CallsExpert;
 
 public class CallsFragment extends BaseSearchTabFragment implements View.OnClickListener {
 
-    private final static String YEAR_ARG = "year_arg";
+    private final static String CALLS_ARG = "year_arg";
 
     private ViewPager pager;
     //private  PagerAdapter pagerAdapter;
@@ -26,12 +26,25 @@ public class CallsFragment extends BaseSearchTabFragment implements View.OnClick
     private TextView currentYear;
     private ImageView imgLeft;
     private ImageView imgRight;
+    private List<CallsExpert> mCallsList = null;
    // private  CallsFragment mInstance = null;
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (getArguments() != null ) {
+            mCallsList = (List<CallsExpert>) getArguments().getSerializable(CALLS_ARG);
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.calls_fragment, container, false);
 
+        if (mCallsList == null)
+            throw new Error("mCallsList can not be null");
 
         currentYear = (TextView) rootView.findViewById(R.id.currentYear);
         imgLeft = (ImageView) rootView.findViewById(R.id.imgLeft);
@@ -40,18 +53,25 @@ public class CallsFragment extends BaseSearchTabFragment implements View.OnClick
         imgRight.setOnClickListener(this);
         pager = (ViewPager) rootView.findViewById(R.id.pager);
 
-        final PagerAdapter  pagerAdapter = new PagerAdapter(getActivity().getSupportFragmentManager(), ConnectionHandler.jsonYears);
-        pagerAdapter.setCountPages(ConnectionHandler.jsonYears.length());
+        //final PagerAdapter  pagerAdapter = new PagerAdapter(getActivity().getSupportFragmentManager(), ConnectionHandler.jsonYears);
+
+        final PagerAdapter pagerAdapter =
+                new PagerAdapter(getActivity().getSupportFragmentManager(), mCallsList);
+
+        pagerAdapter.setCountPages(CallsExpert.getCountYear(mCallsList));
+
+        //pagerAdapter.setCountPages(ConnectionHandler.jsonYears.length());
         pager.setAdapter(pagerAdapter);
 
         imgLeft.setVisibility(View.INVISIBLE);
         if(pagerAdapter.getCount() == 1) {
-            try {
-                currentYear.setText(pagerAdapter.getJSONObject(0).getString("year"));
+            //try {
+                currentYear.setText(String.valueOf(pagerAdapter.getYear(0)));
+                //currentYear.setText(pagerAdapter.getJSONObject(0).getString("year"));
                 imgRight.setVisibility(View.VISIBLE);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            //} catch (JSONException e) {
+                //e.printStackTrace();
+            //}
         }
 
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -62,9 +82,9 @@ public class CallsFragment extends BaseSearchTabFragment implements View.OnClick
 
             @Override
             public void onPageSelected(int position) {
-                try {
+                // try {
 
-                    currentYear.setText(pagerAdapter.getJSONObject(position).getString("year"));
+                    currentYear.setText(pagerAdapter.getYear(position));
 
                     if(position == 0) {
                         imgLeft.setVisibility(View.INVISIBLE);
@@ -78,9 +98,9 @@ public class CallsFragment extends BaseSearchTabFragment implements View.OnClick
                         imgRight.setVisibility(View.VISIBLE);
                     }
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                // } catch (JSONException e) {
+                    //e.printStackTrace();
+                // }
 
             }
 
@@ -115,9 +135,10 @@ public class CallsFragment extends BaseSearchTabFragment implements View.OnClick
         return getString(R.string.number_of_calls).toUpperCase();
     }
 
-    public synchronized static CallsFragment newInstance(RegisteredYear year) {
+    public synchronized static CallsFragment newInstance(List<CallsExpert> listCalls) {
         Bundle arguments = new Bundle();
-        arguments.putSerializable(YEAR_ARG, year);
+
+        arguments.putSerializable(CALLS_ARG, (ArrayList<CallsExpert>)listCalls);
         CallsFragment mInstance = new CallsFragment();
         mInstance.setArguments(arguments);
 

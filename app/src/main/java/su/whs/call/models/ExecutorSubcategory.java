@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by featZima on 10.09.2014.
@@ -23,20 +24,32 @@ public class ExecutorSubcategory implements Serializable {
     private String dateFrom;
     private String dateTo;
     private String description;
+    private int countCall = 0;
+    private List<CallsExpert> callsList;
 
     public ExecutorSubcategory(JSONObject json) throws JSONException {
         reviews = new ArrayList<SubCategoryReview>();
+        callsList = new ArrayList<CallsExpert>();
         id = json.getInt("sub_category_id");
         name = json.getString("sub_category_name");
         dateFrom = json.getString("date_from");
         dateTo = json.getString("date_to");
         description = json.getString("description");
-        //List<>
+        countCall = json.getInt("count_call");
 
         JSONArray reviewsJson = json.getJSONArray("reviews");
         for (int i = 0; i < reviewsJson.length(); i++) {
             reviews.add(new SubCategoryReview(reviewsJson.getJSONObject(i)));
         }
+
+        JSONArray callsJson = json.getJSONArray("calls");
+        for (int i = 0; i < callsJson.length(); i++) {
+            callsList.add(new CallsExpert(callsJson.getJSONObject(i)));
+        }
+    }
+
+    public int getCountCall() {
+        return countCall;
     }
 
     public String getDescription() {
@@ -45,6 +58,10 @@ public class ExecutorSubcategory implements Serializable {
 
     public int getReviewCount() {
         return reviews.size();
+    }
+
+    public List<CallsExpert> getCallsList() {
+        return callsList;
     }
 
     public String getLastDays() {

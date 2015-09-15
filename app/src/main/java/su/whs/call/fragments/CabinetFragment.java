@@ -48,7 +48,6 @@ import su.whs.call.dialog.ProfileInfoDialog;
 import su.whs.call.form.CabinetActivity;
 import su.whs.call.models.ExecutorSubcategory;
 import su.whs.call.models.RecentCall;
-import su.whs.call.models.RegisteredYear;
 import su.whs.call.models.UserExtra;
 import su.whs.call.models.UserInfo;
 import su.whs.call.net.ConnectionHandler;
@@ -88,7 +87,8 @@ public class CabinetFragment extends BaseFragment {
     private UserInfo mUserInfo;
     private ImageView clientAvatar;
     private ImageView executorAvatar;
-    private RegisteredYear mYear;
+    //private RegisteredYear mYear;
+    //private List<CallsExpert> mListCalls;
     private Button executorCategoriesBtn;
     private ArrayList<ExecutorSubcategory> subcategories;
     private Dialog auth_dialog;
@@ -190,7 +190,11 @@ public class CabinetFragment extends BaseFragment {
         executorRateView.setStars(ui.getAverageRate());
 
         ConnectionHandler handler = ConnectionHandler.getInstance(getActivity());
-        handler.queryExecutiveCalls(User.create(getActivity()).getToken(), new ConnectionHandler.OnCallsListener() {
+
+        //mListCalls = CallsExpert.createListDEBUG();
+
+        // Instead here set initialization calls
+        /*handler.queryExecutiveCalls(User.create(getActivity()).getToken(), new ConnectionHandler.OnCallsListener() {
             @Override
             public void onCallsResponse(RegisteredYear year) {
                 mYear = year;
@@ -198,7 +202,7 @@ public class CabinetFragment extends BaseFragment {
                         getString(R.string.number_of_calls),
                         getTotalCalls()));
             }
-        });
+        }); */
 
         handler.queryExecutorCategories(User.create(getActivity()).getToken(), new ConnectionHandler.OnExecutorCategoriesListener() {
             @Override
@@ -237,8 +241,9 @@ public class CabinetFragment extends BaseFragment {
     private View.OnClickListener callListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (mYear == null) return;
-            openFragment(CallsFragment.newInstance(mYear));
+            Toast.makeText(getActivity(), "Unactuale function", Toast.LENGTH_LONG).show();
+            //if (mListCalls == null || mListCalls.size() == 0) return;
+            //openFragment(CallsFragment.newInstance(mListCalls));
         }
     };
 

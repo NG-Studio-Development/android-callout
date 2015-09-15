@@ -13,4 +13,20 @@ public class Constants {
 
     public static final float ALPHA_VIEW_FOR_BUSY = 0.3f;
 
+
+    public static String[] MONTH = new String[] {
+            "Январь",
+            "Февраль",
+            "Март",
+            "Апрель",
+            "Май",
+            "Июнь",
+            "Июль",
+            "Август",
+            "Сентябрь",
+            "Октябрь",
+            "Ноябрь",
+            "Декабрь"
+    };
+
 }

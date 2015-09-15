@@ -34,12 +34,12 @@ public class ExecutorSubcategoriesAdapter extends BaseAdapter {
 	//private CountCallClickListener countCallClickListener;
 	private String numberOfCalls;
 
-	public ExecutorSubcategoriesAdapter(Context context, UserInfo mUserInfo, List<ExecutorSubcategory> subcategories, /*RegisteredYear year,*/ String numberOfCalls ) {
+	public ExecutorSubcategoriesAdapter(Context context, UserInfo mUserInfo, List<ExecutorSubcategory> subcategories /*RegisteredYear year,*/ /*String numberOfCalls*/ ) {
         this.context = context;
 		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.subcategories = subcategories;
 		this.mUserInfo = mUserInfo;
-		this.numberOfCalls = numberOfCalls;
+		//this.numberOfCalls = numberOfCalls;
 	}
 
 
@@ -125,7 +125,7 @@ public class ExecutorSubcategoriesAdapter extends BaseAdapter {
 				subcategory.getReviewCount()));
         holder.rate.setStars(subcategory.getRate());
 
-		holder.numberOfCallsBtn.setText(numberOfCalls);
+		holder.numberOfCallsBtn.setText(String.valueOf(subcategory.getCountCall()));
 
 		holder.numberOfCallsBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -163,16 +163,6 @@ public class ExecutorSubcategoriesAdapter extends BaseAdapter {
     public void setBtnClickListener(BtnClickListener listener) {
         btnClickListener = listener;
     }
-
-	/* public void setCountCallClickListener(CountCallClickListener countCallClickListener) {
-		this.countCallClickListener = countCallClickListener;
-	} */
-
-
-	/*public interface CountCallClickListener {
-		public void onCountCallClickListener();
-	} */
-
 
     public interface BtnClickListener {
         void onReviewsClick(ExecutorSubcategory subcategory);
