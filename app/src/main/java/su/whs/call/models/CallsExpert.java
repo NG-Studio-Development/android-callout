@@ -37,15 +37,15 @@ public class CallsExpert implements Serializable {
         return year;
     }
 
-    private static List<CallsExpert> createListDEBUG() {
+    /*public static List<CallsExpert> createListDEBUG() {
 
         List<CallsExpert> callsList = new ArrayList<CallsExpert>();
 
-        /*callsList.add(new CallsExpert(4,4,2014));
+        callsList.add(new CallsExpert(4,4,2014));
         callsList.add(new CallsExpert(2,5,2014));
         callsList.add(new CallsExpert(8,6,2014));
         callsList.add(new CallsExpert(10,7,2014));
-        callsList.add(new CallsExpert(9,8,2014)); */
+        callsList.add(new CallsExpert(9,8,2014));
 
         callsList.add(new CallsExpert(4,4,2015));
         callsList.add(new CallsExpert(2,5,2015));
@@ -54,7 +54,7 @@ public class CallsExpert implements Serializable {
         callsList.add(new CallsExpert(9,8,2015));
 
         return callsList;
-    }
+    } */
 
     public static int getCountYear(List<CallsExpert> list) {
         return getListOfYears(list).size();

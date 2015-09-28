@@ -13,6 +13,8 @@ public class Constants {
 
     public static final float ALPHA_VIEW_FOR_BUSY = 0.3f;
 
+    public static final String URL_GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=su.whs.call";
+
 
     public static String[] MONTH = new String[] {
             "Январь",

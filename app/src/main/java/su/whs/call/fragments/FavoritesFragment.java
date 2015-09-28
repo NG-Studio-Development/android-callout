@@ -1,32 +1,15 @@
 package su.whs.call.fragments;
 
-import su.whs.call.R;
-import su.whs.call.adapters.FavoritesAdapter;
-import su.whs.call.adapters.RecentCallsAdapter;
-import su.whs.call.adapters.RecentUsersAdapter;
-import su.whs.call.dialog.FavoritesFilterInfoDialog;
-import su.whs.call.dialog.InfoDialog;
-import su.whs.call.models.FavoriteItem;
-import su.whs.call.models.RecentCall;
-import su.whs.call.models.SubCategory;
-import su.whs.call.models.UserExtra;
-import su.whs.call.models.UserInfo;
-import su.whs.call.adapters.UsersAdapter;
-import su.whs.call.form.MainActivity;
-import su.whs.call.net.ConnectionHandler;
-import su.whs.call.register.User;
-import su.whs.call.views.FilterPanel;
-
 import android.location.Location;
-import android.util.Log;
-import android.widget.BaseAdapter;
-import android.widget.LinearLayout.LayoutParams;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -34,6 +17,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import su.whs.call.R;
+import su.whs.call.adapters.FavoritesAdapter;
+import su.whs.call.adapters.UsersAdapter;
+import su.whs.call.dialog.FavoritesFilterInfoDialog;
+import su.whs.call.dialog.InfoDialog;
+import su.whs.call.form.MainActivity;
+import su.whs.call.models.FavoriteItem;
+import su.whs.call.models.RecentCall;
+import su.whs.call.models.SubCategory;
+import su.whs.call.models.UserExtra;
+import su.whs.call.models.UserInfo;
+import su.whs.call.net.ConnectionHandler;
+import su.whs.call.register.User;
+import su.whs.call.views.FilterPanel;
 
 public class FavoritesFragment extends BaseFavoritesTabFragment implements OnItemClickListener {
     private ListView mListView;
@@ -231,7 +229,6 @@ public class FavoritesFragment extends BaseFavoritesTabFragment implements OnIte
                 return 0;
             }
         });
-
     }
 
     @Override

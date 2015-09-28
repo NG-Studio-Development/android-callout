@@ -8,8 +8,8 @@ android {
         applicationId "su.whs.call"
         minSdkVersion 11
         targetSdkVersion 18
-        versionCode 7
-        versionName "1.0.17"
+        versionCode 1018
+        versionName "1.0.18"
     }
 
     buildTypes {
@@ -37,4 +37,6 @@ dependencies {
     compile project(':SimpleFacebook')
     compile project(':vksdk_library')
     compile project(':yandexmapkit-library')
+
+    compile 'com.joooonho:selectableroundedimageview:1.0.1'
 }

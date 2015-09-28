@@ -115,6 +115,7 @@ public class FavoritesAdapter extends ArrayAdapter<RecentCall> {
         h.mRate.setStars(item.getRate());
 
 
+
         h.mBusyMark.setImageResource(item.isBusy() ? R.drawable.ic_circle_red_small : R.drawable.ic_circle_green_small);
         h.setAlphaForAllView(item.isBusy() ? Constants.ALPHA_VIEW_FOR_BUSY : 1f );
 

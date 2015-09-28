@@ -4,12 +4,9 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -47,7 +44,6 @@ import su.whs.call.api.ApiClient;
 import su.whs.call.form.MainActivity;
 import su.whs.call.models.OdnkUser;
 import su.whs.call.net.ConnectionHandler;
-import su.whs.call.views.EmailRegisterView;
 import su.whs.call.views.IconButton;
 
 public class SocialFragment extends BaseFragment {
@@ -59,7 +55,7 @@ public class SocialFragment extends BaseFragment {
     private IconButton mSelectFacebook;
     private IconButton mSelectOdnoklassniki;
 
-   public static  SimpleFacebook mSimpleFacebook;
+    public static  SimpleFacebook mSimpleFacebook;
 
     private static Permission[] facebookPermissions = new Permission[]{Permission.EMAIL,};
     private static String[] vkPermissions = new String[]{VKScope.OFFLINE};
@@ -70,6 +66,7 @@ public class SocialFragment extends BaseFragment {
 
         mSelectFacebook = (IconButton) rootView.findViewById(R.id.selectFacebook);
         mSelectFacebook.setOnClickListener(mSelectFacebookListener);
+        //mSelectFacebook.setAlpha(0.5f);
 
         mSelectOdnoklassniki = (IconButton) rootView.findViewById(R.id.selectOdnoklassniki);
         mSelectOdnoklassniki.setOnClickListener(mSelectOdnoklassnikiListener);
@@ -91,8 +88,6 @@ public class SocialFragment extends BaseFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        Log.e("Compale", "1111122222");
 
         mSimpleFacebook.onActivityResult(getActivity(), requestCode, resultCode, data);
         VKUIHelper.onActivityResult(getActivity(), requestCode, resultCode, data);
@@ -143,6 +138,14 @@ public class SocialFragment extends BaseFragment {
 
         @Override
         public void onClick(View view) {
+            boolean isAvailable = true;
+
+            if ( !isAvailable ) {
+                Toast.makeText(getActivity(), getString(R.string.warning_temporary_not_available), Toast.LENGTH_LONG).show();
+                return;
+            }
+
+
             Session mSession = mSimpleFacebook.getSession();
             if (mSession != null) mSession.close();
 
@@ -189,17 +192,18 @@ public class SocialFragment extends BaseFragment {
 
         @Override
         public void onThinking() {
-
+            Toast.makeText(getActivity(), "onThinking()", Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void onException(Throwable throwable) {
-
+            throwable.printStackTrace();
+            Toast.makeText(getActivity(), "onException", Toast.LENGTH_LONG).show();
         }
 
         @Override
         public void onFail(String s) {
-
+            Toast.makeText(getActivity(), "FB on fail: "+s, Toast.LENGTH_LONG).show();
         }
     };
 

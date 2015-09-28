@@ -1,5 +1,6 @@
 package su.whs.call.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,15 +15,19 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import su.whs.call.Constants;
 import su.whs.call.R;
 import su.whs.call.adapters.ExecutorSubcategoriesAdapter;
 import su.whs.call.dialog.InfoDialog;
+import su.whs.call.form.CabinetActivity;
 import su.whs.call.models.ExecutorSubcategory;
 import su.whs.call.models.RegisteredYear;
 import su.whs.call.models.UserInfo;
 import su.whs.call.net.ConnectionHandler;
+import su.whs.call.register.User;
 
 public class ExecutorSubcategoriesFragment extends BaseSearchTabFragment {
+
     private static final String SUBCATEGORIES_ARGS = "subcats";
     private static final String USERINFO_ARGS = "userinfo";
 
@@ -57,7 +62,7 @@ public class ExecutorSubcategoriesFragment extends BaseSearchTabFragment {
             mSubcategories = (List<ExecutorSubcategory>) args.getSerializable(SUBCATEGORIES_ARGS);
             mUserInfo = (UserInfo) args.getSerializable(USERINFO_ARGS);
 
-            ExecutorSubcategoriesAdapter adapter = new ExecutorSubcategoriesAdapter(getActivity(), mUserInfo, mSubcategories/*, "4"*/);
+            final ExecutorSubcategoriesAdapter adapter = new ExecutorSubcategoriesAdapter(getActivity(), mUserInfo, mSubcategories/*, "4"*/);
 
             mList.setAdapter(adapter);
 
@@ -76,44 +81,48 @@ public class ExecutorSubcategoriesFragment extends BaseSearchTabFragment {
                     openFragment(CallsFragment.newInstance(subcategory.getCallsList()));
                 }
 
+                public void onChangeState(ExecutorSubcategory subcategory) {
+                    ConnectionHandler handler = ConnectionHandler.getInstance(getActivity());
+                    handler.postStatus(User.create(getActivity()).getToken(), subcategory/*subcategory.getId(), !subcategory.getStatus()*/);
+
+                }
+
             });
         }
 
-
-
-        /*ConnectionHandler handler = ConnectionHandler.getInstance(getActivity());
-        handler.queryExecutiveCalls(User.create(getActivity()).getToken(), new ConnectionHandler.OnCallsListener() {
-            @Override
-            public void onCallsResponse(RegisteredYear year) {
-                mYear = year;
-                String numberOfCalls = String.format("%S (%d)",getString(R.string.number_of_calls),getTotalCalls());
-
-                ExecutorSubcategoriesAdapter adapter = new ExecutorSubcategoriesAdapter(getActivity(), mUserInfo, mSubcategories, year, numberOfCalls);
-
-                adapter.setBtnClickListener(new ExecutorSubcategoriesAdapter.ReviewsBtnClickListener() {
-                    @Override
-                    public void onReviewsClick(ExecutorSubcategory subcategory) {
-                        openFragment(SubcategoryReviewsFragment.newInstance(subcategory.getReviews()));
-                    }
-                });
-
-                adapter.setCountCallClickListener(new ExecutorSubcategoriesAdapter.CountCallClickListener() {
-                    @Override
-                    public void onCountCallClickListener() {
-                        if (mYear == null) return;
-                        openFragment(CallsFragment.newInstance(mYear));
-                    }
-                });
-
-                mList.setAdapter(adapter);
-
-            }
-        }); */
-
-
+        if (mUserInfo != null)
+            setProfileUsername(mUserInfo.getUserName());
 
         mContentView = v;
         return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    private void setProfileUsername(String username) {
+        CabinetActivity activity = (CabinetActivity) getActivity();
+        if (activity != null
+                && username != null
+                && !username.equals("null")
+                && username.length() > 0) {
+            activity.getTitleBar().setTile(username.toUpperCase());
+        }
+    }
+
+    @Override
+    public int getCustomHomeIconId() {
+        return android.R.drawable.ic_menu_share;
+    }
+
+
+    @Override
+    public boolean onHomeIconClick() {
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        //sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Фото");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Приложение Вызывай в твоём мобильном!\n\n\n" + Constants.URL_GOOGLE_PLAY);
+        //sharingIntent.putExtra(Intent.EXTRA_STREAM, Util.getShareImagePath());
+        startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.app_name)));
+
+        return true;
     }
 
 
@@ -146,14 +155,8 @@ public class ExecutorSubcategoriesFragment extends BaseSearchTabFragment {
     }
 
     @Override
-    public boolean onHomeIconClick() {
-        openFragment(CabinetFragment.newInstance());
-        return true;
-    }
-
-    @Override
     public String getTitle() {
-        return getString(R.string.my_subcategories).toUpperCase();
+        return getString(R.string.cabinet).toUpperCase();
     }
 
     public static Fragment restoreInstance() {
@@ -166,7 +169,5 @@ public class ExecutorSubcategoriesFragment extends BaseSearchTabFragment {
         infoDialog.setTitle(getString(R.string.info_executor_subcategories));
         infoDialog.show();
     }
-
-
 
 }

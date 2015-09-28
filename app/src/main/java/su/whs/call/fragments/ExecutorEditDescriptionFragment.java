@@ -6,9 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import su.whs.call.R;
 import su.whs.call.models.ExecutorSubcategory;
+import su.whs.call.net.ConnectionHandler;
+import su.whs.call.register.User;
 
 public class ExecutorEditDescriptionFragment extends BaseSearchTabFragment {
 
@@ -25,7 +28,6 @@ public class ExecutorEditDescriptionFragment extends BaseSearchTabFragment {
         return fragment;
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,11 +42,31 @@ public class ExecutorEditDescriptionFragment extends BaseSearchTabFragment {
 
         View view = inflater.inflate(R.layout.fragment_executor_edit_description, container, false);
 
-        EditText etDescription = (EditText) view.findViewById(R.id.etDescription);
+        final EditText etDescription = (EditText) view.findViewById(R.id.etDescription);
         Button buttonRedact = (Button) view.findViewById(R.id.buttonRedact);
 
         if (subcategory != null)
             etDescription.setText(subcategory.getDescription());
+
+
+        buttonRedact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                User user = User.create(getActivity());
+                ConnectionHandler handler = ConnectionHandler.getInstance(getActivity());
+                handler.queryRedactDescription(user.getToken(), subcategory.getId(), etDescription.getText().toString(), new ConnectionHandler.OnRedactDescription() {
+                    @Override
+                    public void onSuccess() {
+                        onBack();
+                    }
+
+                    @Override
+                    public void onFail() {
+                        Toast.makeText(getActivity(), "onFail()", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
 
         mContentView = view;
         return super.onCreateView(inflater, container, savedInstanceState);
@@ -61,4 +83,16 @@ public class ExecutorEditDescriptionFragment extends BaseSearchTabFragment {
     public String getTitle() {
         return "Edit description";
     }
+
+    @Override
+    public boolean onHomeIconClick() {
+        onBack();
+        return true;
+    }
+
+    protected void onBack() {
+        openFragment(CabinetFragment.newInstance());
+    }
+
+
 }

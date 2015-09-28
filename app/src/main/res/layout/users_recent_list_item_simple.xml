@@ -1,18 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="5dp"
     android:paddingBottom="5dp">
 
-    <su.whs.call.views.RoundedImageView
+    <com.joooonho.SelectableRoundedImageView
+        android:id="@+id/avatarView"
+        android:layout_width="@dimen/usersListAvatarSize"
+        android:layout_height="@dimen/usersListAvatarSize"
+        android:layout_marginLeft="4dp"
+        android:src="@drawable/avatar_icon"
+        android:scaleType="centerCrop"
+        app:sriv_left_top_corner_radius="16dip"
+        app:sriv_right_top_corner_radius="0dip"
+        app:sriv_left_bottom_corner_radius="48dip"
+        app:sriv_right_bottom_corner_radius="16dip"
+        app:sriv_border_width="2dip"
+        app:sriv_border_color="@color/orange"
+        app:sriv_oval="true" />
+
+    <!-- <su.whs.call.views.RoundedImageView
         android:id="@+id/avatarView"
         android:layout_width="@dimen/usersListAvatarSize"
         android:layout_height="@dimen/usersListAvatarSize"
         android:layout_marginLeft="4dp"
         android:scaleType="fitCenter"
-        android:src="@drawable/avatar_icon" />
+        android:src="@drawable/avatar_icon" /> -->
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -21,7 +37,8 @@
         android:paddingLeft="10dp"
         android:layout_alignParentRight="true"
         android:layout_toRightOf="@+id/busyMark"
-        tools:ignore="RtlSymmetry">
+        tools:ignore="RtlSymmetry"
+        android:id="@+id/relativeLayout3">
 
         <su.whs.call.views.RateStarsView
             android:id="@+id/rate"
@@ -38,12 +55,15 @@
             android:text="Вокал"
             android:singleLine="true"
             android:textColor="@color/black"
-            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_toLeftOf="@+id/textTime"
             android:layout_alignLeft="@+id/textUserName"
             android:layout_alignStart="@+id/textUserName" />
 
-        <TextView
+            <!-- android:textAppearance="?android:attr/textAppearanceSmall" -->
+
+
+        <!-- <TextView
             android:id="@+id/textUserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,7 +74,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_toLeftOf="@+id/textDate"
             android:layout_alignLeft="@+id/rate"
-            android:layout_alignStart="@+id/rate" />
+            android:layout_alignStart="@+id/rate" /> -->
 
         <TextView
             android:id="@+id/textTime"
@@ -90,5 +110,14 @@
         android:visibility="invisible"
         android:layout_toRightOf="@+id/avatarView"
         android:src="@drawable/ic_circle_red_small" />
+
+    <!-- <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New TextEE"
+        android:id="@+id/tvDistance"
+        android:layout_below="@+id/relativeLayout3"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" /> -->
 
 </RelativeLayout>

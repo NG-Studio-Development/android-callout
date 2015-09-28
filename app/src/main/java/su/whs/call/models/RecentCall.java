@@ -1,5 +1,6 @@
 package su.whs.call.models;
 
+import android.location.Location;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -13,6 +14,8 @@ import java.util.Date;
  * Created by featZima on 17.09.2014.
  */
 public class RecentCall implements Serializable {
+
+    private final static String TAG = "RECENT_CALL";
 
     private final static SimpleDateFormat jsonDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
     public static final SimpleDateFormat dateTextFormat = new SimpleDateFormat("dd.MM.yy");
@@ -32,6 +35,9 @@ public class RecentCall implements Serializable {
     private String time;
     private String date;
 
+    private double mLatitude = 0;
+    private double mLongitude = 0;
+
     public RecentCall(JSONObject json) throws ParseException {
         subCategoryName = json.optString("sub_category_name");
         subCategoryId = json.optInt("sub_category_id", -1);
@@ -43,6 +49,14 @@ public class RecentCall implements Serializable {
         userName = json.optString("user_name");
         userState = json.optString("user_state");
         rate = json.optDouble("user_rate");
+
+        try {
+            mLatitude = Double.valueOf(json.optString("lattitude").replace(",", "."));
+            mLongitude = Double.valueOf(json.optString("longitude").replace(",", "."));
+        } catch (NumberFormatException e) {
+            Log.e(TAG, "Error on parsing geo coordinates");
+            Log.e(TAG, "Current json value - " + json);
+        }
 
         telephoneNumber = json.optString("telephone_number", "");
         description = json.optString("description", "");
@@ -144,5 +158,16 @@ public class RecentCall implements Serializable {
 
     public void setTelephoneNumber(String telephoneNumber) {
         this.telephoneNumber = telephoneNumber;
+    }
+
+    public Location getLocation() {
+        if (mLongitude == 0 && mLongitude == 0) {
+            return null;
+        } else {
+            Location targetLocation = new Location("");
+            targetLocation.setLatitude(mLatitude);
+            targetLocation.setLongitude(mLongitude);
+            return targetLocation;
+        }
     }
 }

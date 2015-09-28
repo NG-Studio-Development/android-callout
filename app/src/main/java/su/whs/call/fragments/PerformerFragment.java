@@ -155,6 +155,13 @@ public class PerformerFragment extends BaseFragment {
                     mRateView.setStars((int) mUserInfo1.getRate());
                     imageLoader.displayImage(Constants.API + mUserInfo1.getAvatarURL(), mAvatarView, options);
                     mTextDescription.setText(mUserInfo1.getDescription());
+                    mTextDescription.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            AdvancedInfoDialogFragment.newInstance(mUserInfo1.getDescription()).show(getFragmentManager(), null);
+                        }
+                    });
+
                     if (mUserInfo1.isBusy()) {
                         mAvatarView.setAlpha(Constants.ALPHA_VIEW_FOR_BUSY);
                         mRateView.setAlpha(Constants.ALPHA_VIEW_FOR_BUSY);

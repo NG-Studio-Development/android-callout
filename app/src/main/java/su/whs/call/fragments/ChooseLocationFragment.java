@@ -1,5 +1,6 @@
 package su.whs.call.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
@@ -36,16 +37,19 @@ import ru.yandex.yandexmapkit.overlay.Overlay;
 import ru.yandex.yandexmapkit.utils.GeoPoint;
 import ru.yandex.yandexmapkit.utils.ScreenPoint;
 import su.whs.call.AddressInfoAdapter;
+import su.whs.call.CallApp;
 import su.whs.call.R;
 import su.whs.call.dialog.MapInfoDialog;
+import su.whs.call.form.SearchActivity;
 import su.whs.call.net.AddressAutocomplete;
 import su.whs.call.net.AddressAutocomplete.AddressInfo;
 import su.whs.call.net.AddressAutocomplete.AutocompleteListener;
+import su.whs.call.utils.SearchLocation;
 import su.whs.call.views.MapControlLayer;
 import su.whs.call.views.SearchPanel;
 import su.whs.call.views.SearchPanel.SearchPanelListener;
 
-public class ChooseLocationFragment extends BaseSearchTabFragment implements SearchPanelListener {
+public class ChooseLocationFragment extends BaseSearchTabFragment implements SearchPanelListener, SearchActivity.OnBackPressedListener {
     private static final String TAG = "ChooseLocation";
     private MapControlLayer mControls = null;
     private MapView mMap = null;
@@ -55,6 +59,12 @@ public class ChooseLocationFragment extends BaseSearchTabFragment implements Sea
     private SearchPanel mSearchPanel = null;
     private String mCity = "Москва";
     HttpClient mHttpClient;
+    SearchActivity searchActivity;
+
+    @Override
+    public void onBackPressed() {
+        onBack();
+    }
 
     public class ClickOverlay extends Overlay {
         public ClickOverlay(MapController arg0) {
@@ -77,6 +87,14 @@ public class ChooseLocationFragment extends BaseSearchTabFragment implements Sea
         ChooseLocationFragment fragment = new ChooseLocationFragment();
         fragment.isShadowBackground = true;
         return fragment;
+    }
+
+
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        searchActivity = (SearchActivity) activity;
     }
 
     @Override
@@ -105,6 +123,7 @@ public class ChooseLocationFragment extends BaseSearchTabFragment implements Sea
 
             /** Point of start position */
             GeoPoint gp = new GeoPoint(55.7501525,37.6242858);
+            //GeoPoint gp = new GeoPoint(0.0,0.0);
 
             mMapController.setPositionNoAnimationTo(gp);
             (new AsyncTask<Void, Void, String>() {
@@ -127,11 +146,15 @@ public class ChooseLocationFragment extends BaseSearchTabFragment implements Sea
                 protected void onPostExecute(String result) {
                     if (result != null)
                         mCity = result;
+                    SearchLocation.getInstance().choseCity(mCity);
                 }
             }).execute();
         }
         initControls();
         mContentView = v;
+
+        searchActivity.setOnBackPressedFragmentListener(this);
+
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -212,8 +235,12 @@ public class ChooseLocationFragment extends BaseSearchTabFragment implements Sea
 
     @Override
     public boolean onHomeIconClick() {
-        openFragment(SearchChooseLocationPromptFragment.newInstance());
+        onBack();
         return true;
+    }
+
+    private void onBack() {
+        openFragment(SearchChooseLocationPromptFragment.newInstance());
     }
 
     @Override
@@ -230,6 +257,12 @@ public class ChooseLocationFragment extends BaseSearchTabFragment implements Sea
         mControls.setMarkerPosition(X, Y);
         mMarkerScreenPoint = new ScreenPoint(X, Y);
         mMarkerGeoPoint = mMapController.getGeoPoint(mMarkerScreenPoint);
+
+        Location location = new Location("YandexMap");
+        location.setLatitude(mMarkerGeoPoint.getLat());
+        location.setLongitude(mMarkerGeoPoint.getLon());
+        CallApp.setFindLocation(location);
+
         (new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
@@ -241,17 +274,17 @@ public class ChooseLocationFragment extends BaseSearchTabFragment implements Sea
                     return null;
                 }
 
-                /*Geocoder gcd = new Geocoder(getActivity(), Locale.getDefault());
-                List<Address> addresses = null;
-                try {
-                    addresses = gcd.getFromLocation(mMarkerGeoPoint.getLat(), mMarkerGeoPoint.getLon(), 1);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (addresses != null && addresses.size() > 0)
-                    return addresses.get(0);
-                return null;
-                */
+            /*Geocoder gcd = new Geocoder(getActivity(), Locale.getDefault());
+            List<Address> addresses = null;
+            try {
+                addresses = gcd.getFromLocation(mMarkerGeoPoint.getLat(), mMarkerGeoPoint.getLon(), 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (addresses != null && addresses.size() > 0)
+                return addresses.get(0);
+            return null;
+            */
             }
 
             @Override
@@ -259,7 +292,13 @@ public class ChooseLocationFragment extends BaseSearchTabFragment implements Sea
                 if (result != null) {
                     try {
                         JSONObject jsonResult = new JSONObject(result);
-                        mCity = jsonResult.getJSONObject("address").optString("city");
+                        Log.d( "SELECT_PLACE", "Has city: " + jsonResult.getJSONObject("address").has("city") );
+                        if (jsonResult.getJSONObject("address").has("city"))
+                            mCity = jsonResult.getJSONObject("address").optString("city");
+                        else
+                            mCity = jsonResult.getJSONObject("address").optString("state");
+
+                        SearchLocation.getInstance().choseCity(mCity);
                         //mCity = result.getLocality();
 
                         EditText editSearch = (EditText) getActivity().findViewById(R.id.editSearch);
@@ -301,6 +340,9 @@ public class ChooseLocationFragment extends BaseSearchTabFragment implements Sea
         Log.e("test", query);
         if (query == null || query.length() < 3)
             return;
+        //query = "4/5, Никольская улица, Китай-город, Тверской район, Центральный административный округ, Москва, ЦФО, 109012, Россия"+","+mCity;
+        query = query+","+mCity;
+
         AddressAutocomplete aac = AddressAutocomplete.getInstance(getActivity());
         aac.requestAsync(mCity, query, new AutocompleteListener() {
             @Override
@@ -332,6 +374,7 @@ public class ChooseLocationFragment extends BaseSearchTabFragment implements Sea
         mMarkerGeoPoint = gp;
         ScreenPoint sp = mMapController.getScreenPoint(gp);
         mControls.setMarkerPosition(sp.getX(), sp.getY());
+        //mSearchPanel.setQuery("");
         mSearchPanel.setQuery(info.address());
         mSearchPanel.foldResults();
     }

@@ -15,6 +15,8 @@ import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,10 +32,6 @@ import android.widget.Toast;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -54,20 +52,18 @@ import su.whs.call.net.ConnectionHandler;
 import su.whs.call.register.User;
 import su.whs.call.views.RateStarsView;
 
-/**
- * Created by featZima on 31.08.2014.
- */
 public class CabinetFragment extends BaseFragment {
+
+    private final static String TAG = "CABINET_FRAGMENT";
 
     private static final int CAMERA_REQUEST = 1888;
     private static final int GALLERY_REQUEST = 1889;
 
-    public CabinetFragment() {
-    }
+    public CabinetFragment() {}
 
     //public static ImageLoader imgLoader;
 
-    private final String URL_GOOGLE_PLAY = "https://play.google.com/store/apps/details?id=su.whs.call";
+
 
     private ImageLoader imageLoader = ImageLoader.getInstance();
     private DisplayImageOptions options = new DisplayImageOptions.Builder()
@@ -111,7 +107,6 @@ public class CabinetFragment extends BaseFragment {
 
         super.onCreateView();
 
-
         clientArea = (LinearLayout) rootView.findViewById(R.id.clientArea);
         executorArea = (ScrollView) rootView.findViewById(R.id.executorArea);
         currentStateSwitcher = (Button) rootView.findViewById(R.id.currentStateSwitcher);
@@ -145,7 +140,7 @@ public class CabinetFragment extends BaseFragment {
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         //sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Фото");
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Приложение Вызывай в твоём мобильном!\n\n\n"  + URL_GOOGLE_PLAY);
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Приложение Вызывай в твоём мобильном!\n\n\n" + Constants.URL_GOOGLE_PLAY);
         //sharingIntent.putExtra(Intent.EXTRA_STREAM, Util.getShareImagePath());
         startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.app_name)));
         return true;
@@ -191,59 +186,27 @@ public class CabinetFragment extends BaseFragment {
 
         ConnectionHandler handler = ConnectionHandler.getInstance(getActivity());
 
-        //mListCalls = CallsExpert.createListDEBUG();
-
-        // Instead here set initialization calls
-        /*handler.queryExecutiveCalls(User.create(getActivity()).getToken(), new ConnectionHandler.OnCallsListener() {
-            @Override
-            public void onCallsResponse(RegisteredYear year) {
-                mYear = year;
-                numberOfCallsBtn.setText(String.format("%S (%d)",
-                        getString(R.string.number_of_calls),
-                        getTotalCalls()));
-            }
-        }); */
-
         handler.queryExecutorCategories(User.create(getActivity()).getToken(), new ConnectionHandler.OnExecutorCategoriesListener() {
             @Override
             public void onCategoriesResponse(ArrayList<ExecutorSubcategory> subcategories) {
                 CabinetFragment.this.subcategories = subcategories;
 
-                executorCategoriesBtn.setText(String.format("%S (%d)",
-                        getString(R.string.my_categories),
-                        subcategories.size()));
+                if (subcategories != null && subcategories.size() != 0)
+                    openFragment(ExecutorSubcategoriesFragment.newInstance(subcategories, mUserInfo));
+                else
+                    throw new Error("Executor not have categories");
+
+                //executorCategoriesBtn.setText(String.format("%S (%d)",
+                        //getString(R.string.my_categories),
+                        //subcategories.size()));
             }
         });
-    }
-
-    public int getTotalCalls() {
-        int total = 0;
-
-        try {
-            for(int i = 0; i < ConnectionHandler.jsonYears.length(); i++) {
-                JSONObject object = ConnectionHandler.jsonYears.getJSONObject(i);
-                JSONArray month = object.getJSONArray("months");
-
-
-                for(int j = 0; j < month.length(); j++) {
-                    JSONObject o = month.getJSONObject(j);
-                    JSONArray calls =  o.getJSONArray("calls");
-                    total += calls.length();
-
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return total;
     }
 
     private View.OnClickListener callListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             Toast.makeText(getActivity(), "Unactuale function", Toast.LENGTH_LONG).show();
-            //if (mListCalls == null || mListCalls.size() == 0) return;
-            //openFragment(CallsFragment.newInstance(mListCalls));
         }
     };
 
@@ -315,10 +278,16 @@ public class CabinetFragment extends BaseFragment {
 
             //imgLoader.DisplayImage(Constants.API + userInfo.getAvatarURL(), R.drawable.avatar_icon, clientAvatar);
 
+            Log.d("AVATAR_CABINET", "Avatar: " + userInfo.getAvatarURL());
+
+
+            //imageLoader.loadImage(Constants.API + userInfo.getAvatarURL(), new SimpleImageLoadingListener() {
             imageLoader.loadImage(Constants.API + userInfo.getAvatarURL(), new SimpleImageLoadingListener() {
                 @Override
                 public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                     if (loadedImage != null) {
+
+                        //RoundedAvatarDrawable drawable = new RoundedAvatarDrawable(loadedImage);
                         applyAvatar(loadedImage);
                     }
                 }
@@ -329,6 +298,8 @@ public class CabinetFragment extends BaseFragment {
     private void applyAvatar(Bitmap bitmapAvatar) {
         if (bitmapAvatar != null) {
 
+
+
             clientAvatar.setScaleType(ImageView.ScaleType.CENTER_CROP);
             clientAvatar.setImageBitmap(bitmapAvatar);
             executorAvatar.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -338,6 +309,21 @@ public class CabinetFragment extends BaseFragment {
             executorAvatar.setImageResource(R.drawable.avatar_icon);
         }
     }
+
+    /*private void applyAvatarDrawable(Drawable drawable) {
+        if (drawable != null) {
+
+
+
+            clientAvatar.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            clientAvatar.setImageDrawable(drawable);
+            executorAvatar.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            clientAvatar.setImageDrawable(drawable);
+        } else {
+            clientAvatar.setImageResource(R.drawable.avatar_icon);
+            executorAvatar.setImageResource(R.drawable.avatar_icon);
+        }
+    } */
 
     public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
         int width = bm.getWidth();
@@ -351,7 +337,7 @@ public class CabinetFragment extends BaseFragment {
     }
 
 
-
+    @Deprecated
     private void setBusyStatus(boolean isBusy) {
         StateListDrawable stateListDrawable = (StateListDrawable) currentStateSwitcher.getBackground();
         LayerDrawable layerDrawable = (LayerDrawable) stateListDrawable.getCurrent();
@@ -365,7 +351,6 @@ public class CabinetFragment extends BaseFragment {
             grayDrawable.setColor(getResources().getColor(R.color.state_free));
             busyMark.setImageResource(R.drawable.ic_circle_green_small);
         }
-
     }
 
     public View.OnClickListener avatarSelectListener = new View.OnClickListener() {
@@ -463,9 +448,14 @@ public class CabinetFragment extends BaseFragment {
         //photo = scaleDownBitmap(photo, 150, 150);
 
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        photo.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
+        photo.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
 
-        String base64 = bytesToHex(bytes.toByteArray());
+        //String base64 = bytesToHex(bytes.toByteArray());
+
+        byte[] byteArray = bytes.toByteArray();
+        String base64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
+        Log.d(TAG, "Base64: "+base64);
 
         User user = User.create(getActivity());
         ConnectionHandler handler = ConnectionHandler.getInstance(getActivity());
@@ -487,10 +477,11 @@ public class CabinetFragment extends BaseFragment {
         return background;
     }
 
+    @Deprecated
     public View.OnClickListener currentStateListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if (mUserInfo == null) return;
+            /*if (mUserInfo == null) return;
             if (mUserInfo.isBusy()) {
                 mUserInfo.setBusy(false);
 
@@ -503,7 +494,7 @@ public class CabinetFragment extends BaseFragment {
 
                 ConnectionHandler handler = ConnectionHandler.getInstance(getActivity());
                 handler.postStatus(User.create(getActivity()).getToken(), true);
-            }
+            } */
         }
     };
 

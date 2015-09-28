@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -86,6 +87,11 @@ public class ConnectionHandler {
 
     public interface OnExecutorCategoriesListener {
         void onCategoriesResponse(ArrayList<ExecutorSubcategory> subcategories);
+    }
+
+    public interface OnRedactDescription {
+        void onSuccess();
+        void onFail();
     }
 
     public interface OnUsersInfoListener {
@@ -215,6 +221,37 @@ public class ConnectionHandler {
         });
     }
 
+    public void queryRedactDescription(String token, long idCategory, String description, final OnRedactDescription listener) {
+        final Map<String, Object> params = new HashMap<String, Object>();
+
+        params.put("token", token);
+        params.put("id_category", idCategory);
+        params.put("description", description);
+
+        mQuery.ajax(Constants.API + "/api/subcategory/description", params, JSONObject.class, new AjaxCallback<JSONObject>() {
+            @Override
+            public void callback(String url, JSONObject response, AjaxStatus status) {
+                if (response != null) {
+                    try {
+
+                        listener.onSuccess();
+
+                    }
+                    // catch (JSONException e) {
+                        //e.printStackTrace();
+                        //listener.onFail();
+                    //}
+                    catch (NullPointerException e) {
+                        e.printStackTrace();
+                        listener.onFail();
+
+                    }
+                }
+            }
+        } );
+    }
+
+
     public void queryUsers(final OnUsersInfoListener listener) {
         mQuery.ajax(Constants.API + "/api/user/info", JSONObject.class, new AjaxCallback<JSONObject>() {
             @Override
@@ -285,8 +322,8 @@ public class ConnectionHandler {
         });
     }
 
-    public void queryDistance(Location loc, final OnDistanceResponseListener l) {
-        String url = "/api/distance/" + String.valueOf(loc.getLatitude()) + "/" + String.valueOf(loc.getLongitude());
+    public void queryDistance(String city, Location loc, final OnDistanceResponseListener l) {
+        String url = "/api/distance/" + city + "/" + String.valueOf(loc.getLatitude()) + "/" + String.valueOf(loc.getLongitude());
         mQuery.ajax(Constants.API + url, JSONObject.class, new AjaxCallback<JSONObject>() {
             @Override
             public void callback(String url, JSONObject json, AjaxStatus status) {
@@ -298,7 +335,6 @@ public class ConnectionHandler {
     }
 
     public void registerViaSocial(String network, String token, String userId, String userName, String avatarUrl, final ApiClient.LoginListener listener) {
-        // validate social network name
 
         Log.d("SOCIAL", "response = " + network);
 
@@ -309,24 +345,24 @@ public class ConnectionHandler {
             listener.fail(mContext.getString(R.string.unsupported_social_network));
             return;
         }
-        // login request
+
         try {
-            //String url = String.format("%s/api/auth/%s?token=%s&name=%s&uid=%s&avatar=%s",
             JSONObject jsonAvatar = new JSONObject();
             jsonAvatar.put("url", avatarUrl);
-            String url = String.format("%s/api/auth/%s/%s/%s/%s/%s",
-                    Constants.API,
-                    network,
-                    token,
-                    URLEncoder.encode(userName, "utf8"),
-                    userId,
-                    //avatarUrl == null ? "" : URLEncoder.encode(jsonAvatar.toString(), "utf8"));
-                    //avatarUrl == null ? "" : URLEncoder.encode(avatarUrl, "utf8"));
-                    avatarUrl == null ? "" : URLEncoder.encode("ss", "utf8"));
-                    //jsonAvatar.toString());
+
+            String url = String.format("%s/api/auth/soc", Constants.API);
 
             url.isEmpty();
-            mQuery.ajax(url, JSONObject.class, new AjaxCallback<JSONObject>() {
+            Log.d("FACE_BOOK", url);
+
+            final Map<String, Object> params = new HashMap<String, Object>();
+            params.put("socWeb",network);
+            params.put("token",token);
+            params.put("name",userName);
+            params.put("uid",userId);
+            params.put("avatar", URLEncoder.encode(avatarUrl, "utf8"));
+
+            mQuery.ajax(url, params, JSONObject.class, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject response, AjaxStatus status) {
 
@@ -362,8 +398,8 @@ public class ConnectionHandler {
             });
         } catch (UnsupportedEncodingException e) {
             listener.fail("UnsupportedEncodingException");
-            e.printStackTrace();
-        } catch (JSONException e) {
+            e.printStackTrace();}
+        catch (JSONException e) {
             listener.fail("JSONException");
             e.printStackTrace();
         }
@@ -406,19 +442,12 @@ public class ConnectionHandler {
         String url = null;
         Map<String, Object> params = new HashMap<String, Object>();
         try {
-            /*url = String.format("%s/api/set/avatar/%s?type=%s&avatar=%s",
-                    Constants.API,
-                    token,
-                    imageType,
-                    URLEncoder.encode(imageBase64, "utf8"));*/
 
             url = String.format("%s/api/set/avatar", Constants.API);
 
-            url.isEmpty();
-
             params.put("token", token);
             params.put("type",imageType);
-            params.put("avatar", URLEncoder.encode(imageBase64, "utf8"));
+            params.put("avatar", imageBase64);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -531,8 +560,10 @@ public class ConnectionHandler {
                             recentCalls.add(new RecentCall(calls.getJSONObject(i)));
                         }
                         listener.onCallsResponse(recentCalls);
-                    } catch (Exception e) {
-                        Log.e("Test", e.toString());
+                    } catch (JSONException ex) {
+                        Log.e("Test", ex.toString());
+                    } catch ( ParseException ex) {
+                        Log.e("Test", ex.toString());
                     }
                 }
             }
@@ -577,36 +608,52 @@ public class ConnectionHandler {
      * API: /api/review/user_id/sub_category_id/:token?description=sfsdfsd&name=ddssdfsd&rate=20
      */
     public void postReview(int userId, int subCategoryId, String userToken, Review review, final OnPostReviewListener listener) {
-        try {
+        Map<String, Object> params = new HashMap<String, Object>();
+
+        params.put("userID", userId);
+        params.put("subCategoryID", subCategoryId);
+        params.put("token", userToken);
+        params.put("review", review.getDescription());
+        params.put("rate", review.getRate());
+
+
+        // try {
             String userName = review.getUserName();
             if (userName == null) {
                 userName = "unknown";
             }
 
-            String url = Constants.API + "/api/review/" + userId + "/" + subCategoryId + "/" + userToken + "?description=" + URLEncoder.encode(review.getDescription(), "utf-8") + "&name=" + URLEncoder.encode(userName, "utf-8") + "&rate=" + review.getRate();
+            //String url = Constants.API + "/api/review/" + userId + "/" + subCategoryId + "/" + userToken + "?description=" + URLEncoder.encode(review.getDescription(), "utf-8") + "&name=" + URLEncoder.encode(userName, "utf-8") + "&rate=" + review.getRate();
+            String url = Constants.API + "/api/review";// + userId + "/" + subCategoryId + "/" + userToken + "?description=" + URLEncoder.encode(review.getDescription(), "utf-8") + "&name=" + URLEncoder.encode(userName, "utf-8") + "&rate=" + review.getRate();
 
-            mQuery.ajax(url, JSONObject.class, new AjaxCallback<JSONObject>() {
+            Log.d("URL_REVIEW","Url: "+url);
+
+            mQuery.ajax(url, params, JSONObject.class, new AjaxCallback<JSONObject>() {
                 @Override
                 public void callback(String url, JSONObject json, AjaxStatus status) {
                     if (json != null && json.has("error_code") && json.optInt("error_code") == 0) {
+                        Log.d("BACK_REVIEW","IF");
                         listener.onSuccessPostReview();
                     } else {
+                        Log.d("BACK_REVIEW","ELSE");
                         listener.onFailPostReview();
                     }
                 }
             });
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            listener.onFailPostReview();
-        }
+        //} catch (UnsupportedEncodingException e) {
+            //e.printStackTrace();
+            //listener.onFailPostReview();
+        //}
     }
 
-    public void postStatus(String userToken, boolean userIsBusy) {
-        String url = String.format("%s/api/user/%s/%s",
+    public void postStatus(String userToken, final ExecutorSubcategory subcategory /*int subcategoryId, boolean userIsBusy*/) {
+        String url = String.format("%s/api/user/%s/%s/%s",
                 Constants.API,
                 userToken,
-                userIsBusy ? "true" : "false");
+                (!subcategory.getStatus()) ? "true" : "false",
+                subcategory.getId());
 
+        Log.d(TAG, "Url: "+url);
 
         mQuery.ajax(url, JSONObject.class, new AjaxCallback<JSONObject>() {
         @Override
@@ -617,8 +664,10 @@ public class ConnectionHandler {
                 e.printStackTrace();
             }
 
-            if (json != null && json.has("data") && json.optString("data").equals("Success")) {
-
+            if (json != null && json.has("error_code") && json.optString("error_code").equals("0")) {
+                subcategory.setStatus(!subcategory.getStatus());
+            } else {
+                Log.d(TAG, "Switch status error");
             }
         }
     });

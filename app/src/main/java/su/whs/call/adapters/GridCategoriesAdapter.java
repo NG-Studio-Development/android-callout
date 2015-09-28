@@ -3,20 +3,20 @@ package su.whs.call.adapters;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,11 +27,10 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 
 import java.util.List;
 
-import su.whs.call.helper.Screen;
-import su.whs.call.models.Category;
 import su.whs.call.Constants;
 import su.whs.call.R;
-import su.whs.call.views.IconButton;
+import su.whs.call.helper.Screen;
+import su.whs.call.models.Category;
 
 public class GridCategoriesAdapter extends BaseAdapter {
 
@@ -58,6 +57,7 @@ public class GridCategoriesAdapter extends BaseAdapter {
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mContext = context;
         mCategories = categories;
+
     }
 
     @Override
@@ -82,21 +82,23 @@ public class GridCategoriesAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Holder holder;
+        final Holder holder;
 
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.categories_grid_item, null);
             holder = new Holder();
             //holder.iconButton = (IconButton) convertView.findViewById(R.id.iconButton);
-            holder.iconImage = (ImageView) convertView.findViewById(R.id.categoryIcon);
+            //holder.iconImage = (ImageView) convertView.findViewById(R.id.categoryIcon);
             holder.tvTitle = (TextView) convertView.findViewById(R.id.categoryName);
-            holder.iconButton = (ImageView) convertView.findViewById(R.id.buttonIcon);
+            holder.iconButton = (ImageButton) convertView.findViewById(R.id.buttonIcon);
 
             int h = (Screen.getDisplayHeight(mContext) / 8);
 
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(h, h);
             params.addRule(RelativeLayout.CENTER_IN_PARENT );
             holder.iconButton.setLayoutParams(params);
+            holder.iconButton.setBackground(mContext.getResources().getDrawable(R.drawable.icon_button_active));
+            holder.iconButton.setBackground(mContext.getResources().getDrawable(R.drawable.icon_button_light_normal));
 
 
 
@@ -109,25 +111,76 @@ public class GridCategoriesAdapter extends BaseAdapter {
         holder.tvTitle.setText(cat.getName());
 
         if (cat.getIconURL() != null) {
-            imageLoader.loadImage(Constants.API + cat.getIconURL(), options, new ScaleImageLoadingListener(holder.iconImage));
+            Log.d("GRID_CAT", "Url: " + cat.getIconURL());
+            imageLoader.loadImage(Constants.API + cat.getIconURL(), options, new ScaleImageLoadingListener(holder.iconButton));
+            //holder.iconImage.setImageDrawable(mContext.getResources().getDrawable(mapIcons.get(cat.getIconURL())));
+            //holder.iconButton.setImageDrawable(mContext.getResources().getDrawable(mapIcons.get(cat.getIconURL())));
         }
+
+
+
+
+
+
+        holder.iconButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    holder.iconButton.setColorFilter(Color.argb(255, 255, 255, 255));
+                    holder.iconButton.setBackground(mContext.getResources().getDrawable(R.drawable.icon_button_active));
+                    //holder.iconImage.setColorFilter(Color.argb(0, 0, 0, 0));
+                } else if(event.getAction() == MotionEvent.ACTION_CANCEL || event.getAction() == MotionEvent.ACTION_UP) {
+                    holder.iconButton.setColorFilter(Color.argb(0, 0, 0, 0));
+                    holder.iconButton.setBackground(mContext.getResources().getDrawable(R.drawable.icon_button_light_normal));
+
+                    if (onItemClickListener != null) {
+                        int position = (Integer) view.getTag();
+                        onItemClickListener.onItemClick(null, view, position, 0);
+                    }
+
+                }
+
+                return true;
+            }
+        });
+
+
+        /*
+         holder.iconImage.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    holder.iconImage.setColorFilter(Color.argb(255, 255, 255, 255));
+                    //holder.iconImage.setColorFilter(Color.argb(0, 0, 0, 0));
+                } else if(event.getAction() == MotionEvent.ACTION_CANCEL || event.getAction() == MotionEvent.ACTION_UP) {
+                    holder.iconImage.setColorFilter(Color.argb(0, 0, 0, 0));
+                }
+                Log.d("ACTION_CAT", "Action: " + event.getAction());
+
+                return true;
+            }
+        });
+        */
+
         holder.iconButton.setTag(position);
-        holder.iconButton.setOnClickListener(new View.OnClickListener() {
+        /* holder.iconButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("ACTION_CAT", "On itmem");
                 if (onItemClickListener != null) {
                     int position = (Integer) view.getTag();
                     onItemClickListener.onItemClick(null, view, position, 0);
                 }
             }
-        });
+        }); */
         return convertView;
     }
 
     private class Holder {
-        public ImageView iconImage;
+        //public ImageView iconImage;
         public TextView tvTitle;
-        public ImageView iconButton;
+        public ImageButton iconButton;
     }
 
     public class ScaleImageLoadingListener extends SimpleImageLoadingListener {
@@ -160,4 +213,5 @@ public class GridCategoriesAdapter extends BaseAdapter {
             canvas.drawBitmap(resultBitmap, 0, 0, p);
         }
     }
+
 }

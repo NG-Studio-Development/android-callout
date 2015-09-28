@@ -1,21 +1,5 @@
 package su.whs.call.fragments;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import ru.yandex.yandexmapkit.utils.GeoPoint;
-import su.whs.call.dialog.InfoDialog;
-import su.whs.call.models.Category;
-import su.whs.call.R;
-import su.whs.call.models.SubCategory;
-import su.whs.call.adapters.GridCategoriesAdapter;
-import su.whs.call.net.ConnectionHandler;
-import su.whs.call.net.ConnectionHandler.OnDistanceResponseListener;
-
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -23,13 +7,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.GridView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import ru.yandex.yandexmapkit.utils.GeoPoint;
+import su.whs.call.R;
+import su.whs.call.adapters.GridCategoriesAdapter;
+import su.whs.call.dialog.InfoDialog;
+import su.whs.call.models.Category;
+import su.whs.call.models.SubCategory;
+import su.whs.call.net.ConnectionHandler;
+import su.whs.call.net.ConnectionHandler.OnDistanceResponseListener;
+import su.whs.call.utils.SearchLocation;
 
 public class CategoriesFragment extends BaseSearchTabFragment implements OnDistanceResponseListener, OnItemClickListener {
     // private PaginatedGridView mGridView;
     private GridView gridView;
+    private TextView tvEmptyList;
     private List<Category> mCategories;
     private GridCategoriesAdapter mAdapter;
     private static CategoriesFragment mInstance = null;
@@ -38,6 +41,8 @@ public class CategoriesFragment extends BaseSearchTabFragment implements OnDista
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.categories_fragment, container, false);
         gridView = (GridView) rootView.findViewById(R.id.gridView);
+        tvEmptyList = (TextView) rootView.findViewById(R.id.tvEmptyList);
+
         Bundle arguments = getArguments();
         if (arguments.containsKey("location")) {
             Location loc = arguments.getParcelable("location");
@@ -53,8 +58,10 @@ public class CategoriesFragment extends BaseSearchTabFragment implements OnDista
         super.onResume();
     }
 
+    String city = SearchLocation.getInstance().getChosenCity();
     private void load(Location loc) {
-        ConnectionHandler.getInstance(getActivity()).queryDistance(loc, this);
+        ConnectionHandler.getInstance(getActivity()).queryDistance(city, loc, this);
+        //ConnectionHandler.getInstance(getActivity()).queryDistance(loc, this);
     }
 
     @Override
@@ -109,6 +116,13 @@ public class CategoriesFragment extends BaseSearchTabFragment implements OnDista
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
+
+                if (categories.size() == 0) {
+                    gridView.setVisibility(View.INVISIBLE);
+                    tvEmptyList.setVisibility(View.VISIBLE);
+                    tvEmptyList.setText(getString(R.string.not_avialable_in_chosen_city));
+                }
+
                 mCategories = categories;
                 Category comingSoon = new Category();
                 comingSoon.mName = "скоро";

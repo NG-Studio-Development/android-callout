@@ -1,20 +1,20 @@
 package su.whs.call.net;
 
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.content.Context;
+import android.location.Location;
+import android.util.Log;
 
 import com.androidquery.AQuery;
 import com.androidquery.callback.AjaxCallback;
 import com.androidquery.callback.AjaxStatus;
 
-import android.content.Context;
-import android.location.Location;
-import android.util.Log;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddressAutocomplete {
     private static final String TAG = "Geocoder.Autocomplete";
@@ -36,6 +36,7 @@ public class AddressAutocomplete {
 
         public String address() {
             return mAddress;
+            //return "HC ADDRESS";
         }
 
         public Location location() {
@@ -95,6 +96,7 @@ public class AddressAutocomplete {
                     if (ac.has("formatted_address")) {
                         try {
                             result.add(new AddressInfo(ac.getString("formatted_address"), loc));
+                            //result.add(new AddressInfo(ac.getString("formatted_address"), loc));
                         } catch (Exception ex) {
                             Log.e("test", ex.toString());
                         }

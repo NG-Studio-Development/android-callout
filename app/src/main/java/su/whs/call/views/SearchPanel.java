@@ -1,7 +1,5 @@
 package su.whs.call.views;
 
-import su.whs.call.R;
-
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,7 +7,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -20,7 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.view.View.OnClickListener;
+
+import su.whs.call.R;
 
 public class SearchPanel extends RelativeLayout implements OnItemClickListener, OnClickListener {
 

@@ -10,8 +10,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import su.whs.call.R;
-import su.whs.call.models.Review;
-import su.whs.call.models.SubCategory;
 import su.whs.call.models.SubCategoryReview;
 import su.whs.call.views.RateStarsView;
 

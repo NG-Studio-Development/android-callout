@@ -37,6 +37,9 @@ public class SearchActivity extends FragmentActivity  implements
         GooglePlayServicesClient.OnConnectionFailedListener,
         View.OnClickListener {
 
+    public interface OnBackPressedListener {
+        public void onBackPressed();
+    }
 
     private View mSplash = null;
     private FragmentTabHost mTabHost;
@@ -190,10 +193,19 @@ public class SearchActivity extends FragmentActivity  implements
         mLastTab = tag;
     }
 
+    OnBackPressedListener listener = null;
+    public void setOnBackPressedFragmentListener(OnBackPressedListener listener) {
+        this.listener = listener;
+    }
+
     @Override
     public void onBackPressed() {
-        if (!mTitleBar.navigateBack())
+        Log.d("ON_BACK_PRESS", "onBackPressed() ");
+        /*if (listener != null) {
+            listener.onBackPressed();
+        } else if (!mTitleBar.navigateBack()) {
             super.onBackPressed();
+        } */
     }
 
     @Override

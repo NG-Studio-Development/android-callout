@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import su.whs.call.Constants;
 import su.whs.call.R;
 import su.whs.call.models.Review;
 import su.whs.call.views.RateStarsView;

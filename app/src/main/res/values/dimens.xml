@@ -26,4 +26,6 @@
     <!-- fragments -->
     <dimen name="fragmentsTopMartin">50dp</dimen>
     <dimen name="fragmentsBottomMargin">76dp</dimen>
+
+    <dimen name="paddingTitleBarBack">8dp</dimen>
 </resources>

@@ -231,7 +231,7 @@ public class MainActivity extends TabActivity implements View.OnClickListener, G
             switch (which) {
                 case DialogInterface.BUTTON_POSITIVE:
 
-                    if(SocialFragment.mSimpleFacebook != null) {
+                    if(SocialFragment.mSimpleFacebook != null && SocialFragment.mSimpleFacebook.getSession() != null) {
                         SocialFragment.mSimpleFacebook.getSession().closeAndClearTokenInformation();
                     }
 

@@ -2,6 +2,9 @@ package su.whs.call.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,24 +25,19 @@ import su.whs.call.models.UserInfo;
 import su.whs.call.views.RateStarsView;
 import su.whs.call.views.RoundedImageView;
 
-//import su.whs.call.tools.ImageLoader;
-
 public class ExecutorSubcategoriesAdapter extends BaseAdapter {
 
 	private List<ExecutorSubcategory> subcategories;
-	UserInfo mUserInfo;
+	//UserInfo mUserInfo;
 	private LayoutInflater inflater;
     private Context context;
     private BtnClickListener btnClickListener;
-	//private CountCallClickListener countCallClickListener;
-	private String numberOfCalls;
 
 	public ExecutorSubcategoriesAdapter(Context context, UserInfo mUserInfo, List<ExecutorSubcategory> subcategories /*RegisteredYear year,*/ /*String numberOfCalls*/ ) {
         this.context = context;
 		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.subcategories = subcategories;
-		this.mUserInfo = mUserInfo;
-		//this.numberOfCalls = numberOfCalls;
+		//this.mUserInfo = mUserInfo;
 	}
 
 
@@ -64,14 +62,15 @@ public class ExecutorSubcategoriesAdapter extends BaseAdapter {
         Button reviews;
 		Button lastDays;
 		Button numberOfCallsBtn;
+		Button buttonStateSwitcher;
 		Button descriptionBtn;
 		RoundedImageView executorAvatar;
 
 
-		private void setUserAvatar(UserInfo userInfo) {
-			if (userInfo.getAvatarURL() != null) {
+		private void setUserAvatar(ExecutorSubcategory subcategory) {
+			if (subcategory.getAvatar() != null) {
 
-				ImageLoader.getInstance().loadImage(Constants.API + userInfo.getAvatarURL(), new SimpleImageLoadingListener() {
+				ImageLoader.getInstance().loadImage(Constants.API + "/" + subcategory.getAvatar(), new SimpleImageLoadingListener() {
 					@Override
 					public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
 						if (loadedImage != null) {
@@ -84,17 +83,28 @@ public class ExecutorSubcategoriesAdapter extends BaseAdapter {
 
 		private void applyAvatar(Bitmap bitmapAvatar) {
 			if (bitmapAvatar != null) {
-
-				//clientAvatar.setScaleType(ImageView.ScaleType.CENTER_CROP);
-				//clientAvatar.setImageBitmap(bitmapAvatar);
 				executorAvatar.setScaleType(ImageView.ScaleType.CENTER_CROP);
 				executorAvatar.setImageBitmap(bitmapAvatar);
 			} else {
-				//clientAvatar.setImageResource(R.drawable.avatar_icon);
 				executorAvatar.setImageResource(R.drawable.avatar_icon);
 			}
 		}
 
+		private void setBusyStatus(boolean isBusy) {
+			StateListDrawable stateListDrawable = (StateListDrawable) buttonStateSwitcher.getBackground();
+			LayerDrawable layerDrawable = (LayerDrawable) stateListDrawable.getCurrent();
+			GradientDrawable grayDrawable = (GradientDrawable) layerDrawable.findDrawableByLayerId(R.id.gray_background);
+			if (isBusy) {
+				buttonStateSwitcher.setText(context.getString(R.string.current_state_busy));
+				grayDrawable.setColor(context.getResources().getColor(R.color.state_busy));
+				//busyMark.setImageResource(R.drawable.ic_circle_red_small);
+			} else {
+				buttonStateSwitcher.setText(context.getString(R.string.current_state_free));
+				grayDrawable.setColor(context.getResources().getColor(R.color.state_free));
+				//busyMark.setImageResource(R.drawable.ic_circle_green_small);
+			}
+
+		}
 
 	}
 	
@@ -102,7 +112,6 @@ public class ExecutorSubcategoriesAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		final Holder holder;
 		if (convertView == null) {
-			//convertView = inflater.inflate(R.layout.executor_subcategory_list_item, parent, false);
 			convertView = inflater.inflate(R.layout.executor_subcat_item, parent, false);
 			holder = new Holder();
             holder.categoryName = (TextView) convertView.findViewById(R.id.categoryNameTv);
@@ -110,6 +119,7 @@ public class ExecutorSubcategoriesAdapter extends BaseAdapter {
             holder.rate = (RateStarsView) convertView.findViewById(R.id.rate);
             holder.reviews = (Button) convertView.findViewById(R.id.reviewsBtn);
 			holder.numberOfCallsBtn = (Button) convertView.findViewById(R.id.numberOfCallsBtn);
+			holder.buttonStateSwitcher = (Button) convertView.findViewById(R.id.currentStateSwitcher);
 			holder.descriptionBtn = (Button) convertView.findViewById(R.id.descriptionBtn);
 			holder.executorAvatar = (RoundedImageView) convertView.findViewById(R.id.executorAvatar);
 			convertView.setTag(holder);
@@ -119,19 +129,31 @@ public class ExecutorSubcategoriesAdapter extends BaseAdapter {
 
 		final ExecutorSubcategory subcategory = getItem(position);
 
-		holder.setUserAvatar(mUserInfo);
+		holder.setUserAvatar(subcategory);
 
 		holder.reviews.setText(String.format(context.getString(R.string.reviews_cap_with_count),
 				subcategory.getReviewCount()));
         holder.rate.setStars(subcategory.getRate());
 
-		holder.numberOfCallsBtn.setText(String.valueOf(subcategory.getCountCall()));
+		holder.numberOfCallsBtn.setText(context.getString(R.string.calls) + "(" + String.valueOf(subcategory.getCountCall()) + ")");
 
 		holder.numberOfCallsBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (btnClickListener != null)
 					btnClickListener.onCountCallClick(subcategory);
+			}
+		});
+		holder.setBusyStatus(subcategory.getStatus());
+		holder.buttonStateSwitcher.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (btnClickListener != null) {
+					holder.setBusyStatus(!subcategory.getStatus());
+					btnClickListener.onChangeState(subcategory);
+					//notify();
+				}
+
 			}
 		});
 
@@ -164,9 +186,10 @@ public class ExecutorSubcategoriesAdapter extends BaseAdapter {
         btnClickListener = listener;
     }
 
-    public interface BtnClickListener {
+	public interface BtnClickListener {
         void onReviewsClick(ExecutorSubcategory subcategory);
         void onDescriptionClick(ExecutorSubcategory subcategory);
 		void onCountCallClick(ExecutorSubcategory subcategory);
+		void onChangeState(ExecutorSubcategory subcategory);
     }
 }

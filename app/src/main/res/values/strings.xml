@@ -63,9 +63,10 @@
     <string name="remove">delete</string>
 
     <string name="loading">Загрузка…</string>
-    <string name="facebook_app_id">802193569871496</string>
+    <!-- <string name="facebook_app_id">802193569871496</string>-->
+    <string name="facebook_app_id">803991999630790</string>
     <string name="facebook_app_namespace">com_featzima_call</string>
-    <string name="vk_app_id">4839678</string>
+    <string name="vk_app_id" translatable="false">4839678</string>
 
     <string name="unsupported_social_network">Unsupported socail network</string>
     <string name="by_distance">By range</string>
@@ -74,6 +75,8 @@
     <string name="exit_confirm">Are you sure you want to exit now?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+
+    <string name="warning_temporary_not_available"> Временно не доступно </string>
 
     <string name="info_favorites">Избранные исполнители</string>
     <string name="info_profile_change_avatar">Нажмите для смены аватара</string>
@@ -96,8 +99,8 @@
     <string name="cancel">Закрыть</string>
     <string name="description">Описание</string>
     <string name="redact">Редактировать</string>
+    <string name="calls">Звонки</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="not_avialable_in_chosen_city">Not avialable in your city</string>
 
 </resources>

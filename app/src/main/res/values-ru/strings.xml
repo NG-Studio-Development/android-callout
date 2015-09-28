@@ -34,7 +34,7 @@
     <string name="loading_error">Ошибка загрузки</string>
     <string name="number_of_calls">звонки</string>
     <string name="my_categories">Мои подкатегории</string>
-    <string name="executor">исполнитель</string>
+    <string name="executor">специалист</string>
     <string name="current_state_free">свободен</string>
     <string name="current_state_busy">занят</string>
     <string name="empty"></string>
@@ -65,7 +65,8 @@
     <string name="from_galery">из галереи</string>
     <string name="remove">удалить</string>
 
-    <string name="facebook_app_id">802193569871496</string>
+    <!-- <string name="facebook_app_id">802193569871496</string> -->
+    <!-- <string name="facebook_app_id">803991999630790</string> -->
     <string name="facebook_app_namespace">com_featzima_call</string>
     <string name="unsupported_social_network">Данная социальная сеть не поддерживается</string>
     <string name="by_distance">По расстоянию</string>
@@ -81,6 +82,21 @@
     <string name="info_register">Зарегестрируйтесь через социальные сети или E-mail</string>
     <string name="info_register_email">Введите свои данные и зарегестрируйтесь через E-mail</string>
     <string name="info_search_main_icon">Выберите адрес, куда вызвать исполнителя</string>
+    <string name="calls">Звонки</string>
+    <string name="cancel">Закрыть</string>
+    <string name="description">Описание</string>
+    <string name="redact">Редактировать</string>
+    <string name="info_subcategories">Выберите необходимую подкатегорию</string>
+    <string name="info_select_category">Выберите необходимую категорию</string>
+    <string name="info_search_main">Информация о поиске</string>
+    <string name="info_reviews">Отзывы исполнителя, вы можете оставить свой</string>
+    <string name="info_login">Войдите в свой кабинет через социальные сети или E-mail</string>
+    <string name="info_login_email">Войдите в свой кабинет через E-mail</string>
+    <string name="info_map_dialog">Выберите адрес тапнув на карте</string>
+    <string name="info_performer">Специалист</string>
+    <string name="info_executor_subcategories">Ваши подкатегории</string>
+    <string name="info_calls_total">Общее количество звонков по всем категориям</string>
+    <string name="warning_temporary_not_available">Временно не доступно</string>
 
 
 </resources>

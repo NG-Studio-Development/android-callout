@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -30,7 +31,6 @@ import su.whs.call.models.RecentCall;
 import su.whs.call.net.ConnectionHandler;
 import su.whs.call.register.User;
 import su.whs.call.views.RateStarsView;
-import su.whs.call.views.RoundedImageView;
 
 public class RecentCallsAdapter extends BaseAdapter {
 
@@ -91,13 +91,15 @@ public class RecentCallsAdapter extends BaseAdapter {
 	public class Holder {
 
 		TextView mDistance;
-		RoundedImageView mAvatar;
+		SelectableRoundedImageView mAvatar;
+		//RoundedImageView mAvatar;
 		ImageView mBusyMark;
 		TextView mCategory;
-		TextView mUserName;
+		//TextView mUserName;
 		RateStarsView mRate;
 		TextView mDate;
 		TextView mTime;
+		//TextView tvDistance;
 
 		void setAlphaForAllView(float alpha) {
 
@@ -107,8 +109,8 @@ public class RecentCallsAdapter extends BaseAdapter {
 			if ( mCategory != null )
 				mCategory.setAlpha(alpha);
 
-			if ( mUserName != null )
-				mUserName.setAlpha(alpha);
+			//if ( mUserName != null )
+				//mUserName.setAlpha(alpha);
 
 			if ( mRate != null )
 				mRate.setAlpha(alpha);
@@ -126,13 +128,14 @@ public class RecentCallsAdapter extends BaseAdapter {
 
 	private Holder createHolder(View row) {
 		Holder h = new Holder();
-		h.mAvatar = (RoundedImageView) row.findViewById(R.id.avatarView);
+		h.mAvatar = (SelectableRoundedImageView) row.findViewById(R.id.avatarView);
 		h.mBusyMark = (ImageView) row.findViewById(R.id.busyMark);
 		h.mCategory = (TextView) row.findViewById(R.id.textCategory);
-		h.mUserName = (TextView) row.findViewById(R.id.textUserName);
+		//h.mUserName = (TextView) row.findViewById(R.id.textUserName);
 		h.mDate = (TextView) row.findViewById(R.id.textDate);
 		h.mTime = (TextView) row.findViewById(R.id.textTime);
 		h.mRate = (RateStarsView) row.findViewById(R.id.rate);
+		//h.tvDistance = (TextView) row.findViewById(R.id.tvDistance);
 		return h;
 	}
 
@@ -151,9 +154,18 @@ public class RecentCallsAdapter extends BaseAdapter {
 		if (call.getAvatar() != null) {
             imageLoader.displayImage(Constants.API + call.getAvatar(), holder.mAvatar, options, animateFirstListener);
 		}
-		holder.mUserName.setText(call.getUserName());
+
+		//holder.mUserName.setText(call.getUserName());
 		holder.mRate.setStars(call.getRate());
 		holder.mBusyMark.setImageResource(call.isBusy() ? R.drawable.ic_circle_red_small : R.drawable.ic_circle_green_small);
+
+		/*int distance = (int) CallApp.getFindLocation().distanceTo(call.getLocation());
+
+		if (distance < 1000) {
+			holder.mDistance.setText(String.format(mContext.getString(R.string.distance_m), distance));
+		} else {
+			holder.mDistance.setText(String.format(mContext.getString(R.string.distance_km), (int) (distance / 1000)));
+		} */
 
 		holder.setAlphaForAllView(call.isBusy() ? Constants.ALPHA_VIEW_FOR_BUSY : 1f);
 

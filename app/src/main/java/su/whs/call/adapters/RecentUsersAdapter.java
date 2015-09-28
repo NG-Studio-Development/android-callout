@@ -28,8 +28,6 @@ import java.util.List;
 import su.whs.call.Constants;
 import su.whs.call.R;
 import su.whs.call.fragments.CabinetFragment;
-import su.whs.call.models.CallItem;
-import su.whs.call.models.FavoriteItem;
 import su.whs.call.models.RecentCall;
 import su.whs.call.models.UserInfo;
 import su.whs.call.net.ConnectionHandler;

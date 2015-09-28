@@ -20,11 +20,12 @@ public class ExecutorSubcategory implements Serializable {
     private int id;
     private String name;
     private ArrayList<SubCategoryReview> reviews;
-    //private ArrayList<SubCategoryReview> reviews;
+    private String avatar;
     private String dateFrom;
     private String dateTo;
     private String description;
     private int countCall = 0;
+    private boolean status = true;
     private List<CallsExpert> callsList;
 
     public ExecutorSubcategory(JSONObject json) throws JSONException {
@@ -36,6 +37,8 @@ public class ExecutorSubcategory implements Serializable {
         dateTo = json.getString("date_to");
         description = json.getString("description");
         countCall = json.getInt("count_call");
+        avatar = json.getString("avatar");
+        status = json.getBoolean("status");
 
         JSONArray reviewsJson = json.getJSONArray("reviews");
         for (int i = 0; i < reviewsJson.length(); i++) {
@@ -48,8 +51,23 @@ public class ExecutorSubcategory implements Serializable {
         }
     }
 
+
+    public int getId() {
+        return id;
+    }
+
     public int getCountCall() {
         return countCall;
+    }
+
+    public boolean getStatus() { return status; }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public String getAvatar() {
+        return avatar;
     }
 
     public String getDescription() {

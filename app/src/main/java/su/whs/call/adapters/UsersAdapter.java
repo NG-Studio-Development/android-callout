@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -22,12 +23,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import su.whs.call.CallApp;
 import su.whs.call.Constants;
 import su.whs.call.R;
 import su.whs.call.models.UserInfo;
 import su.whs.call.net.ConnectionHandler;
 import su.whs.call.views.RateStarsView;
-import su.whs.call.views.RoundedImageView;
 
 public class UsersAdapter extends BaseAdapter {
 
@@ -45,7 +46,7 @@ public class UsersAdapter extends BaseAdapter {
     private List<UserInfo> mUsers = new ArrayList<UserInfo>();
     private LayoutInflater mInflater;
     private ConnectionHandler mConn;
-    private Location mLastLocation;
+    //private Location mLastLocation;
     private Context mContext;
     private int mSortType = SORT_BY_DISTANCE;
 
@@ -60,10 +61,10 @@ public class UsersAdapter extends BaseAdapter {
                     return isBusy.compareTo(isBusy2);
                 } else {
                     if (mSortType == SORT_BY_DISTANCE) {
-                        if (mLastLocation == null) {
+                        /*if (mLastLocation == null) {
 
                             return 0;
-                        } else if (userInfo.getLocation() == null && userInfo2.getLocation() == null) {
+                        } else*/ if (userInfo.getLocation() == null && userInfo2.getLocation() == null) {
 
                             return 0;
                         } else if (userInfo.getLocation() == null) {
@@ -73,8 +74,8 @@ public class UsersAdapter extends BaseAdapter {
 
                             return -1;
                         } else {
-                            float location = userInfo.getLocation().distanceTo(mLastLocation);
-                            float location2 = userInfo2.getLocation().distanceTo(mLastLocation);
+                            float location =  userInfo.getLocation().distanceTo(CallApp.getFindLocation());
+                            float location2 = userInfo2.getLocation().distanceTo(CallApp.getFindLocation());
                             return Float.compare(location, location2);
                         }
                     }
@@ -105,7 +106,7 @@ public class UsersAdapter extends BaseAdapter {
     }
 
     public void setLastLocation(Location lastLocation) {
-        mLastLocation = lastLocation;
+        /*mLastLocation = lastLocation;*/
     }
 
     @Override
@@ -124,7 +125,8 @@ public class UsersAdapter extends BaseAdapter {
     }
 
     public class Holder {
-        RoundedImageView mAvatar;
+        //RoundedImageView mAvatar;
+        SelectableRoundedImageView mAvatar;
         ImageView mBusyMark;
         TextView mCategory;
         TextView mUserName;
@@ -152,7 +154,7 @@ public class UsersAdapter extends BaseAdapter {
 
     private Holder createHolder(View row) {
         Holder h = new Holder();
-        h.mAvatar = (RoundedImageView) row.findViewById(R.id.avatarView);
+        h.mAvatar = (SelectableRoundedImageView) row.findViewById(R.id.avatarView);
         h.mBusyMark = (ImageView) row.findViewById(R.id.busyMark);
         h.mCategory = (TextView) row.findViewById(R.id.textCategory);
         h.mUserName = (TextView) row.findViewById(R.id.textUserName);
@@ -172,10 +174,13 @@ public class UsersAdapter extends BaseAdapter {
             holder = (Holder) convertView.getTag();
         }
 
+        final String TAG = "USER_ADAPTER";
         UserInfo ui = mUsers.get(position);
+        String urlAvatar = Constants.API + ui.getAvatarURL();
+        Log.d(TAG, "Url avatar = "+urlAvatar);
         if (ui.getAvatarURL() != null) {
             holder.mAvatar.setImageResource(R.drawable.avatar_icon);
-            imageLoader.displayImage(Constants.API + ui.getAvatarURL(), holder.mAvatar, options, animateFirstListener);
+            imageLoader.displayImage(urlAvatar, holder.mAvatar, options, animateFirstListener);
         } else {
             holder.mAvatar.setImageResource(R.drawable.avatar_icon);
         }
@@ -189,8 +194,10 @@ public class UsersAdapter extends BaseAdapter {
         //else
             //holder.mAvatar.setEnabled(false);
 
-        if (mLastLocation != null && ui.getLocation() != null) {
-            int distance = (int) mLastLocation.distanceTo(ui.getLocation());
+        // if (mLastLocation != null && ui.getLocation() != null) {
+        if (CallApp.getFindLocation() != null && ui.getLocation() != null) {
+            //int distance = (int) mLastLocation.distanceTo(ui.getLocation());
+            int distance = (int) CallApp.getFindLocation().distanceTo(ui.getLocation());
             if (distance < 1000) {
                 holder.mDistance.setText(String.format(mContext.getString(R.string.distance_m), distance));
             } else {
