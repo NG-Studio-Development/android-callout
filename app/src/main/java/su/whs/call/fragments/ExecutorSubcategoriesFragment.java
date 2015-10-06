@@ -117,9 +117,7 @@ public class ExecutorSubcategoriesFragment extends BaseSearchTabFragment {
     public boolean onHomeIconClick() {
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
-        //sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Фото");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Приложение Вызывай в твоём мобильном!\n\n\n" + Constants.URL_GOOGLE_PLAY);
-        //sharingIntent.putExtra(Intent.EXTRA_STREAM, Util.getShareImagePath());
         startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.app_name)));
 
         return true;

@@ -127,6 +127,7 @@ public class CallsFragment extends BaseSearchTabFragment implements View.OnClick
         //MainActivity.mTabHost.setCurrentTab(2);
         //MainActivity.mTabHost.setCurrentTab(1);
         openFragment(CabinetFragment.newInstance());
+        getFragmentManager().popBackStack();
         return true;
     }
 

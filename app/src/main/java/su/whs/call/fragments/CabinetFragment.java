@@ -153,6 +153,7 @@ public class CabinetFragment extends BaseFragment {
     }
 
 
+
     public void loadUserInformation() {
         ConnectionHandler connection = ConnectionHandler.getInstance(getActivity());
         connection.queryUser(User.create(getActivity()).getToken(), new ConnectionHandler.OnUserInfoListener() {
@@ -175,6 +176,8 @@ public class CabinetFragment extends BaseFragment {
         });
     }
 
+
+    //private staArrayList<ExecutorSubcategory> subcategories
     private void initExecutor(UserInfo ui) {
         executorArea.setVisibility(View.VISIBLE);
         clientArea.setVisibility(View.GONE);

@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
@@ -55,6 +56,9 @@ public class CabinetActivity extends FragmentActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_registration);
+
+        Toast.makeText(this, "CabinetActivity()", Toast.LENGTH_LONG).show();
+
         mSplash = findViewById(R.id.splash);
 
         mTabHost = (FragmentTabHost) findViewById(R.id.tabhost);
@@ -64,7 +68,8 @@ public class CabinetActivity extends FragmentActivity implements
         mTitleBar = (TitleBar) findViewById(R.id.titleBar);
         assert (mTitleBar != null);
 
-        setupTab(TAG_LOGIN, R.drawable.ic_tab_ic_tab_user, R.string.cabinet, CabinetFragment.class);
+        // ExecutorSubcategoriesFragment.class
+        setupTab(TAG_LOGIN, R.drawable.ic_tab_ic_tab_user, R.string.cabinet,  CabinetFragment.class );
 
         servicesConnected();
         mTabHost.setOnTabChangedListener(this);
@@ -164,7 +169,7 @@ public class CabinetActivity extends FragmentActivity implements
 
     @Override
     public void onBackPressed() {
-        if (!mTitleBar.navigateBack())
+        // if (!mTitleBar.navigateBack())
             super.onBackPressed();
     }
 

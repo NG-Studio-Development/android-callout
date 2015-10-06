@@ -424,7 +424,8 @@ public class ConnectionHandler {
     }
 
     public void postCall(String token, int userId, int subCategoryId) {
-        String url = String.format("%s/api/calls/inc/%s/%d/%d/?date=%s",
+        //String url = String.format("%s/api/calls/inc/%s/%d/%d/?date=%s",
+        String url = String.format("%s/api/calls/inc/%s/%d/%d/%s",
                 Constants.API,
                 token,
                 userId, subCategoryId,

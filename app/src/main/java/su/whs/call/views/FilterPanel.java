@@ -1,22 +1,17 @@
 package su.whs.call.views;
 
-import su.whs.call.R;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.view.View.OnTouchListener;
 
-import java.util.logging.Filter;
+import su.whs.call.R;
 
-public class FilterPanel extends LinearLayout implements OnClickListener, OnTouchListener {
+public class FilterPanel extends LinearLayout implements View.OnClickListener, View.OnTouchListener {
     private Button mLeftButton = null;
     private Button mRightButton = null;
     private FilterListener mFilterListener;

@@ -120,7 +120,7 @@ public class FavoritesFragment extends BaseFavoritesTabFragment implements OnIte
                         //Log.d("2222222222222", "" + mAdapter.getCount());
 
                         mListView.setAdapter(adapter);
-                        ajustListViewTopMargin();
+                        //ajustListViewTopMargin();
                         setContentShown(true);
                     }
 
@@ -149,7 +149,7 @@ public class FavoritesFragment extends BaseFavoritesTabFragment implements OnIte
         setFavorites();
         setContentShown(mAdapter != null);
         mFilterPanel.setFilterListener(filterListener);
-        ajustListViewTopMargin();
+        //ajustListViewTopMargin();
         super.onResume();
     }
 
@@ -201,7 +201,7 @@ public class FavoritesFragment extends BaseFavoritesTabFragment implements OnIte
 
                         //mAdapter = new RecentUsersAdapter(getActivity(), rc);
                         mListView.setAdapter(adapter);
-                        ajustListViewTopMargin();
+                        //ajustListViewTopMargin();
                         setContentShown(true);
                     }
 
@@ -241,7 +241,7 @@ public class FavoritesFragment extends BaseFavoritesTabFragment implements OnIte
     @Override
     public void onCreateView() {
         super.onCreateView();
-        ajustListViewTopMargin();
+        //ajustListViewTopMargin();
     }
 
     @Override
@@ -273,11 +273,15 @@ public class FavoritesFragment extends BaseFavoritesTabFragment implements OnIte
     private void ajustListViewTopMargin() {
         if (mListView == null)
             return;
+
         LayoutParams lp = (LayoutParams) mListView.getLayoutParams();
         // lp.topMargin = getTitleBar().getBarHeight();
         try {
-            lp.setMargins(0, getTitleBar().getBarHeight(), 0, 0);
+            int marginTop = getTitleBar().getBarHeight() + (int) getResources().getDimension(R.dimen.filterPanelHeight);
+            lp.setMargins(0, marginTop, 0, 0);
             mListView.setLayoutParams(lp);
+            //mListView.setLayoutParams(lp);
+            //mListView.setLayoutParams(lp);
 
         } catch (NullPointerException e) {
 
@@ -336,7 +340,7 @@ public class FavoritesFragment extends BaseFavoritesTabFragment implements OnIte
 
     @Override
     public View getCustomView() {
-        ajustListViewTopMargin();
+        //ajustListViewTopMargin();
         if (mSubCat != null)
             return mFilterPanel;
         else

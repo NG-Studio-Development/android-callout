@@ -16,6 +16,7 @@
     <dimen name="titleBarHeight">60dp</dimen>
 
     <dimen name="filterPanelButtonHeight">40dp</dimen>
+    <dimen name="filterPanelHeight">40dp</dimen>
     <dimen name="usersListDividerPaddingLeft">48dp</dimen>
     <dimen name="usersListDividerPaddingRight">16dp</dimen>
     <dimen name="usersListItemHeight">54dp</dimen>

@@ -46,7 +46,7 @@
     <string name="recent_calls">История вызовов</string>
     <string name="favorites_only_for_registered">Список избранного доступен только для зарегистрированных пользователей</string>
     <string name="review_posting_error">Ошибка при публикации отзыва. Пожалуйстуа, проверьте ваше Интернет соединение</string>
-    <string name="review_will_be_published">Ваш отзыв успешно добавлен</string>
+    <string name="review_will_be_published">Ваш отзыв будет опубликован после модерации</string>
     <string name="cant_send_empty_review">Отзыв не может быть пустым</string>
     <string name="review_need_login">Для отправки отзыва нужно авторизоваться</string>
     <string name="stars_for_rating">Звёзды для рейтинга</string>
