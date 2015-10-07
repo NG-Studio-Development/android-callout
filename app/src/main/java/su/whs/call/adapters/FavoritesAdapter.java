@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
@@ -23,7 +24,6 @@ import su.whs.call.Constants;
 import su.whs.call.R;
 import su.whs.call.models.RecentCall;
 import su.whs.call.views.RateStarsView;
-import su.whs.call.views.RoundedImageView;
 
 /**
  * Created by ProgLife-1 on 01.04.2015.
@@ -53,10 +53,10 @@ public class FavoritesAdapter extends ArrayAdapter<RecentCall> {
 
 
     public class Holder {
-        RoundedImageView mAvatar;
+        SelectableRoundedImageView mAvatar;
         ImageView mBusyMark;
         TextView mCategory;
-        TextView mUserName;
+        // TextView mUserName;
         RateStarsView mRate;
         TextView mDistance;
 
@@ -71,8 +71,8 @@ public class FavoritesAdapter extends ArrayAdapter<RecentCall> {
             if ( mCategory != null )
                 mCategory.setAlpha(alpha);
 
-            if ( mUserName != null )
-                mUserName.setAlpha(alpha);
+            // if ( mUserName != null )
+                // mUserName.setAlpha(alpha);
 
             if ( mRate != null )
                 mRate.setAlpha(alpha);
@@ -93,10 +93,10 @@ public class FavoritesAdapter extends ArrayAdapter<RecentCall> {
             row = inflater.inflate(R.layout.users_recent_list_item_simple, null, true);
             h = new Holder();
 
-            h.mAvatar = (RoundedImageView) row.findViewById(R.id.avatarView);
+            h.mAvatar = (SelectableRoundedImageView) row.findViewById(R.id.avatarView);
             h.mBusyMark = (ImageView) row.findViewById(R.id.busyMark);
             h.mCategory = (TextView) row.findViewById(R.id.textCategory);
-            h.mUserName = (TextView) row.findViewById(R.id.textUserName);
+            // h.mUserName = (TextView) row.findViewById(R.id.textUserName);
             h.mDate = (TextView) row.findViewById(R.id.textDate);
             h.mTime = (TextView) row.findViewById(R.id.textTime);
             h.mRate = (RateStarsView) row.findViewById(R.id.rate);
@@ -111,14 +111,14 @@ public class FavoritesAdapter extends ArrayAdapter<RecentCall> {
         if (item.getAvatar() != null) {
             imageLoader.displayImage(Constants.API + item.getAvatar(), h.mAvatar, options, animateFirstListener);
         }
-        h.mUserName.setText(item.getUserName());
+        //h.mUserName.setText(item.getUserName());
+        //h.mUserName.setText("HARD_NAME");
         h.mRate.setStars(item.getRate());
 
 
 
         h.mBusyMark.setImageResource(item.isBusy() ? R.drawable.ic_circle_red_small : R.drawable.ic_circle_green_small);
         h.setAlphaForAllView(item.isBusy() ? Constants.ALPHA_VIEW_FOR_BUSY : 1f );
-
 
             h.mCategory.setText(item.getSubCategoryTitle());
             h.mDate.setText(item.getDate());

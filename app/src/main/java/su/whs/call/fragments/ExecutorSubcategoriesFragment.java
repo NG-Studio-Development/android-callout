@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,18 +23,22 @@ import su.whs.call.dialog.InfoDialog;
 import su.whs.call.form.CabinetActivity;
 import su.whs.call.models.ExecutorSubcategory;
 import su.whs.call.models.RegisteredYear;
+import su.whs.call.models.UserExtra;
 import su.whs.call.models.UserInfo;
 import su.whs.call.net.ConnectionHandler;
 import su.whs.call.register.User;
 
-public class ExecutorSubcategoriesFragment extends BaseSearchTabFragment {
+public class ExecutorSubcategoriesFragment extends BaseFragment/*BaseSearchTabFragment*/ {
 
     private static final String SUBCATEGORIES_ARGS = "subcats";
     private static final String USERINFO_ARGS = "userinfo";
 
     private ListView mList;
-    private UserInfo mUserInfo;
-    private List<ExecutorSubcategory> mSubcategories;
+
+    private static UserInfo mUserInfo;
+    private static List<ExecutorSubcategory> mSubcategories;
+    private static ExecutorSubcategoriesAdapter adapter;
+
     private static ExecutorSubcategoriesFragment mInstance = null;
     private RegisteredYear mYear;
 
@@ -50,51 +55,127 @@ public class ExecutorSubcategoriesFragment extends BaseSearchTabFragment {
         return f;
     }
 
+
+    public static ExecutorSubcategoriesFragment getInstanceFromPool() {
+
+        //ExecutorSubcategoriesFragment f = new ExecutorSubcategoriesFragment();
+        if (mInstance == null)
+            mInstance = new ExecutorSubcategoriesFragment();
+
+        return mInstance;
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.subcategories_fragment, container, false);
 
+        Toast.makeText(getActivity(), "onCreateView() Executor", Toast.LENGTH_LONG).show();
+
         mList = (ListView) v.findViewById(R.id.listView);
 
-        Bundle args = getArguments();
-        if (args.containsKey(SUBCATEGORIES_ARGS)) {
-            mSubcategories = (List<ExecutorSubcategory>) args.getSerializable(SUBCATEGORIES_ARGS);
-            mUserInfo = (UserInfo) args.getSerializable(USERINFO_ARGS);
+        //Bundle args = getArguments();
+        // if (args.containsKey(SUBCATEGORIES_ARGS)) {
+            //mSubcategories = (List<ExecutorSubcategory>) args.getSerializable(SUBCATEGORIES_ARGS);
 
-            final ExecutorSubcategoriesAdapter adapter = new ExecutorSubcategoriesAdapter(getActivity(), mUserInfo, mSubcategories/*, "4"*/);
+            //mUserInfo = (UserInfo) args.getSerializable(USERINFO_ARGS);
 
-            mList.setAdapter(adapter);
+            //final ExecutorSubcategoriesAdapter adapter = new ExecutorSubcategoriesAdapter(getActivity(), mUserInfo, mSubcategories/*, "4"*/);
 
-            adapter.setBtnClickListener(new ExecutorSubcategoriesAdapter.BtnClickListener() {
+            //mList.setAdapter(adapter);
+
+            //adapter.setBtnClickListener();
+        // }
+
+        final ExecutorSubcategoriesAdapter.BtnClickListener executorAdapterListener = new ExecutorSubcategoriesAdapter.BtnClickListener() {
+            @Override
+            public void onReviewsClick(ExecutorSubcategory subcategory) {
+                openFragment(SubcategoryReviewsFragment.newInstance(subcategory.getReviews()));
+            }
+
+            public void onDescriptionClick(ExecutorSubcategory subcategory) {
+                //openFragment(SubcategoryReviewsFragment.newInstance(subcategory.getReviews()));
+                openFragment(ExecutorEditDescriptionFragment.newInstance(subcategory));
+            }
+
+            public void onCountCallClick(ExecutorSubcategory subcategory) {
+                openFragment(CallsFragment.newInstance(subcategory.getCallsList()));
+            }
+
+            public void onChangeState(ExecutorSubcategory subcategory) {
+                ConnectionHandler handler = ConnectionHandler.getInstance(getActivity());
+                handler.postStatus(User.create(getActivity()).getToken(), subcategory/*subcategory.getId(), !subcategory.getStatus()*/);
+
+            }
+
+        };
+
+
+        final ConnectionHandler.OnExecutorCategoriesListener execotorCategoryListener =
+                new ConnectionHandler.OnExecutorCategoriesListener() {
+            @Override
+            public void onCategoriesResponse(ArrayList<ExecutorSubcategory> subcategories) {
+                mSubcategories = subcategories;
+
+                adapter = new ExecutorSubcategoriesAdapter(getActivity(), mUserInfo, mSubcategories/*, "4"*/);
+                mList.setAdapter(adapter);
+                adapter.setBtnClickListener(executorAdapterListener);
+                setContentShown(true);
+
+                //if (subcategories != null && subcategories.size() != 0)
+                //openFragment(ExecutorSubcategoriesFragment.newInstance(subcategories, mUserInfo));
+                //else
+                //throw new Error("Executor not have categories");
+
+                //executorCategoriesBtn.setText(String.format("%S (%d)",
+                //getString(R.string.my_categories),
+                //subcategories.size()));
+            }
+        };
+
+
+        if ( mUserInfo == null || mSubcategories==null ) {
+            ( (CabinetActivity) getActivity() ).loadUserInformation(new ConnectionHandler.OnUserInfoListener() {
                 @Override
-                public void onReviewsClick(ExecutorSubcategory subcategory) {
-                    openFragment(SubcategoryReviewsFragment.newInstance(subcategory.getReviews()));
-                }
+                public void onUserInfoReady(List<UserExtra> allUsers, UserExtra ui) {
+                    mUserInfo = ui.getUserInfo();
 
-                public void onDescriptionClick(ExecutorSubcategory subcategory) {
-                    //openFragment(SubcategoryReviewsFragment.newInstance(subcategory.getReviews()));
-                    openFragment(ExecutorEditDescriptionFragment.newInstance(subcategory));
-                }
-
-                public void onCountCallClick(ExecutorSubcategory subcategory) {
-                    openFragment(CallsFragment.newInstance(subcategory.getCallsList()));
-                }
-
-                public void onChangeState(ExecutorSubcategory subcategory) {
                     ConnectionHandler handler = ConnectionHandler.getInstance(getActivity());
-                    handler.postStatus(User.create(getActivity()).getToken(), subcategory/*subcategory.getId(), !subcategory.getStatus()*/);
+                    handler.queryExecutorCategories( User.create(getActivity()).getToken(), execotorCategoryListener );
+
 
                 }
 
-            });
+                @Override
+                public void onFail() {
+                    Toast.makeText(getActivity(), "Fail in loadUserInformation()", Toast.LENGTH_LONG).show();
+                }
+            } );
+        } else {
+            //adapter = new ExecutorSubcategoriesAdapter(getActivity(), mUserInfo, mSubcategories/*, "4"*/);
+            //mList.setAdapter(adapter);
+            adapter.setBtnClickListener(executorAdapterListener);
+
         }
+
+
+
+
+        //ConnectionHandler handler = ConnectionHandler.getInstance(getActivity());
+        //handler.queryExecutorCategories(User.create(getActivity()).getToken(), execotorCategoryListener);
+
 
         if (mUserInfo != null)
             setProfileUsername(mUserInfo.getUserName());
 
         mContentView = v;
         return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Toast.makeText(getActivity(), "onStart() Executor", Toast.LENGTH_LONG).show();
     }
 
     private void setProfileUsername(String username) {
@@ -124,6 +205,9 @@ public class ExecutorSubcategoriesFragment extends BaseSearchTabFragment {
     }
 
 
+
+
+
     public int getTotalCalls() {
         int total = 0;
 
@@ -146,10 +230,27 @@ public class ExecutorSubcategoriesFragment extends BaseSearchTabFragment {
         return total;
     }
 
+
+
     @Override
     public void onResume() {
-        setContentShown(true);
         super.onResume();
+
+
+
+        if (mUserInfo != null && mSubcategories != null) {
+
+            if (mList.getAdapter() == null) {
+                mList.setAdapter(adapter);
+
+                setContentShown(true);
+            }
+
+        }
+
+
+
+
     }
 
     @Override

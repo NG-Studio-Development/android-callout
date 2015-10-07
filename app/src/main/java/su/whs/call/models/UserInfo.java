@@ -140,7 +140,11 @@ public class UserInfo implements Serializable {
     }
 
     public boolean isBusy() {
-        return !mStatus;
+        return mStatus;
+    }
+
+    public int getStatus() {
+        return mStatus ? 0 : 1;
     }
 
     public String getDescription() {

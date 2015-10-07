@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
@@ -23,7 +24,7 @@ import su.whs.call.R;
 import su.whs.call.models.ExecutorSubcategory;
 import su.whs.call.models.UserInfo;
 import su.whs.call.views.RateStarsView;
-import su.whs.call.views.RoundedImageView;
+
 
 public class ExecutorSubcategoriesAdapter extends BaseAdapter {
 
@@ -64,7 +65,7 @@ public class ExecutorSubcategoriesAdapter extends BaseAdapter {
 		Button numberOfCallsBtn;
 		Button buttonStateSwitcher;
 		Button descriptionBtn;
-		RoundedImageView executorAvatar;
+		SelectableRoundedImageView executorAvatar;
 
 
 		private void setUserAvatar(ExecutorSubcategory subcategory) {
@@ -121,7 +122,7 @@ public class ExecutorSubcategoriesAdapter extends BaseAdapter {
 			holder.numberOfCallsBtn = (Button) convertView.findViewById(R.id.numberOfCallsBtn);
 			holder.buttonStateSwitcher = (Button) convertView.findViewById(R.id.currentStateSwitcher);
 			holder.descriptionBtn = (Button) convertView.findViewById(R.id.descriptionBtn);
-			holder.executorAvatar = (RoundedImageView) convertView.findViewById(R.id.executorAvatar);
+			holder.executorAvatar = (SelectableRoundedImageView) convertView.findViewById(R.id.executorAvatar);
 			convertView.setTag(holder);
 		} else {
 			holder = (Holder)convertView.getTag();
@@ -153,7 +154,6 @@ public class ExecutorSubcategoriesAdapter extends BaseAdapter {
 					btnClickListener.onChangeState(subcategory);
 					//notify();
 				}
-
 			}
 		});
 

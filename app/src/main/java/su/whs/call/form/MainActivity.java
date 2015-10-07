@@ -146,7 +146,7 @@ public class MainActivity extends TabActivity implements View.OnClickListener, G
         User user = User.create(main);
         if(!user.isLoggedIn()) {
 
-            if (TAG_FAVORITES.equals(tag)   || TAG_EXIT.equals(tag) ) {
+            if (TAG_FAVORITES.equals(tag) || TAG_EXIT.equals(tag) ) {
                 tabview.setBackgroundResource(R.drawable.tab_indicator_disabled);
                 tabview.setEnabled(false);
             }
@@ -238,6 +238,7 @@ public class MainActivity extends TabActivity implements View.OnClickListener, G
                     User user = User.create(main);
                     if (user.isLoggedIn()) {
                         user.logout();
+                        //user.isExecutor();
                     }
                     setCurrentTabByTag("search");
                     updateTabs();

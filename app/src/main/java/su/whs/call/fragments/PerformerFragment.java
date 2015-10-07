@@ -15,6 +15,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -35,7 +36,7 @@ import su.whs.call.models.UserInfo;
 import su.whs.call.net.ConnectionHandler;
 import su.whs.call.register.User;
 import su.whs.call.views.RateStarsView;
-import su.whs.call.views.RoundedImageView;
+
 
 public class PerformerFragment extends BaseFragment {
 
@@ -47,7 +48,7 @@ public class PerformerFragment extends BaseFragment {
     private static final String SUBCATEGORY_TITLE_ARG = "subCategoryTitle";
 
     private ImageView mCallButton;
-    private RoundedImageView mAvatarView;
+    private SelectableRoundedImageView mAvatarView;
     private ImageView mBusyMark;
     private TextView mNameView;
     private Button mReviewsBtn;
@@ -82,7 +83,7 @@ public class PerformerFragment extends BaseFragment {
 
 
         mCallButton = (ImageView) rootView.findViewById(R.id.callButton);
-        mAvatarView = (RoundedImageView) rootView.findViewById(R.id.avatarView);
+        mAvatarView = (SelectableRoundedImageView) rootView.findViewById(R.id.avatarView);
         mBusyMark = (ImageView) rootView.findViewById(R.id.busyMark);
         mNameView = (TextView) rootView.findViewById(R.id.nameText);
         mRateView = (RateStarsView) rootView.findViewById(R.id.rateView);
@@ -364,7 +365,7 @@ public class PerformerFragment extends BaseFragment {
 
 
                             MainActivity.mDB.setFavorites(user.getToken(), mUserInfo.getAvatar(), mUserInfo.getUserName(),
-                                    0, (float) mUserInfo.getRate(), mUserInfo.getDescription(), mUserInfo.getTelephoneNumber(),
+                                    mUserInfo.getStatus(), (float) mUserInfo.getRate(), mUserInfo.getDescription(), mUserInfo.getTelephoneNumber(),
                                     mSubCategoryTitle, mSubCategoryId, sdfTime.format(t), sdfDate.format(date), mUserInfo.getUserId());
 
                             mFavoritesSwitcher.setSelected(true);
@@ -400,7 +401,7 @@ public class PerformerFragment extends BaseFragment {
 
 
                             MainActivity.mDB.setFavorites(user.getToken(), mUserInfo1.getAvatarURL(), mUserInfo1.getUserName(),
-                                    0, (float) mUserInfo1.getRate(), mUserInfo1.getDescription(), mUserInfo1.getTelephone(),
+                                    mUserInfo1.getStatus(), (float) mUserInfo1.getRate(), mUserInfo1.getDescription(), mUserInfo1.getTelephone(),
                                     mSubCategoryTitle, mSubCategoryId, sdfTime.format(t), sdfDate.format(date), mUserInfo1.getId());
 
                             mFavoritesSwitcher.setSelected(true);

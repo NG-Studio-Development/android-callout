@@ -109,7 +109,11 @@ public class RecentCall implements Serializable {
     }
 
     public boolean isBusy() {
-        return status == 1;
+        return status == 0;
+    }
+
+    public int getStatus() {
+        return status;
     }
 
     public int getSubCategoryId() {

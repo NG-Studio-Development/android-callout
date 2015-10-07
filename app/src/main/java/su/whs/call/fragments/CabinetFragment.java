@@ -95,6 +95,8 @@ public class CabinetFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.cabinet_fragment, container, false);
 
+        Toast.makeText(getActivity(), "onCreateView() cabinet", Toast.LENGTH_LONG).show();
+
         //imgLoader = new ImageLoader(getActivity());
 
         User user = User.create(getActivity());
@@ -130,6 +132,7 @@ public class CabinetFragment extends BaseFragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+
     @Override
     public int getCustomHomeIconId() {
         return android.R.drawable.ic_menu_share;
@@ -147,14 +150,28 @@ public class CabinetFragment extends BaseFragment {
     }
 
     @Override
-    public void onResume() {
-        loadUserInformation();
-        super.onResume();
+    public void onStart() {
+        super.onStart();
+
+        Toast.makeText(getActivity(), "onStart() Cabinet", Toast.LENGTH_LONG).show();
+
+        ((CabinetActivity) getActivity()).loadUserInformation(new ConnectionHandler.OnUserInfoListener() {
+            @Override
+            public void onUserInfoReady(List<UserExtra> allUsers, UserExtra ui) {
+                mUserInfo = ui.getUserInfo();
+
+                initClient(allUsers, ui.getUserInfo());
+
+            }
+
+            @Override
+            public void onFail() {
+                //Toast.makeText(getActivity(), "Fail in loadUserInformation()", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
-
-
-    public void loadUserInformation() {
+    /* public void loadUserInformation() {
         ConnectionHandler connection = ConnectionHandler.getInstance(getActivity());
         connection.queryUser(User.create(getActivity()).getToken(), new ConnectionHandler.OnUserInfoListener() {
             @Override
@@ -174,7 +191,7 @@ public class CabinetFragment extends BaseFragment {
                 Toast.makeText(getActivity(), "Fail in loadUserInformation()", Toast.LENGTH_LONG).show();
             }
         });
-    }
+    } */
 
 
     //private staArrayList<ExecutorSubcategory> subcategories
@@ -187,7 +204,7 @@ public class CabinetFragment extends BaseFragment {
         setProfileUsername(ui.getUserName());
         executorRateView.setStars(ui.getAverageRate());
 
-        ConnectionHandler handler = ConnectionHandler.getInstance(getActivity());
+        /* ConnectionHandler handler = ConnectionHandler.getInstance(getActivity());
 
         handler.queryExecutorCategories(User.create(getActivity()).getToken(), new ConnectionHandler.OnExecutorCategoriesListener() {
             @Override
@@ -203,7 +220,7 @@ public class CabinetFragment extends BaseFragment {
                         //getString(R.string.my_categories),
                         //subcategories.size()));
             }
-        });
+        }); */
     }
 
     private View.OnClickListener callListener = new View.OnClickListener() {
@@ -224,6 +241,7 @@ public class CabinetFragment extends BaseFragment {
             }
         }
     };
+
 
     private void initClient(final List<UserExtra> allUsers, UserInfo ui) {
         executorArea.setVisibility(View.GONE);
@@ -253,6 +271,8 @@ public class CabinetFragment extends BaseFragment {
                 });
             }
         });
+
+        setContentShown(true);
     }
 
     private void setProfileDescription(String description) {
@@ -411,13 +431,16 @@ public class CabinetFragment extends BaseFragment {
     };
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
             Bitmap photo = (Bitmap) data.getExtras().get("data");
             applyAvatar(photo);
             postAvatarToServer(photo);
             if (auth_dialog != null) auth_dialog.dismiss();
         }
+
         if (requestCode == GALLERY_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+
             Uri selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
             Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
@@ -429,7 +452,9 @@ public class CabinetFragment extends BaseFragment {
             applyAvatar(photo);
             postAvatarToServer(photo);
             if (auth_dialog != null) auth_dialog.dismiss();
+
         }
+
     }
 
     final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();

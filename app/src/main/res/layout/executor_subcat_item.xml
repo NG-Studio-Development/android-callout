@@ -14,12 +14,32 @@
         android:layout_alignLeft="@+id/linearLayout2"
         android:layout_alignStart="@+id/linearLayout2">
 
-        <su.whs.call.views.RoundedImageView
+        <!-- <su.whs.call.views.RoundedImageView
             android:id="@+id/executorAvatar"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/avatar_icon" />
+            android:src="@drawable/avatar_icon" /> -->
+
+        <com.joooonho.SelectableRoundedImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/executorAvatar"
+
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/fragmentsTopMartin"
+            android:src="@drawable/avatar_icon"
+
+            android:scaleType="centerCrop"
+            app:sriv_left_top_corner_radius="16dip"
+            app:sriv_right_top_corner_radius="0dip"
+            app:sriv_left_bottom_corner_radius="48dip"
+            app:sriv_right_bottom_corner_radius="16dip"
+            app:sriv_border_width="2dip"
+            app:sriv_border_color="@color/orange"
+            app:sriv_oval="true" />
+
     </RelativeLayout>
 
     <LinearLayout

@@ -74,7 +74,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_toLeftOf="@+id/textDate"
             android:layout_alignLeft="@+id/rate"
-            android:layout_alignStart="@+id/rate" /> -->
+            android:layout_alignStart="@+id/rate" />  -->
 
         <TextView
             android:id="@+id/textTime"

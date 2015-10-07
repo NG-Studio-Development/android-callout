@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CallsExpert implements Serializable {
+public class CallsExpert implements Serializable, Comparable {
 
     int count;
     int month;
@@ -19,7 +19,7 @@ public class CallsExpert implements Serializable {
         year = json.optInt("year", 0);
     }
 
-    CallsExpert(int count, int month, int year) {
+    public CallsExpert(int count, int month, int year) {
         this.count = count;
         this.month = month;
         this.year = year;
@@ -70,5 +70,12 @@ public class CallsExpert implements Serializable {
         }
 
         return list;
+    }
+
+
+    @Override
+    public int compareTo(Object another) {
+        CallsExpert callsExpert = (CallsExpert)another;
+        return callsExpert.month - month;
     }
 }

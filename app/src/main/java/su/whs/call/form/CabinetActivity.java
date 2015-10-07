@@ -26,7 +26,11 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import su.whs.call.R;
 import su.whs.call.fragments.BaseFragment;
 import su.whs.call.fragments.CabinetFragment;
+import su.whs.call.fragments.ExecutorSubcategoriesFragment;
 import su.whs.call.fragments.LoginFragment;
+import su.whs.call.models.UserExtra;
+import su.whs.call.net.ConnectionHandler;
+import su.whs.call.register.User;
 import su.whs.call.views.TitleBar;
 
 /**
@@ -46,11 +50,12 @@ public class CabinetActivity extends FragmentActivity implements
     private TitleBar mTitleBar;
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private String mLastTab = "search";
+    private UserExtra mUi;
 
     private static final String TAG_LOGIN = "login";
 
 
-    public static  Class<? extends BaseFragment> fragment = CabinetFragment.class;
+    public static Class<? extends BaseFragment> fragment = CabinetFragment.class;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,12 +73,26 @@ public class CabinetActivity extends FragmentActivity implements
         mTitleBar = (TitleBar) findViewById(R.id.titleBar);
         assert (mTitleBar != null);
 
-        // ExecutorSubcategoriesFragment.class
-        setupTab(TAG_LOGIN, R.drawable.ic_tab_ic_tab_user, R.string.cabinet,  CabinetFragment.class );
+
+        User user = User.create(this);
+        Class<? extends BaseFragment> fragment = user.isExecutor() ? ExecutorSubcategoriesFragment.class : CabinetFragment.class;
+
+        setupTab(TAG_LOGIN, R.drawable.ic_tab_ic_tab_user, R.string.cabinet, fragment);
 
         servicesConnected();
         mTabHost.setOnTabChangedListener(this);
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Toast.makeText(this, "Cabinet onStart()", Toast.LENGTH_LONG).show();
+    }
+
+    public void loadUserInformation(ConnectionHandler.OnUserInfoListener listener) {
+        ConnectionHandler connection = ConnectionHandler.getInstance(this);
+        connection.queryUser(User.create(this).getToken(), listener);
     }
 
     public void setupTab(String tag, int drawable, int string, Class<? extends BaseFragment> fragment) {
@@ -281,6 +300,14 @@ public class CabinetActivity extends FragmentActivity implements
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        // super.onSaveInstanceState(outState);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        Toast.makeText(this, "CabinetAct onRestInstStat", Toast.LENGTH_LONG).show();
+
     }
 }

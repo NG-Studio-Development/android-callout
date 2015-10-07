@@ -293,11 +293,11 @@ public class ChooseLocationFragment extends BaseSearchTabFragment implements Sea
                     try {
                         JSONObject jsonResult = new JSONObject(result);
                         Log.d( "SELECT_PLACE", "Has city: " + jsonResult.getJSONObject("address").has("city") );
-                        if (jsonResult.getJSONObject("address").has("city"))
-                            mCity = jsonResult.getJSONObject("address").optString("city");
-                        else
+                        //if (jsonResult.getJSONObject("address").has("city"))
+                            //mCity = jsonResult.getJSONObject("address").optString("city");
+                        //else
                             mCity = jsonResult.getJSONObject("address").optString("state");
-
+                        Log.d("CITY", "City: "+mCity);
                         SearchLocation.getInstance().choseCity(mCity);
                         //mCity = result.getLocality();
 

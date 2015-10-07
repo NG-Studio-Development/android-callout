@@ -30,12 +30,48 @@ public class CallsFragment extends BaseSearchTabFragment implements View.OnClick
    // private  CallsFragment mInstance = null;
 
 
+    /*public List<Integer> allYears(List<CallsExpert> listCallsExpert) {
+        List<Integer> listYears = new ArrayList<Integer>();
+
+        for (CallsExpert callsExpert : listCallsExpert) {
+            if ( !listYears.contains(callsExpert.getYear()) ) {
+                listYears.add(callsExpert.getYear());
+            }
+
+        }
+
+        return listYears;
+    }
+
+    private void createEmptyMonth(List<CallsExpert> listCallsExpert) {
+        List<Integer> listYears = allYears(listCallsExpert);
+        List<CallsExpert> listEmptyCallsExpert = new ArrayList<CallsExpert>();
+
+        for (int year : listYears) {
+            for (int i=1; i<13; i++) {
+                listEmptyCallsExpert.add(new CallsExpert(0, i, year));
+            }
+        }
+
+        for (CallsExpert callsExpert : listCallsExpert) {
+
+        }
+
+    } */
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
         if (getArguments() != null ) {
             mCallsList = (List<CallsExpert>) getArguments().getSerializable(CALLS_ARG);
+
+            /*for (int i=1; i<13; i++ ) {
+
+                mCallsList.contains()
+            } */
         }
     }
 
@@ -44,7 +80,7 @@ public class CallsFragment extends BaseSearchTabFragment implements View.OnClick
         View rootView = inflater.inflate(R.layout.calls_fragment, container, false);
 
         if (mCallsList == null)
-            throw new Error("mCallsList can not be null");
+            throw new Error("mCallsList can not be null !!!");
 
         currentYear = (TextView) rootView.findViewById(R.id.currentYear);
         imgLeft = (ImageView) rootView.findViewById(R.id.imgLeft);
@@ -126,8 +162,8 @@ public class CallsFragment extends BaseSearchTabFragment implements View.OnClick
 
         //MainActivity.mTabHost.setCurrentTab(2);
         //MainActivity.mTabHost.setCurrentTab(1);
-        openFragment(CabinetFragment.newInstance());
-        getFragmentManager().popBackStack();
+        openFragment(ExecutorSubcategoriesFragment.getInstanceFromPool());
+        //getFragmentManager().popBackStack();
         return true;
     }
 

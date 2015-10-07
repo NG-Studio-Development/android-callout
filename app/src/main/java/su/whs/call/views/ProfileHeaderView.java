@@ -1,9 +1,5 @@
 package su.whs.call.views;
 
-import su.whs.call.R;
-import su.whs.call.models.UserInfo;
-import su.whs.call.net.ConnectionHandler;
-import su.whs.call.net.ConnectionHandler.OnImageListener;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
@@ -12,16 +8,23 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.joooonho.SelectableRoundedImageView;
+
+import su.whs.call.R;
+import su.whs.call.models.UserInfo;
+import su.whs.call.net.ConnectionHandler;
+import su.whs.call.net.ConnectionHandler.OnImageListener;
+
 public class ProfileHeaderView extends FrameLayout {
 	private ImageView mBlur;
-	private RoundedImageView mAvatar;
+	private SelectableRoundedImageView mAvatar;
 	private TextView mTitle;
 	
 	public ProfileHeaderView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		LayoutInflater.from(context).inflate(R.layout.profile_header_view, this, true);
 		mBlur = (ImageView)findViewById(R.id.imageBlur);
-		mAvatar = (RoundedImageView)findViewById(R.id.imageAvatar);
+		mAvatar = (SelectableRoundedImageView)findViewById(R.id.imageAvatar);
 		mTitle = (TextView)findViewById(R.id.textTitle);
 	}
 	

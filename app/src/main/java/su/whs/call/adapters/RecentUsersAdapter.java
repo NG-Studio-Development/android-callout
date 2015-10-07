@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.joooonho.SelectableRoundedImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -33,7 +34,7 @@ import su.whs.call.models.UserInfo;
 import su.whs.call.net.ConnectionHandler;
 import su.whs.call.register.User;
 import su.whs.call.views.RateStarsView;
-import su.whs.call.views.RoundedImageView;
+
 
 public class RecentUsersAdapter extends BaseAdapter {
 
@@ -132,7 +133,7 @@ public class RecentUsersAdapter extends BaseAdapter {
 	}
 	
 	public class Holder {
-		RoundedImageView mAvatar;
+		SelectableRoundedImageView mAvatar;
 		ImageView mBusyMark;
 		TextView mCategory;
 		TextView mUserName;
@@ -143,7 +144,7 @@ public class RecentUsersAdapter extends BaseAdapter {
 	
 	private Holder createHolder(View row) {
 		Holder h = new Holder();
-		h.mAvatar = (RoundedImageView) row.findViewById(R.id.avatarView);
+		h.mAvatar = (SelectableRoundedImageView) row.findViewById(R.id.avatarView);
 		h.mBusyMark = (ImageView) row.findViewById(R.id.busyMark);
 		h.mCategory = (TextView) row.findViewById(R.id.textCategory);
 		h.mUserName = (TextView) row.findViewById(R.id.textUserName);

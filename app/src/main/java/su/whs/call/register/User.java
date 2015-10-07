@@ -73,10 +73,15 @@ public class User {
 
 
     public void logout() {
-        setIsLoggedIn(false);
+        /*setIsLoggedIn(false);
         setUserName("");
         setToken("");
-        setExecutor(false);
+        setExecutor(false);*/
+
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.clear();
+        edit.commit();
+
     }
 
     public String getToken() {
