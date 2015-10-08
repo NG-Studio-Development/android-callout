@@ -92,7 +92,6 @@ public class CabinetFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.cabinet_fragment, container, false);
 
-        Toast.makeText(getActivity(), "onCreateView() cabinet", Toast.LENGTH_LONG).show();
 
         //imgLoader = new ImageLoader(getActivity());
 
@@ -148,8 +147,6 @@ public class CabinetFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-
-        Toast.makeText(getActivity(), "onStart() Cabinet", Toast.LENGTH_LONG).show();
 
         ((CabinetActivity) getActivity()).loadUserInformation(new ConnectionHandler.OnUserInfoListener() {
             @Override

@@ -254,8 +254,16 @@ public class MainActivity extends TabActivity implements View.OnClickListener, G
                         user.logout();
                         //user.isExecutor();
                     }
-                    updateTabs();
-                    setCurrentTabByTag("search");
+
+                    //updateTabs();
+                    //setCurrentTabByTag("search");
+
+                    Intent intent = new Intent(main, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    main.startActivity(intent);
+
+                    main.finish();
+
                     break;
 
                 case DialogInterface.BUTTON_NEGATIVE:

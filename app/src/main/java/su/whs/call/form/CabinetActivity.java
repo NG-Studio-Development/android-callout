@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
@@ -63,17 +62,6 @@ public class CabinetActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_registration);
 
-        Toast.makeText(this, "CabinetActivity()", Toast.LENGTH_LONG).show();
-
-
-        /*((Button)findViewById(R.id.btnCabinet)).setSelected(true);
-        ((Button)findViewById(R.id.btnCabinet)).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(CabinetActivity.this, "BTN_CABINET", Toast.LENGTH_LONG).show();
-            }
-        }); */
-
         mSplash = findViewById(R.id.splash);
 
         mTabHost = (FragmentTabHost) findViewById(R.id.tabhost);
@@ -92,12 +80,6 @@ public class CabinetActivity extends FragmentActivity implements
         servicesConnected();
         mTabHost.setOnTabChangedListener(this);
 
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Toast.makeText(this, "Cabinet onStart()", Toast.LENGTH_LONG).show();
     }
 
     public void loadUserInformation(ConnectionHandler.OnUserInfoListener listener) {
@@ -284,6 +266,8 @@ public class CabinetActivity extends FragmentActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+
+
         //updateTabs();
     }
 
@@ -317,11 +301,4 @@ public class CabinetActivity extends FragmentActivity implements
         //super.onSaveInstanceState(outState);
     }
 
-    /*@Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        Toast.makeText(this, "CabinetAct onRestInstStat", Toast.LENGTH_LONG).show();
-
-    } */
 }

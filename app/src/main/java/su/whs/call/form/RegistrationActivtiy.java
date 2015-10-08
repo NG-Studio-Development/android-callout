@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
@@ -55,8 +54,6 @@ public class RegistrationActivtiy extends FragmentActivity  implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_registration);
-
-        Toast.makeText(this, "RegistrationActivity", Toast.LENGTH_LONG).show();
 
         mSplash = findViewById(R.id.splash);
         SearchPanel.isColorTitle = true;

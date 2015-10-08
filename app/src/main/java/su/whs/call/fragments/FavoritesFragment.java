@@ -150,10 +150,9 @@ public class FavoritesFragment extends BaseFavoritesTabFragment implements OnIte
 
     @Override
     public void onResume() {
-        setFavorites();
+        //setFavorites();
         setContentShown(mAdapter != null);
         mFilterPanel.setFilterListener(filterListener);
-        //ajustListViewTopMargin();
         super.onResume();
     }
 

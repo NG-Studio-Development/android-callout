@@ -104,7 +104,12 @@ public class SocialFragment extends BaseFragment {
 
     @Override
     public void onDestroy() {
-        mSimpleFacebook.getSession().closeAndClearTokenInformation();
+
+        if ( mSimpleFacebook != null && mSimpleFacebook.getSession() != null ) {
+            mSimpleFacebook.getSession().closeAndClearTokenInformation();
+        }
+
+
         VKUIHelper.onDestroy(getActivity());
         super.onDestroy();
     }
