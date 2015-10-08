@@ -15,8 +15,9 @@ import su.whs.call.R;
 import su.whs.call.adapters.PagerAdapter;
 import su.whs.call.dialog.InfoDialog;
 import su.whs.call.models.CallsExpert;
+import su.whs.call.utils.BackPressed;
 
-public class CallsFragment extends BaseSearchTabFragment implements View.OnClickListener {
+public class CallsFragment extends BaseSearchTabFragment implements View.OnClickListener, BackPressed.OnBackPressedListener  {
 
     private final static String CALLS_ARG = "year_arg";
 
@@ -141,12 +142,12 @@ public class CallsFragment extends BaseSearchTabFragment implements View.OnClick
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
+            public void onPageScrollStateChanged(int state) {}
         });
 
         mContentView = rootView;
+
+        BackPressed.setOnBackPressedFragmentListener(this);
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -159,11 +160,14 @@ public class CallsFragment extends BaseSearchTabFragment implements View.OnClick
 
     @Override
     public boolean onHomeIconClick() {
-
         //MainActivity.mTabHost.setCurrentTab(2);
         //MainActivity.mTabHost.setCurrentTab(1);
-        openFragment(ExecutorSubcategoriesFragment.getInstanceFromPool());
         //getFragmentManager().popBackStack();
+        return onBack();
+    }
+
+    protected boolean onBack() {
+        openFragment(ExecutorSubcategoriesFragment.getInstanceFromPool());
         return true;
     }
 
@@ -206,5 +210,10 @@ public class CallsFragment extends BaseSearchTabFragment implements View.OnClick
                 pager.setCurrentItem(pager.getCurrentItem() + 1);
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        onBack();
     }
 }

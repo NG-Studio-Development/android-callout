@@ -28,7 +28,7 @@ import su.whs.call.models.UserInfo;
 import su.whs.call.net.ConnectionHandler;
 import su.whs.call.register.User;
 
-public class ExecutorSubcategoriesFragment extends BaseFragment/*BaseSearchTabFragment*/ {
+public class ExecutorSubcategoriesFragment extends BaseFragment {
 
     private static final String SUBCATEGORIES_ARGS = "subcats";
     private static final String USERINFO_ARGS = "userinfo";
@@ -58,7 +58,6 @@ public class ExecutorSubcategoriesFragment extends BaseFragment/*BaseSearchTabFr
 
     public static ExecutorSubcategoriesFragment getInstanceFromPool() {
 
-        //ExecutorSubcategoriesFragment f = new ExecutorSubcategoriesFragment();
         if (mInstance == null)
             mInstance = new ExecutorSubcategoriesFragment();
 
@@ -70,22 +69,9 @@ public class ExecutorSubcategoriesFragment extends BaseFragment/*BaseSearchTabFr
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.subcategories_fragment, container, false);
 
-        Toast.makeText(getActivity(), "onCreateView() Executor", Toast.LENGTH_LONG).show();
+
 
         mList = (ListView) v.findViewById(R.id.listView);
-
-        //Bundle args = getArguments();
-        // if (args.containsKey(SUBCATEGORIES_ARGS)) {
-        //mSubcategories = (List<ExecutorSubcategory>) args.getSerializable(SUBCATEGORIES_ARGS);
-
-        //mUserInfo = (UserInfo) args.getSerializable(USERINFO_ARGS);
-
-        //final ExecutorSubcategoriesAdapter adapter = new ExecutorSubcategoriesAdapter(getActivity(), mUserInfo, mSubcategories/*, "4"*/);
-
-        //mList.setAdapter(adapter);
-
-        //adapter.setBtnClickListener();
-        // }
 
         final ExecutorSubcategoriesAdapter.BtnClickListener executorAdapterListener = new ExecutorSubcategoriesAdapter.BtnClickListener() {
             @Override
@@ -94,7 +80,6 @@ public class ExecutorSubcategoriesFragment extends BaseFragment/*BaseSearchTabFr
             }
 
             public void onDescriptionClick(ExecutorSubcategory subcategory) {
-                //openFragment(SubcategoryReviewsFragment.newInstance(subcategory.getReviews()));
                 openFragment(ExecutorEditDescriptionFragment.newInstance(subcategory));
             }
 
@@ -121,15 +106,6 @@ public class ExecutorSubcategoriesFragment extends BaseFragment/*BaseSearchTabFr
                         mList.setAdapter(adapter);
                         adapter.setBtnClickListener(executorAdapterListener);
                         setContentShown(true);
-
-                        //if (subcategories != null && subcategories.size() != 0)
-                        //openFragment(ExecutorSubcategoriesFragment.newInstance(subcategories, mUserInfo));
-                        //else
-                        //throw new Error("Executor not have categories");
-
-                        //executorCategoriesBtn.setText(String.format("%S (%d)",
-                        //getString(R.string.my_categories),
-                        //subcategories.size()));
                     }
                 };
 
@@ -142,8 +118,6 @@ public class ExecutorSubcategoriesFragment extends BaseFragment/*BaseSearchTabFr
 
                     ConnectionHandler handler = ConnectionHandler.getInstance(getActivity());
                     handler.queryExecutorCategories( User.create(getActivity()).getToken(), execotorCategoryListener );
-
-
                 }
 
                 @Override
@@ -152,18 +126,8 @@ public class ExecutorSubcategoriesFragment extends BaseFragment/*BaseSearchTabFr
                 }
             } );
         } else {
-            //adapter = new ExecutorSubcategoriesAdapter(getActivity(), mUserInfo, mSubcategories/*, "4"*/);
-            //mList.setAdapter(adapter);
             adapter.setBtnClickListener(executorAdapterListener);
-
         }
-
-
-
-
-        //ConnectionHandler handler = ConnectionHandler.getInstance(getActivity());
-        //handler.queryExecutorCategories(User.create(getActivity()).getToken(), execotorCategoryListener);
-
 
         if (mUserInfo != null)
             setProfileUsername(mUserInfo.getUserName());
@@ -175,7 +139,7 @@ public class ExecutorSubcategoriesFragment extends BaseFragment/*BaseSearchTabFr
     @Override
     public void onStart() {
         super.onStart();
-        Toast.makeText(getActivity(), "onStart() Executor", Toast.LENGTH_LONG).show();
+
     }
 
     private void setProfileUsername(String username) {
@@ -203,10 +167,6 @@ public class ExecutorSubcategoriesFragment extends BaseFragment/*BaseSearchTabFr
 
         return true;
     }
-
-
-
-
 
     public int getTotalCalls() {
         int total = 0;
@@ -236,8 +196,6 @@ public class ExecutorSubcategoriesFragment extends BaseFragment/*BaseSearchTabFr
     public void onResume() {
         super.onResume();
 
-
-
         if (mUserInfo != null && mSubcategories != null) {
 
             if (mList.getAdapter() == null) {
@@ -247,9 +205,6 @@ public class ExecutorSubcategoriesFragment extends BaseFragment/*BaseSearchTabFr
             }
 
         }
-
-
-
 
     }
 

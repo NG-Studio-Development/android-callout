@@ -12,8 +12,9 @@ import su.whs.call.R;
 import su.whs.call.models.ExecutorSubcategory;
 import su.whs.call.net.ConnectionHandler;
 import su.whs.call.register.User;
+import su.whs.call.utils.BackPressed;
 
-public class ExecutorEditDescriptionFragment extends BaseSearchTabFragment {
+public class ExecutorEditDescriptionFragment extends BaseSearchTabFragment implements BackPressed.OnBackPressedListener {
 
     private static final String ARG_SUBCATEGORY = "subcategory";
     ExecutorSubcategory subcategory = null;
@@ -69,6 +70,7 @@ public class ExecutorEditDescriptionFragment extends BaseSearchTabFragment {
         });
 
         mContentView = view;
+        BackPressed.setOnBackPressedFragmentListener(this);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -86,13 +88,17 @@ public class ExecutorEditDescriptionFragment extends BaseSearchTabFragment {
 
     @Override
     public boolean onHomeIconClick() {
-        onBack();
+        return onBack();
+    }
+
+    protected boolean onBack() {
+        openFragment(ExecutorSubcategoriesFragment.getInstanceFromPool());
         return true;
     }
 
-    protected void onBack() {
-        openFragment(CabinetFragment.newInstance());
+
+    @Override
+    public void onBackPressed() {
+        onBack();
     }
-
-
 }

@@ -27,9 +27,7 @@ import su.whs.call.form.MainActivity;
 import su.whs.call.models.FavoriteItem;
 import su.whs.call.models.RecentCall;
 import su.whs.call.models.SubCategory;
-import su.whs.call.models.UserExtra;
 import su.whs.call.models.UserInfo;
-import su.whs.call.net.ConnectionHandler;
 import su.whs.call.register.User;
 import su.whs.call.utils.BackPressed;
 import su.whs.call.views.FilterPanel;
@@ -70,67 +68,10 @@ public class FavoritesFragment extends BaseFavoritesTabFragment implements OnIte
             mAdapter = adapter;
             isHomeButtonDisabled = false;
         } else {
-            // open fragment via tabs manager,
-            // so check that user is logged in
-            // else redirect to main
+
             isHomeButtonDisabled = true;
 
-            final User user = User.create(getActivity());
-            if (user.isGuest() || user.isExecutor()) {
-                if (user.isExecutor()) {
-                    MainActivity.mTabHost.setCurrentTab(1);
-                } else {
-                    MainActivity.mTabHost.setCurrentTab(2);
-                    Toast.makeText(getActivity(), getString(R.string.favorites_only_for_registered), Toast.LENGTH_LONG).show();
-                }
-            } else {
 
-
-
-                //setContentShown(true);
-                ConnectionHandler connection = ConnectionHandler.getInstance(getActivity());
-                connection.queryUsers(new ConnectionHandler.OnUsersInfoListener() {
-                    @Override
-                    public void onUsersInfoReady(List<UserExtra> list) {
-                       /* List<UserInfo> favoritesUsers = new ArrayList<UserInfo>();
-                        // filter user for favorites
-                        mFavoritesItems = MainActivity.mDB.getFavorites(user.getToken());
-
-                        for (UserExtra userExtra : list) {
-                            boolean inFavorites = false;
-                            for (FavoriteItem favoriteItem : mFavoritesItems) {
-                                if (userExtra.getUserInfo().getId() == favoriteItem.userId) {
-                                    inFavorites = true;
-                                }
-                            }
-                            if (inFavorites) favoritesUsers.add(userExtra.getUserInfo());
-                        }
-
-                        mAdapter = new RecentUsersAdapter(getActivity(), favoritesUsers, mFavoritesItems);
-                        mListView.setAdapter(mAdapter);
-                        ajustListViewTopMargin();*/
-
-
-                        rc = MainActivity.mDB.getFavorites(user.getToken());
-                        sortUsers(rc);
-                        FavoritesAdapter adapter = new FavoritesAdapter(getActivity(), rc);
-
-
-                       // mAdapter = new RecentUsersAdapter(getActivity(), rc);
-
-                        //Log.d("2222222222222", "" + mAdapter.getCount());
-
-                        mListView.setAdapter(adapter);
-                        //ajustListViewTopMargin();
-                        setContentShown(true);
-                    }
-
-                    @Override
-                    public void onFail() {
-                        Toast.makeText(getActivity(), getString(R.string.loading_error), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
         }
 
         mListView.setOnItemClickListener(this);
@@ -144,6 +85,13 @@ public class FavoritesFragment extends BaseFavoritesTabFragment implements OnIte
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setContentShown(mAdapter != null);
+        setFavorites();
+    }
+
     private boolean isFavoriteList() {
         return mSubCat == null;
     }
@@ -151,7 +99,7 @@ public class FavoritesFragment extends BaseFavoritesTabFragment implements OnIte
     @Override
     public void onResume() {
         //setFavorites();
-        setContentShown(mAdapter != null);
+        //setContentShown(mAdapter != null);
         mFilterPanel.setFilterListener(filterListener);
         super.onResume();
     }
@@ -175,49 +123,38 @@ public class FavoritesFragment extends BaseFavoritesTabFragment implements OnIte
                 }
             } else {
 
+                loadFavoritesFromBD(user);
 
-                ConnectionHandler connection = ConnectionHandler.getInstance(getActivity());
+                /*ConnectionHandler connection = ConnectionHandler.getInstance(getActivity());
                 connection.queryUsers(new ConnectionHandler.OnUsersInfoListener() {
                     @Override
                     public void onUsersInfoReady(List<UserExtra> list) {
-                       /* List<UserInfo> favoritesUsers = new ArrayList<UserInfo>();
-                        mFavoritesItems = MainActivity.mDB.getFavorites(user.getToken());
 
-
-                        Log.d("11111 = ", "mFavoritesItemsmFavoritesItems " + mFavoritesItems.size());
-
-                        for (UserExtra userExtra : list) {
-                            boolean inFavorites = false;
-                            for (FavoriteItem favoriteItem : mFavoritesItems) {
-                                if (userExtra.getUserInfo().getId() == favoriteItem.userId) {
-                                    inFavorites = true;
-                                }
-                            }
-                            if (inFavorites) favoritesUsers.add(userExtra.getUserInfo());
-                        }
-*/
-                        rc = MainActivity.mDB.getFavorites(user.getToken());
-
-                        sortUsers(rc);
-                        FavoritesAdapter adapter = new FavoritesAdapter(getActivity(), rc);
-                        Log.d("2222222222222", "" + rc.size());
-
-                        //mAdapter = new RecentUsersAdapter(getActivity(), rc);
-                        mListView.setAdapter(adapter);
-                        //ajustListViewTopMargin();
-                        setContentShown(true);
+                        //loadFavoritesFromBD(user);
                     }
 
                     @Override
                     public void onFail() {
                         //Toast.makeText(activity, getString(R.string.loading_error), Toast.LENGTH_SHORT).show();
                     }
-                });
+                }); */
             }
         }
 
     }
 
+    protected void loadFavoritesFromBD(User user) {
+        rc = MainActivity.mDB.getFavorites(user.getToken());
+
+        sortUsers(rc);
+        FavoritesAdapter adapter = new FavoritesAdapter(getActivity(), rc);
+        Log.d("2222222222222", "" + rc.size());
+
+        //mAdapter = new RecentUsersAdapter(getActivity(), rc);
+        mListView.setAdapter(adapter);
+        //ajustListViewTopMargin();
+        setContentShown(true);
+    }
 
     public void sortUsers(List<RecentCall> rc) {
         Collections.sort(rc, new Comparator<RecentCall>() {
