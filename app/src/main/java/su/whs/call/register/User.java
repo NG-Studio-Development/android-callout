@@ -78,6 +78,8 @@ public class User {
         setToken("");
         setExecutor(false);*/
 
+        //Class<? extends BaseFragment> fragment = user.isExecutor() ?  : CabinetFragment.class;
+
         SharedPreferences.Editor edit = prefs.edit();
         edit.clear();
         edit.commit();

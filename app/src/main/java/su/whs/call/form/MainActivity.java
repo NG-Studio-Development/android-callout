@@ -34,12 +34,13 @@ import com.vk.sdk.util.VKUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import su.whs.call.CallApp;
 import su.whs.call.Constants;
 import su.whs.call.R;
 import su.whs.call.database.DBConnector;
 import su.whs.call.fragments.SocialFragment;
 import su.whs.call.register.User;
-
+import su.whs.call.utils.BackPressed;
 
 
 public class MainActivity extends TabActivity implements View.OnClickListener, GooglePlayServicesClient.ConnectionCallbacks,
@@ -59,7 +60,7 @@ public class MainActivity extends TabActivity implements View.OnClickListener, G
 
     private ImageLoader imageLoader = ImageLoader.getInstance();
 
-    private Button  btnCabinet, btnFavorites, btnExit;
+    public static Button btnCabinet, btnFavorites, btnExit;
     private ImageButton btnSearch, btnRegistration;
 
     private LocationClient mLocationClient;
@@ -106,25 +107,36 @@ public class MainActivity extends TabActivity implements View.OnClickListener, G
 
         initTabHost();
 
-        User user = User.create(this);
-        if (user.isLoggedIn() && user.isExecutor()) mTabHost.setCurrentTab(5);
-        else mTabHost.setCurrentTab(2);
+
 
         mLocationClient = new LocationClient(this, this, this);
         servicesConnected();
 
+        User user = User.create(this);
+        if (user.isLoggedIn() && user.isExecutor()) {
+            mTabHost.setCurrentTab(2);
+            //btnCabinet.setSelected(true);
+        } else {
+            mTabHost.setCurrentTab(3);
+            //btnSearch.setSelected(true);
+        }
     }
 
     private static void initTabHost() {
         setupTab(TAG_REGISTER, R.drawable.ic_tab_ic_tab_login, R.string.register, RegistrationActivtiy.class);
         setupTab(TAG_LOGIN, R.drawable.ic_tab_ic_tab_user, R.string.cabinet, CabinetActivity.class);
+        setupTab("cabinet", R.drawable.ic_tab_ic_tab_user, R.string.cabinet, CabinetActivity.class);
+
         setupTab(TAG_SEARCH, R.drawable.ic_tab_ic_tab_search, R.string.search, SearchActivity.class);
 
         setupTab(TAG_FAVORITES, R.drawable.ic_tab_ic_tab_star, R.string.favorites, FavoritesActivtiy.class);
         setupTab(TAG_EXIT, R.drawable.ic_tab_ic_tab_exit, R.string.exit, ExitActivity.class);
-        setupTab("cabinet", R.drawable.ic_tab_ic_tab_user, R.string.cabinet, CabinetActivity.class);
 
-        mTabHost.getTabWidget().getChildAt(5).setVisibility(View.GONE);
+
+        if ( User.create(CallApp.getInstance()).isLoggedIn() )
+            mTabHost.getTabWidget().getChildAt(1).setVisibility(View.GONE);
+        else
+            mTabHost.getTabWidget().getChildAt(2).setVisibility(View.GONE);
 
     }
 
@@ -200,9 +212,11 @@ public class MainActivity extends TabActivity implements View.OnClickListener, G
                     }
                     if (action == MotionEvent.ACTION_UP) {
                         if (User.create(main).isLoggedIn()) {
-                            mTabHost.setCurrentTab(5);
+                            mTabHost.setCurrentTab(2);
+                            mTabHost.getTabWidget().getChildAt(1).setVisibility(View.GONE);
                         } else {
                             mTabHost.setCurrentTab(1);
+                            mTabHost.getTabWidget().getChildAt(2).setVisibility(View.GONE);
                         }
                     }
                     return true;
@@ -240,8 +254,8 @@ public class MainActivity extends TabActivity implements View.OnClickListener, G
                         user.logout();
                         //user.isExecutor();
                     }
-                    setCurrentTabByTag("search");
                     updateTabs();
+                    setCurrentTabByTag("search");
                     break;
 
                 case DialogInterface.BUTTON_NEGATIVE:
@@ -258,7 +272,7 @@ public class MainActivity extends TabActivity implements View.OnClickListener, G
 
     public static void setCurrentTabByTagHack() {
         updateTabs();
-        mTabHost.setCurrentTab(2);
+        mTabHost.setCurrentTab(3);
         mTabHost.setCurrentTab(1);
     }
 
@@ -268,6 +282,14 @@ public class MainActivity extends TabActivity implements View.OnClickListener, G
         clearAllTabs();
         initTabHost();
 
+    }
+
+    public static void updateTabs(int current) {
+        updateTabs();
+
+        if (current == 2) {
+            btnCabinet.setSelected(true);
+        }
     }
 
     public static void clearAllTabs() {
@@ -365,7 +387,7 @@ public class MainActivity extends TabActivity implements View.OnClickListener, G
                 errorFragment.setDialog(errorDialog);
                 // Show the error dialog in the DialogFragment
                 //errorFragment.show(getSupportFragmentManager(),
-                        //"Location Updates");
+                //"Location Updates");
             }
             return false;
         }
@@ -407,7 +429,12 @@ public class MainActivity extends TabActivity implements View.OnClickListener, G
 
     @Override
     public void onBackPressed() {
-            super.onBackPressed();
+        Log.d("ON_BACK_PRESS", "onBackPressed() ");
+
+        if (BackPressed.getListener() != null) {
+            BackPressed.getListener().onBackPressed();
+        }
+
     }
 
     @Override
@@ -420,19 +447,21 @@ public class MainActivity extends TabActivity implements View.OnClickListener, G
                 User user = User.create(this);
 
                 if (!user.isLoggedIn()) {
-
                     mTabHost.setCurrentTab(1);
+                    mTabHost.getTabWidget().getChildAt(2).setVisibility(View.GONE);
+
                 } else {
-                    mTabHost.setCurrentTab(5);
+                    mTabHost.setCurrentTab(2);
+                    mTabHost.getTabWidget().getChildAt(1).setVisibility(View.GONE);
                 }
                 break;
             case R.id.btnSearch:
 
-                 mTabHost.setCurrentTab(2);
+                mTabHost.setCurrentTab(3);
 
                 break;
             case R.id.btnFavorites:
-                mTabHost.setCurrentTab(3);
+                mTabHost.setCurrentTab(4);
                 break;
             case R.id.btnExit:
                 //mTabHost.setCurrentTab(4);
@@ -452,7 +481,7 @@ public class MainActivity extends TabActivity implements View.OnClickListener, G
     @Override
     protected void onResume() {
         super.onResume();
-        updateTabs();
+        //updateTabs();
     }
 
     @Override
@@ -471,7 +500,7 @@ public class MainActivity extends TabActivity implements View.OnClickListener, G
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-       // super.onSaveInstanceState(outState);
+        // super.onSaveInstanceState(outState);
     }
 
 }

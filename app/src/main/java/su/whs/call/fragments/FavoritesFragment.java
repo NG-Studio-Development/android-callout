@@ -31,9 +31,10 @@ import su.whs.call.models.UserExtra;
 import su.whs.call.models.UserInfo;
 import su.whs.call.net.ConnectionHandler;
 import su.whs.call.register.User;
+import su.whs.call.utils.BackPressed;
 import su.whs.call.views.FilterPanel;
 
-public class FavoritesFragment extends BaseFavoritesTabFragment implements OnItemClickListener {
+public class FavoritesFragment extends BaseFavoritesTabFragment implements OnItemClickListener, BackPressed.OnBackPressedListener {
     private ListView mListView;
     private BaseAdapter mAdapter;
     private FilterPanel mFilterPanel;
@@ -137,6 +138,9 @@ public class FavoritesFragment extends BaseFavoritesTabFragment implements OnIte
         ajustListViewTopMargin();
 
         mContentView = view;
+
+        BackPressed.setOnBackPressedFragmentListener(this);
+
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -359,6 +363,10 @@ public class FavoritesFragment extends BaseFavoritesTabFragment implements OnIte
 
     @Override
     public boolean onHomeIconClick() {
+        return onBack();
+    }
+
+    private boolean onBack() {
         if (asList) {
             openFragment(SubCategoriesFragment.restoreInstance());
             return true;
@@ -376,4 +384,10 @@ public class FavoritesFragment extends BaseFavoritesTabFragment implements OnIte
             infoDialog.show();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        onBack();
+    }
+
 }

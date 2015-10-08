@@ -31,6 +31,7 @@ import su.whs.call.fragments.LoginFragment;
 import su.whs.call.models.UserExtra;
 import su.whs.call.net.ConnectionHandler;
 import su.whs.call.register.User;
+import su.whs.call.utils.BackPressed;
 import su.whs.call.views.TitleBar;
 
 /**
@@ -63,6 +64,15 @@ public class CabinetActivity extends FragmentActivity implements
         setContentView(R.layout.ac_registration);
 
         Toast.makeText(this, "CabinetActivity()", Toast.LENGTH_LONG).show();
+
+
+        /*((Button)findViewById(R.id.btnCabinet)).setSelected(true);
+        ((Button)findViewById(R.id.btnCabinet)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(CabinetActivity.this, "BTN_CABINET", Toast.LENGTH_LONG).show();
+            }
+        }); */
 
         mSplash = findViewById(R.id.splash);
 
@@ -188,8 +198,12 @@ public class CabinetActivity extends FragmentActivity implements
 
     @Override
     public void onBackPressed() {
-        // if (!mTitleBar.navigateBack())
-            super.onBackPressed();
+        Log.d("ON_BACK_PRESS", "onBackPressed()");
+
+        if (BackPressed.getListener() != null) {
+            BackPressed.getListener().onBackPressed();
+        }
+
     }
 
     @Override
@@ -300,14 +314,14 @@ public class CabinetActivity extends FragmentActivity implements
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+        //super.onSaveInstanceState(outState);
     }
 
-    @Override
+    /*@Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
         Toast.makeText(this, "CabinetAct onRestInstStat", Toast.LENGTH_LONG).show();
 
-    }
+    } */
 }

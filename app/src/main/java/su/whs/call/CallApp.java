@@ -24,6 +24,7 @@ import su.whs.call.net.ConnectionHandler;
 
 public class CallApp extends Application {
     private SubCategory mActiveSubCategory = null;
+    private static CallApp instance = null;
 
     private ConnectionHandler mConnectionHandler = null;
     private LocationListener mLocationListener = new LocationListener() {
@@ -68,6 +69,15 @@ public class CallApp extends Application {
         mConnectionHandler = ConnectionHandler.getInstance(getApplicationContext());
         //ReportHandler.install(this, "frederikos@mail.ru");
         Crittercism.initialize(getApplicationContext(), "54063c3407229a6a92000005");
+
+        instance = this;
+    }
+
+    public static CallApp getInstance(){
+        if (instance == null)
+            throw new Error("Application was not initialised");
+
+        return instance;
     }
 
     @Override

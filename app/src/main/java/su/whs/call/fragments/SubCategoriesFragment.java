@@ -16,8 +16,9 @@ import su.whs.call.R;
 import su.whs.call.adapters.SubCategoryAdapter;
 import su.whs.call.dialog.InfoDialog;
 import su.whs.call.models.SubCategory;
+import su.whs.call.utils.BackPressed;
 
-public class SubCategoriesFragment extends BaseSearchTabFragment implements OnItemClickListener {
+public class SubCategoriesFragment extends BaseSearchTabFragment implements OnItemClickListener, BackPressed.OnBackPressedListener {
 	private ListView mList;
 	private List<SubCategory> mData = null;
 	private static SubCategoriesFragment mInstance = null;
@@ -51,6 +52,7 @@ public class SubCategoriesFragment extends BaseSearchTabFragment implements OnIt
 			mList.setOnItemClickListener(this);
 		}
         mContentView = v;
+		BackPressed.setOnBackPressedFragmentListener(this);
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
@@ -62,8 +64,12 @@ public class SubCategoriesFragment extends BaseSearchTabFragment implements OnIt
 
 	@Override
 	public boolean onHomeIconClick() {
-		openFragment(CategoriesFragment.restoreInstance());
+		onBack();
 		return true;
+	}
+
+	private void onBack() {
+		openFragment(CategoriesFragment.restoreInstance());
 	}
 
 	@Override
@@ -90,4 +96,8 @@ public class SubCategoriesFragment extends BaseSearchTabFragment implements OnIt
         infoDialog.show();
     }
 
+	@Override
+	public void onBackPressed() {
+		onBack();
+	}
 }

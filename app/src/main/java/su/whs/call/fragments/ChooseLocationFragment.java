@@ -44,12 +44,13 @@ import su.whs.call.form.SearchActivity;
 import su.whs.call.net.AddressAutocomplete;
 import su.whs.call.net.AddressAutocomplete.AddressInfo;
 import su.whs.call.net.AddressAutocomplete.AutocompleteListener;
+import su.whs.call.utils.BackPressed;
 import su.whs.call.utils.SearchLocation;
 import su.whs.call.views.MapControlLayer;
 import su.whs.call.views.SearchPanel;
 import su.whs.call.views.SearchPanel.SearchPanelListener;
 
-public class ChooseLocationFragment extends BaseSearchTabFragment implements SearchPanelListener, SearchActivity.OnBackPressedListener {
+public class ChooseLocationFragment extends BaseSearchTabFragment implements SearchPanelListener, BackPressed.OnBackPressedListener {
     private static final String TAG = "ChooseLocation";
     private MapControlLayer mControls = null;
     private MapView mMap = null;
@@ -63,6 +64,7 @@ public class ChooseLocationFragment extends BaseSearchTabFragment implements Sea
 
     @Override
     public void onBackPressed() {
+
         onBack();
     }
 
@@ -95,6 +97,7 @@ public class ChooseLocationFragment extends BaseSearchTabFragment implements Sea
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         searchActivity = (SearchActivity) activity;
+        CategoriesFragment.wasLoad = false;
     }
 
     @Override
@@ -153,7 +156,7 @@ public class ChooseLocationFragment extends BaseSearchTabFragment implements Sea
         initControls();
         mContentView = v;
 
-        searchActivity.setOnBackPressedFragmentListener(this);
+        BackPressed.setOnBackPressedFragmentListener(this);
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }

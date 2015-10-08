@@ -25,6 +25,7 @@ import su.whs.call.fragments.BaseFragment;
 import su.whs.call.fragments.LoginFragment;
 import su.whs.call.fragments.SearchChooseLocationPromptFragment;
 import su.whs.call.register.User;
+import su.whs.call.utils.BackPressed;
 import su.whs.call.views.TitleBar;
 
 /**
@@ -37,9 +38,7 @@ public class SearchActivity extends FragmentActivity  implements
         GooglePlayServicesClient.OnConnectionFailedListener,
         View.OnClickListener {
 
-    public interface OnBackPressedListener {
-        public void onBackPressed();
-    }
+
 
     private View mSplash = null;
     private FragmentTabHost mTabHost;
@@ -193,20 +192,33 @@ public class SearchActivity extends FragmentActivity  implements
         mLastTab = tag;
     }
 
-    OnBackPressedListener listener = null;
-    public void setOnBackPressedFragmentListener(OnBackPressedListener listener) {
-        this.listener = listener;
-    }
+
+    /*public void setOnBackPressedFragmentListener(BackPressed.OnBackPressedListener listener) {
+        BackPressed.listener = listener;
+    }*/
 
     @Override
     public void onBackPressed() {
         Log.d("ON_BACK_PRESS", "onBackPressed() ");
-        /*if (listener != null) {
-            listener.onBackPressed();
+        //listener.onBackPressed();
+
+        if (BackPressed.getListener() != null) {
+            BackPressed.getListener().onBackPressed();
         } else if (!mTitleBar.navigateBack()) {
             super.onBackPressed();
-        } */
+        }
     }
+
+
+
+    /*@Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Log.d("ON_BACK_PRESS", "onBackPressed() KeyUp");
+            // do stuff here
+        }
+        return super.onKeyUp(keyCode, event);
+    }*/
 
     @Override
     public TitleBar getTitleBar() {

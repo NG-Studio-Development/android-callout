@@ -27,6 +27,7 @@ import su.whs.call.R;
 import su.whs.call.fragments.BaseFragment;
 import su.whs.call.fragments.LoginFragment;
 import su.whs.call.fragments.RegisterFragment;
+import su.whs.call.utils.BackPressed;
 import su.whs.call.views.SearchPanel;
 import su.whs.call.views.TitleBar;
 
@@ -161,8 +162,13 @@ public class RegistrationActivtiy extends FragmentActivity  implements
 
     @Override
     public void onBackPressed() {
-        if (!mTitleBar.navigateBack())
+        Log.d("ON_BACK_PRESS", "onBackPressed() ");
+
+        if (BackPressed.getListener() != null) {
+            BackPressed.getListener().onBackPressed();
+        } else if (!mTitleBar.navigateBack()) {
             super.onBackPressed();
+        }
     }
 
     @Override

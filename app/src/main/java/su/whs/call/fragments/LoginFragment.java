@@ -9,10 +9,11 @@ import android.view.ViewGroup;
 
 import su.whs.call.R;
 import su.whs.call.dialog.InfoDialog;
+import su.whs.call.utils.BackPressed;
 import su.whs.call.views.EmailLoginView;
 import su.whs.call.views.IconButton;
 
-public class LoginFragment extends SocialFragment {
+public class LoginFragment extends SocialFragment implements BackPressed.OnBackPressedListener {
 
     private final static String TAG = "LoginFragment";
 
@@ -42,6 +43,9 @@ public class LoginFragment extends SocialFragment {
         findSocialButtons(view);
 
         mContentView = view;
+
+        BackPressed.setOnBackPressedFragmentListener(this);
+
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -53,6 +57,10 @@ public class LoginFragment extends SocialFragment {
 
     @Override
     public boolean onHomeIconClick() {
+        return onBack();
+    }
+
+    boolean onBack() {
         if (mEmailForm.getVisibility() == View.VISIBLE) {
             mEmailForm.setVisibility(View.GONE);
             mSelector.setVisibility(View.VISIBLE);
@@ -84,4 +92,8 @@ public class LoginFragment extends SocialFragment {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        onBack();
+    }
 }

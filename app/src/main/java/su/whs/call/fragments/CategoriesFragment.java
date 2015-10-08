@@ -27,15 +27,19 @@ import su.whs.call.models.Category;
 import su.whs.call.models.SubCategory;
 import su.whs.call.net.ConnectionHandler;
 import su.whs.call.net.ConnectionHandler.OnDistanceResponseListener;
+import su.whs.call.utils.BackPressed;
 import su.whs.call.utils.SearchLocation;
 
-public class CategoriesFragment extends BaseSearchTabFragment implements OnDistanceResponseListener, OnItemClickListener {
+public class CategoriesFragment extends BaseSearchTabFragment implements OnDistanceResponseListener, OnItemClickListener, BackPressed.OnBackPressedListener {
     // private PaginatedGridView mGridView;
     private GridView gridView;
     private TextView tvEmptyList;
     private List<Category> mCategories;
     private GridCategoriesAdapter mAdapter;
     private static CategoriesFragment mInstance = null;
+
+    public static boolean wasLoad = false;
+    static List<Category> categories;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,16 +50,28 @@ public class CategoriesFragment extends BaseSearchTabFragment implements OnDista
         Bundle arguments = getArguments();
         if (arguments.containsKey("location")) {
             Location loc = arguments.getParcelable("location");
-            load(loc);
+            if (!wasLoad)
+                load(loc);
         }
         mContentView = rootView;
+
+        BackPressed.setOnBackPressedFragmentListener(this);
         return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (wasLoad)
+            loadView();
+            //setContentShown(true);
     }
 
     @Override
     public void onResume() {
         if (mAdapter != null) mAdapter.notifyDataSetChanged();
         super.onResume();
+
     }
 
     String city = SearchLocation.getInstance().getChosenCity();
@@ -66,8 +82,12 @@ public class CategoriesFragment extends BaseSearchTabFragment implements OnDista
 
     @Override
     public boolean onHomeIconClick() {
-        openFragment(ChooseLocationFragment.newInstance());
+        onBack();
         return true;
+    }
+
+    private void onBack() {
+        openFragment(ChooseLocationFragment.newInstance());
     }
 
     @Override
@@ -93,7 +113,7 @@ public class CategoriesFragment extends BaseSearchTabFragment implements OnDista
 
     @Override
     public void onDistanceResponse(JSONObject json) {
-        final List<Category> categories = new ArrayList<Category>();
+        categories = new ArrayList<Category>();
         if (json.has("data")) {
             JSONArray data;
             try {
@@ -113,6 +133,11 @@ public class CategoriesFragment extends BaseSearchTabFragment implements OnDista
             }
         }
 
+        loadView();
+    }
+
+
+    private void loadView() {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -126,14 +151,19 @@ public class CategoriesFragment extends BaseSearchTabFragment implements OnDista
                 mCategories = categories;
                 Category comingSoon = new Category();
                 comingSoon.mName = "скоро";
-                mCategories.add(comingSoon);
+
+                if ( !wasLoad )
+                    mCategories.add(comingSoon);
+
                 mAdapter = new GridCategoriesAdapter(getActivity(), categories);
                 mAdapter.setOnItemClickListener(CategoriesFragment.this);
                 gridView.setAdapter(mAdapter);
                 setContentShown(true);
+                wasLoad = true;
             }
         });
     }
+
 
     private void onError() {
         Toast.makeText(getActivity(), getString(R.string.loading_error), Toast.LENGTH_LONG).show();
@@ -165,4 +195,8 @@ public class CategoriesFragment extends BaseSearchTabFragment implements OnDista
         infoDialog.show();
     }
 
+    @Override
+    public void onBackPressed() {
+        onBack();
+    }
 }

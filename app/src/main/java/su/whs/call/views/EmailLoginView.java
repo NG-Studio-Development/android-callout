@@ -7,6 +7,7 @@ import su.whs.call.form.CabinetActivity;
 import su.whs.call.form.MainActivity;
 import su.whs.call.fragments.BaseFragment;
 import su.whs.call.fragments.CabinetFragment;
+import su.whs.call.fragments.ExecutorSubcategoriesFragment;
 import su.whs.call.net.ConnectionHandler;
 import su.whs.call.register.User;
 
@@ -120,8 +121,13 @@ public class EmailLoginView extends LinearLayout {
 
                         CabinetActivity.mTabHost.setCurrentTab(CabinetActivity.mTabHost.getTabWidget().getTabCount() - 1);
 */
-                        MainActivity.mTabHost.setCurrentTab(5);
+
                         MainActivity.updateTabs();
+                        MainActivity.mTabHost.setCurrentTab(2);
+
+                        // CabinetActivity.instance.setupTab(CabinetActivity.TAG_LOGIN, R.drawable.ic_tab_ic_tab_user, R.string.cabinet, ExecutorSubcategoriesFragment.class);
+                        //CabinetActivity.instance.mTabHost.addTab(setContent, fragment, null);
+
                         //if (context instanceof MainActivity) {
 
                         //mainActivity.setCurrentTabByTagHack();

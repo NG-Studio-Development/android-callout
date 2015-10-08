@@ -76,15 +76,15 @@ public class ExecutorSubcategoriesFragment extends BaseFragment/*BaseSearchTabFr
 
         //Bundle args = getArguments();
         // if (args.containsKey(SUBCATEGORIES_ARGS)) {
-            //mSubcategories = (List<ExecutorSubcategory>) args.getSerializable(SUBCATEGORIES_ARGS);
+        //mSubcategories = (List<ExecutorSubcategory>) args.getSerializable(SUBCATEGORIES_ARGS);
 
-            //mUserInfo = (UserInfo) args.getSerializable(USERINFO_ARGS);
+        //mUserInfo = (UserInfo) args.getSerializable(USERINFO_ARGS);
 
-            //final ExecutorSubcategoriesAdapter adapter = new ExecutorSubcategoriesAdapter(getActivity(), mUserInfo, mSubcategories/*, "4"*/);
+        //final ExecutorSubcategoriesAdapter adapter = new ExecutorSubcategoriesAdapter(getActivity(), mUserInfo, mSubcategories/*, "4"*/);
 
-            //mList.setAdapter(adapter);
+        //mList.setAdapter(adapter);
 
-            //adapter.setBtnClickListener();
+        //adapter.setBtnClickListener();
         // }
 
         final ExecutorSubcategoriesAdapter.BtnClickListener executorAdapterListener = new ExecutorSubcategoriesAdapter.BtnClickListener() {
@@ -113,25 +113,25 @@ public class ExecutorSubcategoriesFragment extends BaseFragment/*BaseSearchTabFr
 
         final ConnectionHandler.OnExecutorCategoriesListener execotorCategoryListener =
                 new ConnectionHandler.OnExecutorCategoriesListener() {
-            @Override
-            public void onCategoriesResponse(ArrayList<ExecutorSubcategory> subcategories) {
-                mSubcategories = subcategories;
+                    @Override
+                    public void onCategoriesResponse(ArrayList<ExecutorSubcategory> subcategories) {
+                        mSubcategories = subcategories;
 
-                adapter = new ExecutorSubcategoriesAdapter(getActivity(), mUserInfo, mSubcategories/*, "4"*/);
-                mList.setAdapter(adapter);
-                adapter.setBtnClickListener(executorAdapterListener);
-                setContentShown(true);
+                        adapter = new ExecutorSubcategoriesAdapter(getActivity(), mUserInfo, mSubcategories/*, "4"*/);
+                        mList.setAdapter(adapter);
+                        adapter.setBtnClickListener(executorAdapterListener);
+                        setContentShown(true);
 
-                //if (subcategories != null && subcategories.size() != 0)
-                //openFragment(ExecutorSubcategoriesFragment.newInstance(subcategories, mUserInfo));
-                //else
-                //throw new Error("Executor not have categories");
+                        //if (subcategories != null && subcategories.size() != 0)
+                        //openFragment(ExecutorSubcategoriesFragment.newInstance(subcategories, mUserInfo));
+                        //else
+                        //throw new Error("Executor not have categories");
 
-                //executorCategoriesBtn.setText(String.format("%S (%d)",
-                //getString(R.string.my_categories),
-                //subcategories.size()));
-            }
-        };
+                        //executorCategoriesBtn.setText(String.format("%S (%d)",
+                        //getString(R.string.my_categories),
+                        //subcategories.size()));
+                    }
+                };
 
 
         if ( mUserInfo == null || mSubcategories==null ) {
@@ -198,7 +198,7 @@ public class ExecutorSubcategoriesFragment extends BaseFragment/*BaseSearchTabFr
     public boolean onHomeIconClick() {
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Приложение Вызывай в твоём мобильном!\n\n\n" + Constants.URL_GOOGLE_PLAY);
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "?????????? ??????? ? ????? ?????????!\n\n\n" + Constants.URL_GOOGLE_PLAY);
         startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.app_name)));
 
         return true;

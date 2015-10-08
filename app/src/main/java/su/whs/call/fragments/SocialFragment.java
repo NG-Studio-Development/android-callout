@@ -113,8 +113,8 @@ public class SocialFragment extends BaseFragment {
         @Override
         public void complete() {
 
-            MainActivity.mTabHost.setCurrentTab(5);
-            MainActivity.updateTabs();
+            MainActivity.updateTabs(2);
+            MainActivity.mTabHost.setCurrentTab(2);
 
             //MainActivity mainActivity = (MainActivity) getActivity();
             //if (mainActivity != null) mainActivity.setCurrentTabByTagHack();

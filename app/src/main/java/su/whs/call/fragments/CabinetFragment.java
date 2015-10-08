@@ -44,6 +44,7 @@ import su.whs.call.adapters.RecentCallsAdapter;
 import su.whs.call.dialog.ExecutorInfoDialog;
 import su.whs.call.dialog.ProfileInfoDialog;
 import su.whs.call.form.CabinetActivity;
+import su.whs.call.form.MainActivity;
 import su.whs.call.models.ExecutorSubcategory;
 import su.whs.call.models.RecentCall;
 import su.whs.call.models.UserExtra;
@@ -60,10 +61,6 @@ public class CabinetFragment extends BaseFragment {
     private static final int GALLERY_REQUEST = 1889;
 
     public CabinetFragment() {}
-
-    //public static ImageLoader imgLoader;
-
-
 
     private ImageLoader imageLoader = ImageLoader.getInstance();
     private DisplayImageOptions options = new DisplayImageOptions.Builder()
@@ -120,7 +117,6 @@ public class CabinetFragment extends BaseFragment {
         clientAvatar = (ImageView) rootView.findViewById(R.id.clientAvatar);
         executorAvatar = (ImageView) rootView.findViewById(R.id.executorAvatar);
         executorCategoriesBtn = (Button) rootView.findViewById(R.id.executorCategoriesBtn);
-
         currentStateSwitcher.setOnClickListener(currentStateListener);
         numberOfCallsBtn.setOnClickListener(callListener);
         executorCategoriesBtn.setOnClickListener(executorCategoriesListener);
@@ -170,6 +166,8 @@ public class CabinetFragment extends BaseFragment {
             }
         });
     }
+
+
 
     /* public void loadUserInformation() {
         ConnectionHandler connection = ConnectionHandler.getInstance(getActivity());
@@ -221,6 +219,15 @@ public class CabinetFragment extends BaseFragment {
                         //subcategories.size()));
             }
         }); */
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
+        MainActivity.btnCabinet.setSelected(true);
     }
 
     private View.OnClickListener callListener = new View.OnClickListener() {

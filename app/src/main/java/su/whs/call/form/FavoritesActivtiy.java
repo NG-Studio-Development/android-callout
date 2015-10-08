@@ -23,7 +23,7 @@ import su.whs.call.R;
 import su.whs.call.fragments.BaseFragment;
 import su.whs.call.fragments.FavoritesFragment;
 import su.whs.call.fragments.LoginFragment;
-import su.whs.call.fragments.RegisterFragment;
+import su.whs.call.utils.BackPressed;
 import su.whs.call.views.SearchPanel;
 import su.whs.call.views.TitleBar;
 
@@ -167,8 +167,14 @@ public class FavoritesActivtiy extends FragmentActivity implements
 
     @Override
     public void onBackPressed() {
-        if (!mTitleBar.navigateBack())
+        Log.d("ON_BACK_PRESS", "onBackPressed() ");
+        //listener.onBackPressed();
+
+        if (BackPressed.getListener() != null) {
+            BackPressed.getListener().onBackPressed();
+        } else if (!mTitleBar.navigateBack()) {
             super.onBackPressed();
+        }
     }
 
     @Override

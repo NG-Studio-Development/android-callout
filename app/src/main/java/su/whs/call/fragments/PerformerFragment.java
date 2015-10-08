@@ -35,10 +35,11 @@ import su.whs.call.models.Review;
 import su.whs.call.models.UserInfo;
 import su.whs.call.net.ConnectionHandler;
 import su.whs.call.register.User;
+import su.whs.call.utils.BackPressed;
 import su.whs.call.views.RateStarsView;
 
 
-public class PerformerFragment extends BaseFragment {
+public class PerformerFragment extends BaseFragment implements BackPressed.OnBackPressedListener {
 
     private static final String TAG = "PerformerFragment";
     private static final String USER_INFO_ARG = "userinfo";
@@ -246,6 +247,10 @@ public class PerformerFragment extends BaseFragment {
         }
 
         imageLoader.init(ImageLoaderConfiguration.createDefault(getActivity()));
+
+
+        BackPressed.setOnBackPressedFragmentListener(this);
+
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -443,9 +448,14 @@ public class PerformerFragment extends BaseFragment {
 
     @Override
     public boolean onHomeIconClick() {
+        return onBack();
+    }
+
+
+    private boolean onBack() {
         if (isFromUserProfile) {
-             openFragment(CabinetFragment.newInstance());
-             MainActivity.setCurrentTabByTagHack();
+            openFragment(CabinetFragment.newInstance());
+            MainActivity.setCurrentTabByTagHack();
             return true;
         }
         if (mBackToList) {
@@ -514,5 +524,8 @@ public class PerformerFragment extends BaseFragment {
     }
 
 
-
+    @Override
+    public void onBackPressed() {
+        onBack();
+    }
 }
