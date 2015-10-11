@@ -148,20 +148,18 @@ public class CabinetFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
 
-        ((CabinetActivity) getActivity()).loadUserInformation(new ConnectionHandler.OnUserInfoListener() {
+        /* ((CabinetActivity) getActivity()).loadUserInformation(new ConnectionHandler.OnUserInfoListener() {
             @Override
             public void onUserInfoReady(List<UserExtra> allUsers, UserExtra ui) {
                 mUserInfo = ui.getUserInfo();
-
                 initClient(allUsers, ui.getUserInfo());
-
             }
 
             @Override
             public void onFail() {
                 //Toast.makeText(getActivity(), "Fail in loadUserInformation()", Toast.LENGTH_LONG).show();
             }
-        });
+        }); */
     }
 
 
@@ -222,9 +220,23 @@ public class CabinetFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-
-
         MainActivity.btnCabinet.setSelected(true);
+
+
+        ((CabinetActivity) getActivity()).loadUserInformation(new ConnectionHandler.OnUserInfoListener() {
+            @Override
+            public void onUserInfoReady(List<UserExtra> allUsers, UserExtra ui) {
+                mUserInfo = ui.getUserInfo();
+                initClient(allUsers, ui.getUserInfo());
+            }
+
+            @Override
+            public void onFail() {
+                //Toast.makeText(getActivity(), "Fail in loadUserInformation()", Toast.LENGTH_LONG).show();
+            }
+        });
+
+
     }
 
     private View.OnClickListener callListener = new View.OnClickListener() {
@@ -260,8 +272,8 @@ public class CabinetFragment extends BaseFragment {
 
                 CabinetFragment.calls = calls;
                 Collections.reverse(calls);
-                final RecentCallsAdapter mAdapter = new RecentCallsAdapter(getActivity(), calls);
 
+                final RecentCallsAdapter mAdapter = new RecentCallsAdapter(getActivity(), calls);
                 recentCallsList.setAdapter(mAdapter);
 
                 recentCallsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

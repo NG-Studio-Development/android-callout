@@ -88,8 +88,8 @@ public class FavoritesFragment extends BaseFavoritesTabFragment implements OnIte
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setContentShown(mAdapter != null);
-        setFavorites();
+        //setContentShown(mAdapter != null);
+        //setFavorites();
     }
 
     private boolean isFavoriteList() {
@@ -98,8 +98,8 @@ public class FavoritesFragment extends BaseFavoritesTabFragment implements OnIte
 
     @Override
     public void onResume() {
-        //setFavorites();
-        //setContentShown(mAdapter != null);
+        setContentShown(mAdapter != null);
+        setFavorites();
         mFilterPanel.setFilterListener(filterListener);
         super.onResume();
     }

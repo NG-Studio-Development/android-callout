@@ -22,57 +22,17 @@ public class CallsFragment extends BaseSearchTabFragment implements View.OnClick
     private final static String CALLS_ARG = "year_arg";
 
     private ViewPager pager;
-    //private  PagerAdapter pagerAdapter;
-
     private TextView currentYear;
     private ImageView imgLeft;
     private ImageView imgRight;
     private List<CallsExpert> mCallsList = null;
-   // private  CallsFragment mInstance = null;
-
-
-    /*public List<Integer> allYears(List<CallsExpert> listCallsExpert) {
-        List<Integer> listYears = new ArrayList<Integer>();
-
-        for (CallsExpert callsExpert : listCallsExpert) {
-            if ( !listYears.contains(callsExpert.getYear()) ) {
-                listYears.add(callsExpert.getYear());
-            }
-
-        }
-
-        return listYears;
-    }
-
-    private void createEmptyMonth(List<CallsExpert> listCallsExpert) {
-        List<Integer> listYears = allYears(listCallsExpert);
-        List<CallsExpert> listEmptyCallsExpert = new ArrayList<CallsExpert>();
-
-        for (int year : listYears) {
-            for (int i=1; i<13; i++) {
-                listEmptyCallsExpert.add(new CallsExpert(0, i, year));
-            }
-        }
-
-        for (CallsExpert callsExpert : listCallsExpert) {
-
-        }
-
-    } */
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         if (getArguments() != null ) {
             mCallsList = (List<CallsExpert>) getArguments().getSerializable(CALLS_ARG);
-
-            /*for (int i=1; i<13; i++ ) {
-
-                mCallsList.contains()
-            } */
         }
     }
 
@@ -90,36 +50,26 @@ public class CallsFragment extends BaseSearchTabFragment implements View.OnClick
         imgRight.setOnClickListener(this);
         pager = (ViewPager) rootView.findViewById(R.id.pager);
 
-        //final PagerAdapter  pagerAdapter = new PagerAdapter(getActivity().getSupportFragmentManager(), ConnectionHandler.jsonYears);
-
         final PagerAdapter pagerAdapter =
                 new PagerAdapter(getActivity().getSupportFragmentManager(), mCallsList);
 
         pagerAdapter.setCountPages(CallsExpert.getCountYear(mCallsList));
 
-        //pagerAdapter.setCountPages(ConnectionHandler.jsonYears.length());
         pager.setAdapter(pagerAdapter);
 
         imgLeft.setVisibility(View.INVISIBLE);
+
         if(pagerAdapter.getCount() == 1) {
-            //try {
                 currentYear.setText(String.valueOf(pagerAdapter.getYear(0)));
-                //currentYear.setText(pagerAdapter.getJSONObject(0).getString("year"));
                 imgRight.setVisibility(View.VISIBLE);
-            //} catch (JSONException e) {
-                //e.printStackTrace();
-            //}
         }
 
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
             @Override
             public void onPageSelected(int position) {
-                // try {
 
                     currentYear.setText(pagerAdapter.getYear(position));
 
@@ -134,11 +84,6 @@ public class CallsFragment extends BaseSearchTabFragment implements View.OnClick
                     } else {
                         imgRight.setVisibility(View.VISIBLE);
                     }
-
-                // } catch (JSONException e) {
-                    //e.printStackTrace();
-                // }
-
             }
 
             @Override
@@ -160,9 +105,6 @@ public class CallsFragment extends BaseSearchTabFragment implements View.OnClick
 
     @Override
     public boolean onHomeIconClick() {
-        //MainActivity.mTabHost.setCurrentTab(2);
-        //MainActivity.mTabHost.setCurrentTab(1);
-        //getFragmentManager().popBackStack();
         return onBack();
     }
 

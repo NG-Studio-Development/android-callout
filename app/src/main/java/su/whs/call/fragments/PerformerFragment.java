@@ -154,7 +154,7 @@ public class PerformerFragment extends BaseFragment implements BackPressed.OnBac
                 } else {
                     mUserInfo1 = (UserInfo) arguments.getSerializable(USER_INFO_ARG);
                     mNameView.setText(mUserInfo1.getUserName());
-                    mRateView.setStars((int) mUserInfo1.getRate());
+                    mRateView.setStars( (int) mUserInfo1.getRate() );
                     imageLoader.displayImage(Constants.API + mUserInfo1.getAvatarURL(), mAvatarView, options);
                     mTextDescription.setText(mUserInfo1.getDescription());
                     mTextDescription.setOnClickListener(new View.OnClickListener() {

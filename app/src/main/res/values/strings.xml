@@ -38,6 +38,11 @@
     <string name="cant_send_empty_review">You can\'t send empty review</string>
     <string name="review_need_login">You need to login in order to post reviews</string>
     <string name="review_will_be_published">You review will be published after moderation</string>
+
+    <string name="service_will_be_published">You service will be published after moderation</string>
+
+    <string name="in_moderation">In moderation</string>
+
     <string name="review_posting_error">Error on review posting. Please check your Internet connection</string>
     <string name="your_review">your review</string>
     <string name="write_review">write review</string>
@@ -102,5 +107,9 @@
     <string name="calls">Звонки</string>
 
     <string name="not_avialable_in_chosen_city">Not avialable in your city</string>
+
+    <string name="you_not_have_calls"> You not have calls </string>
+
+
 
 </resources>

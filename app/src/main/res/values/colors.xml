@@ -8,6 +8,7 @@
     <color name="green">#3aaa35</color>
     <color name="state_free">#38a534</color>
     <color name="state_busy">#c92323</color>
+    <color name="red">#c92323</color>
     <color name="translucent_black">#80000000</color>
     <color name="disabled">#5F2F00</color>
     <color name="transparent">#00ffffff</color>

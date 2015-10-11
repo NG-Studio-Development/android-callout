@@ -296,6 +296,7 @@ public class ConnectionHandler {
                         queryUsers(new OnUsersInfoListener() {
                             @Override
                             public void onUsersInfoReady(List<UserExtra> list) {
+
                                 for (UserExtra userExtra : list) {
                                     if (userExtra.getUserInfo().getId() == userId) {
                                         listener.onUserInfoReady(list, userExtra);
@@ -453,9 +454,6 @@ public class ConnectionHandler {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-
 
         mQuery.ajax(url, params, JSONObject.class, new AjaxCallback<JSONObject>() {
             @Override

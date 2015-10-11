@@ -2,7 +2,6 @@ package su.whs.call.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +21,6 @@ import java.util.List;
 
 import su.whs.call.R;
 import su.whs.call.adapters.ReviewsAdapter;
-import su.whs.call.dialog.InfoDialog;
 import su.whs.call.models.RecentCall;
 import su.whs.call.models.Review;
 import su.whs.call.models.UserInfo;
@@ -51,6 +49,7 @@ public class ReviewsFragment extends BaseSearchTabFragment {
 
     public static ReviewsFragment newInstance(ArrayList<Review> reviews, RecentCall userInfo, int subCategoryId) {
         Bundle arguments = new Bundle();
+
         if (reviews != null) {
             arguments.putSerializable(REVIEWS_ARG, reviews);
         }

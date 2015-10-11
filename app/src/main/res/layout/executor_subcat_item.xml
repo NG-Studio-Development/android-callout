@@ -3,16 +3,32 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
+    android:gravity="center" >
 
+    <!--
+    android:background="@color/green" -->
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/in_moderation"
+        android:textColor="@color/red"
+        android:id="@+id/tvModerationState"
+        android:layout_alignParentTop="true"
+        android:visibility="invisible"
+        android:layout_alignLeft="@+id/relativeLayout2"
+        android:layout_alignStart="@+id/relativeLayout2" />
+
+    <!-- android:background="@color/state_busy" -->
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/relativeLayout2"
+
         android:layout_toLeftOf="@+id/relativeLayout"
         android:layout_alignLeft="@+id/linearLayout2"
-        android:layout_alignStart="@+id/linearLayout2">
+        android:layout_alignStart="@+id/linearLayout2"
+        android:layout_below="@+id/tvModerationState">
 
         <!-- <su.whs.call.views.RoundedImageView
             android:id="@+id/executorAvatar"
@@ -169,7 +185,8 @@
         android:layout_height="match_parent"
         android:layout_alignTop="@+id/relativeLayout2"
         android:layout_toRightOf="@+id/relativeLayout2"
-        android:layout_above="@+id/relativeLayout" >
+        android:layout_above="@+id/relativeLayout"
+        android:id="@+id/relativeLayout4">
 
         <TextView
             android:layout_width="wrap_content"

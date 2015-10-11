@@ -46,7 +46,12 @@
     <string name="recent_calls">История вызовов</string>
     <string name="favorites_only_for_registered">Список избранного доступен только для зарегистрированных пользователей</string>
     <string name="review_posting_error">Ошибка при публикации отзыва. Пожалуйстуа, проверьте ваше Интернет соединение</string>
+
     <string name="review_will_be_published">Ваш отзыв будет опубликован после модерации</string>
+    <string name="service_will_be_published">Ваша услуга будет опубликована после модерации</string>
+
+    <string name="in_moderation">На модерации</string>
+
     <string name="cant_send_empty_review">Отзыв не может быть пустым</string>
     <string name="review_need_login">Для отправки отзыва нужно авторизоваться</string>
     <string name="stars_for_rating">Звёзды для рейтинга</string>
@@ -97,6 +102,8 @@
     <string name="info_executor_subcategories">Ваши подкатегории</string>
     <string name="info_calls_total">Общее количество звонков по всем категориям</string>
     <string name="warning_temporary_not_available">Временно не доступно</string>
+
+    <string name="you_not_have_calls"> У Вас нет звонков </string>
 
 
 </resources>

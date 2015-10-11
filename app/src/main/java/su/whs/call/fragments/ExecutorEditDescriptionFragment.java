@@ -58,6 +58,8 @@ public class ExecutorEditDescriptionFragment extends BaseSearchTabFragment imple
                 handler.queryRedactDescription(user.getToken(), subcategory.getId(), etDescription.getText().toString(), new ConnectionHandler.OnRedactDescription() {
                     @Override
                     public void onSuccess() {
+                        subcategory.setPublished(false);
+                        Toast.makeText(getActivity(), getString(R.string.service_will_be_published), Toast.LENGTH_LONG).show();
                         onBack();
                     }
 
@@ -88,6 +90,7 @@ public class ExecutorEditDescriptionFragment extends BaseSearchTabFragment imple
 
     @Override
     public boolean onHomeIconClick() {
+
         return onBack();
     }
 

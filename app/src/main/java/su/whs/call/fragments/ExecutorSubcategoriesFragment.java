@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -21,6 +22,7 @@ import su.whs.call.R;
 import su.whs.call.adapters.ExecutorSubcategoriesAdapter;
 import su.whs.call.dialog.InfoDialog;
 import su.whs.call.form.CabinetActivity;
+import su.whs.call.form.MainActivity;
 import su.whs.call.models.ExecutorSubcategory;
 import su.whs.call.models.RegisteredYear;
 import su.whs.call.models.UserExtra;
@@ -28,7 +30,7 @@ import su.whs.call.models.UserInfo;
 import su.whs.call.net.ConnectionHandler;
 import su.whs.call.register.User;
 
-public class ExecutorSubcategoriesFragment extends BaseFragment {
+public class ExecutorSubcategoriesFragment extends BaseFragment/*BaseSearchTabFragment*/ {
 
     private static final String SUBCATEGORIES_ARGS = "subcats";
     private static final String USERINFO_ARGS = "userinfo";
@@ -64,6 +66,47 @@ public class ExecutorSubcategoriesFragment extends BaseFragment {
         return mInstance;
     }
 
+    public static View clickedView;
+
+
+    final ExecutorSubcategoriesAdapter.BtnClickListener executorAdapterListener = new ExecutorSubcategoriesAdapter.BtnClickListener() {
+        @Override
+        public void onReviewsClick(ExecutorSubcategory subcategory) {
+            openFragment(SubcategoryReviewsFragment.newInstance(subcategory.getReviews()));
+        }
+
+        @Override
+        public void onDescriptionClick(View clickedView, ExecutorSubcategory subcategory) {
+            ExecutorSubcategoriesFragment.clickedView = clickedView;
+            //DialogFragment dlg1 = new ExecutorEditDescriptionFragment();
+            //dlg1.show(getFragmentManager(), dlg1.getClass().getName());
+            openFragment(ExecutorEditDescriptionFragment.newInstance(subcategory));
+        }
+
+        public void onCountCallClick(ExecutorSubcategory subcategory) {
+
+            if (subcategory.getCallsList().size() != 0)
+                openFragment( CallsFragment.newInstance( subcategory.getCallsList() ) );
+            else
+                Toast.makeText(getActivity(), getString(R.string.you_not_have_calls), Toast.LENGTH_LONG).show();
+        }
+
+        public void onChangeState(ExecutorSubcategory subcategory) {
+            ConnectionHandler handler = ConnectionHandler.getInstance(getActivity());
+            handler.postStatus(User.create(getActivity()).getToken(), subcategory/*subcategory.getId(), !subcategory.getStatus()*/);
+
+        }
+
+        @Override
+        public void onAvatarClick(View view, ExecutorSubcategory subcategory) {
+            TextView tvModerationState = (TextView) view.findViewById(R.id.tvModerationState);
+            tvModerationState.setVisibility(View.INVISIBLE);
+
+        }
+    };
+
+
+
     @SuppressWarnings("unchecked")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,27 +116,7 @@ public class ExecutorSubcategoriesFragment extends BaseFragment {
 
         mList = (ListView) v.findViewById(R.id.listView);
 
-        final ExecutorSubcategoriesAdapter.BtnClickListener executorAdapterListener = new ExecutorSubcategoriesAdapter.BtnClickListener() {
-            @Override
-            public void onReviewsClick(ExecutorSubcategory subcategory) {
-                openFragment(SubcategoryReviewsFragment.newInstance(subcategory.getReviews()));
-            }
 
-            public void onDescriptionClick(ExecutorSubcategory subcategory) {
-                openFragment(ExecutorEditDescriptionFragment.newInstance(subcategory));
-            }
-
-            public void onCountCallClick(ExecutorSubcategory subcategory) {
-                openFragment(CallsFragment.newInstance(subcategory.getCallsList()));
-            }
-
-            public void onChangeState(ExecutorSubcategory subcategory) {
-                ConnectionHandler handler = ConnectionHandler.getInstance(getActivity());
-                handler.postStatus(User.create(getActivity()).getToken(), subcategory/*subcategory.getId(), !subcategory.getStatus()*/);
-
-            }
-
-        };
 
 
         final ConnectionHandler.OnExecutorCategoriesListener execotorCategoryListener =
@@ -102,7 +125,7 @@ public class ExecutorSubcategoriesFragment extends BaseFragment {
                     public void onCategoriesResponse(ArrayList<ExecutorSubcategory> subcategories) {
                         mSubcategories = subcategories;
 
-                        adapter = new ExecutorSubcategoriesAdapter(getActivity(), mUserInfo, mSubcategories/*, "4"*/);
+                        adapter = new ExecutorSubcategoriesAdapter(getActivity(), mUserInfo, mSubcategories);
                         mList.setAdapter(adapter);
                         adapter.setBtnClickListener(executorAdapterListener);
                         setContentShown(true);
@@ -111,6 +134,7 @@ public class ExecutorSubcategoriesFragment extends BaseFragment {
 
 
         if ( mUserInfo == null || mSubcategories==null ) {
+            //setContentShown(true);
             ( (CabinetActivity) getActivity() ).loadUserInformation(new ConnectionHandler.OnUserInfoListener() {
                 @Override
                 public void onUserInfoReady(List<UserExtra> allUsers, UserExtra ui) {
@@ -136,11 +160,7 @@ public class ExecutorSubcategoriesFragment extends BaseFragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
 
-    }
 
     private void setProfileUsername(String username) {
         CabinetActivity activity = (CabinetActivity) getActivity();
@@ -196,15 +216,19 @@ public class ExecutorSubcategoriesFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
 
+        MainActivity.btnCabinet.setSelected(true);
+
         if (mUserInfo != null && mSubcategories != null) {
-
             if (mList.getAdapter() == null) {
+                adapter = new ExecutorSubcategoriesAdapter(getActivity(), mUserInfo, mSubcategories);
                 mList.setAdapter(adapter);
-
+                adapter.setBtnClickListener(executorAdapterListener);
                 setContentShown(true);
             }
-
         }
+
+        if (clickedView != null)
+            clickedView.setVisibility(View.INVISIBLE);
 
     }
 

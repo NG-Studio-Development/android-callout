@@ -7,7 +7,6 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +25,7 @@ public class ExecutorSubcategory implements Serializable {
     private String description;
     private int countCall = 0;
     private boolean status = true;
+    private int published;
     private List<CallsExpert> callsList;
 
     public ExecutorSubcategory(JSONObject json) throws JSONException {
@@ -39,8 +39,12 @@ public class ExecutorSubcategory implements Serializable {
         countCall = json.getInt("count_call");
         avatar = json.getString("avatar");
         status = json.getBoolean("status");
+        published = json.getInt("published");
+
+        //Log.d("JSON SUBCAT", "JSON: "+json.toString());
 
         JSONArray reviewsJson = json.getJSONArray("reviews");
+
         for (int i = 0; i < reviewsJson.length(); i++) {
             reviews.add(new SubCategoryReview(reviewsJson.getJSONObject(i)));
         }
@@ -61,6 +65,14 @@ public class ExecutorSubcategory implements Serializable {
     }
 
     public boolean getStatus() { return status; }
+
+    public boolean isPublished() {
+        return published == 1;
+    }
+
+    public void setPublished(boolean published) {
+        this.published = published ? 1 : 0;
+    }
 
     public void setStatus(boolean status) {
         this.status = status;
@@ -83,14 +95,15 @@ public class ExecutorSubcategory implements Serializable {
     }
 
     public String getLastDays() {
-        try {
+        /*try {
             Date to = jsonDateFormat.parse(dateTo);
             Calendar c = Calendar.getInstance();
             Date now = c.getTime();
             return String.valueOf(getDaysBetweenDates(now, to));
         } catch (Exception e) {
             return "";
-        }
+        } */
+        return dateTo;
     }
 
     private int getDaysBetweenDates(Date date1, Date date2)

@@ -266,8 +266,6 @@ public class CabinetActivity extends FragmentActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-
-
         //updateTabs();
     }
 
