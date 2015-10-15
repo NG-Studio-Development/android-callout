@@ -25,6 +25,7 @@
             backward-compatibility can go here.
         -->
         <item name="android:windowNoTitle">true</item>
+
     </style>
 
     <!-- Application theme. -->

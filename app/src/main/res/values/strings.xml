@@ -34,7 +34,7 @@
     <string name="favorites_only_for_registered">Favorites list only for registered users</string>
     <string name="choose_location_before">Please, choose location before process</string>
     <string name="loading_error">Loading error</string>
-    <string name="empty"></string>
+    <string name="empty">empty</string>
     <string name="cant_send_empty_review">You can\'t send empty review</string>
     <string name="review_need_login">You need to login in order to post reviews</string>
     <string name="review_will_be_published">You review will be published after moderation</string>
@@ -69,7 +69,7 @@
 
     <string name="loading">Загрузка…</string>
     <!-- <string name="facebook_app_id">802193569871496</string>-->
-    <string name="facebook_app_id">803991999630790</string>
+    <string name="facebook_app_id" translatable="false">803991999630790</string>
     <string name="facebook_app_namespace">com_featzima_call</string>
     <string name="vk_app_id" translatable="false">4839678</string>
 
@@ -109,6 +109,13 @@
     <string name="not_avialable_in_chosen_city">Not avialable in your city</string>
 
     <string name="you_not_have_calls"> You not have calls </string>
+
+    <string name="warning_you_must_enter_all_fields"> You must enter all fields </string>
+
+    <string name="warning_password_mismatch"> Password mismatch </string>
+
+    <string name="warning_no_valid_email"> No valid email </string>
+
 
 
 

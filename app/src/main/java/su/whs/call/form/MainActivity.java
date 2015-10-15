@@ -48,7 +48,7 @@ public class MainActivity extends TabActivity implements View.OnClickListener, G
 
     private static final String TAG = "MainActivity";
 
-    private static final String TAG_REGISTER = "register";
+    public static final String TAG_REGISTER = "register";
     private static final String TAG_LOGIN = "login";
     public static final String TAG_SEARCH = "search";
     private static final String TAG_FAVORITES = "favorites";
@@ -107,8 +107,6 @@ public class MainActivity extends TabActivity implements View.OnClickListener, G
 
         initTabHost();
 
-
-
         mLocationClient = new LocationClient(this, this, this);
         servicesConnected();
 
@@ -123,6 +121,7 @@ public class MainActivity extends TabActivity implements View.OnClickListener, G
     }
 
     private static void initTabHost() {
+
         setupTab(TAG_REGISTER, R.drawable.ic_tab_ic_tab_login, R.string.register, RegistrationActivtiy.class);
         setupTab(TAG_LOGIN, R.drawable.ic_tab_ic_tab_user, R.string.cabinet, CabinetActivity.class);
         setupTab("cabinet", R.drawable.ic_tab_ic_tab_user, R.string.cabinet, CabinetActivity.class);
@@ -137,6 +136,8 @@ public class MainActivity extends TabActivity implements View.OnClickListener, G
             mTabHost.getTabWidget().getChildAt(1).setVisibility(View.GONE);
         else
             mTabHost.getTabWidget().getChildAt(2).setVisibility(View.GONE);
+
+
 
     }
 
@@ -156,6 +157,9 @@ public class MainActivity extends TabActivity implements View.OnClickListener, G
 
 
         User user = User.create(main);
+
+
+
         if(!user.isLoggedIn()) {
 
             if (TAG_FAVORITES.equals(tag) || TAG_EXIT.equals(tag) ) {
@@ -163,6 +167,8 @@ public class MainActivity extends TabActivity implements View.OnClickListener, G
                 tabview.setEnabled(false);
             }
         } else if(user.isLoggedIn() && user.isExecutor()) {
+
+
 
             if(TAG_SEARCH.equals(tag)) {
                 tabview.setBackgroundResource(R.drawable.tab_indicator_search_disabled);
@@ -178,6 +184,13 @@ public class MainActivity extends TabActivity implements View.OnClickListener, G
                 tabview.setBackgroundResource(R.drawable.tab_indicator_search_bg_light);
             } else {
                 tabview.setBackgroundResource(R.drawable.tab_indicator_bg_light);
+            }
+
+            if (user.isLoggedIn()) {
+                if ( TAG_REGISTER.equals(tag) ) {
+                    tabview.setBackgroundResource(R.drawable.tab_indicator_disabled);
+                    tabview.setEnabled(false);
+                }
             }
         }
 
@@ -280,13 +293,12 @@ public class MainActivity extends TabActivity implements View.OnClickListener, G
 
     public static void setCurrentTabByTagHack() {
         updateTabs();
-        mTabHost.setCurrentTab(3);
-        mTabHost.setCurrentTab(1);
+        mTabHost.setCurrentTab(2);
+        //mTabHost.setCurrentTab(1);
     }
 
 
     public static void updateTabs() {
-
         clearAllTabs();
         initTabHost();
 

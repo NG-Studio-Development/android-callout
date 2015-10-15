@@ -23,6 +23,7 @@ import su.whs.call.R;
 import su.whs.call.fragments.BaseFragment;
 import su.whs.call.fragments.LoginFragment;
 import su.whs.call.fragments.LogoutFragment;
+import su.whs.call.register.User;
 import su.whs.call.utils.BackPressed;
 import su.whs.call.views.TitleBar;
 
@@ -69,6 +70,15 @@ public class ExitActivity extends FragmentActivity implements
     public void setupTab(String tag, int drawable, int string, Class<? extends BaseFragment> fragment) {
 
         View tabview = createTabView(mTabHost.getContext(), drawable, string);
+
+        User user = User.create(this);
+        if (user.isLoggedIn()) {
+            if ( MainActivity.TAG_REGISTER.equals(tag) ) {
+                tabview.setBackgroundResource(R.drawable.tab_indicator_disabled);
+                tabview.setEnabled(false);
+            }
+        }
+
         if ("search".equals(tag)) {
 
             tabview.setBackgroundResource(R.drawable.tab_indicator_search_bg_light);

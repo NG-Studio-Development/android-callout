@@ -142,10 +142,10 @@ public class ExecutorSubcategoriesAdapter extends BaseAdapter {
 				subcategory.getReviewCount()));
         holder.rate.setStars(subcategory.getRate());
 
-		if ( !subcategory.isPublished() )
-			holder.tvModerationState.setVisibility(View.VISIBLE);
-		else
+		if ( subcategory.isPublished() )
 			holder.tvModerationState.setVisibility(View.INVISIBLE);
+		else
+			holder.tvModerationState.setVisibility(View.VISIBLE);
 
 		holder.numberOfCallsBtn.setText(context.getString(R.string.calls) + "(" + String.valueOf(subcategory.getCountCall()) + ")");
 

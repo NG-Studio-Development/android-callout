@@ -29,6 +29,7 @@ MERGED from visivay:SimpleFacebook:unspecified:20:5
 MERGED from visivay:facebook:unspecified:20:5
 MERGED from visivay:vksdk_library:unspecified:7:5
 MERGED from visivay:yandexmapkit-library:unspecified:7:5
+MERGED from com.joooonho:selectableroundedimageview:1.0.1:7:5
 	android:targetSdkVersion
 		ADDED from AndroidManifest.xml:10:9
 		INJECTED from AndroidManifest.xml:0:0

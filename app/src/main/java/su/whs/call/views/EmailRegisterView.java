@@ -1,14 +1,7 @@
 package su.whs.call.views;
 
-import su.whs.call.R;
-import su.whs.call.api.ApiClient;
-import su.whs.call.form.MainActivity;
-import su.whs.call.fragments.RegisterFragment;
-import su.whs.call.net.ConnectionHandler;
-
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +14,12 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
+import su.whs.call.R;
+import su.whs.call.api.ApiClient;
+import su.whs.call.form.MainActivity;
+import su.whs.call.fragments.RegisterFragment;
+import su.whs.call.net.ConnectionHandler;
+
 public class EmailRegisterView extends LinearLayout {
     private EditText mName;
     private EditText mEmail;
@@ -28,9 +27,11 @@ public class EmailRegisterView extends LinearLayout {
     private EditText mPasswordConfirm;
     private Button mButton;
     private RegisterFragment mRegisterFragment;
+    private Context mContext;
 
     public EmailRegisterView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mContext = context;
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         LayoutInflater.from(context).inflate(R.layout.register_form_email, this, true);
 
@@ -70,9 +71,8 @@ public class EmailRegisterView extends LinearLayout {
 
     public void processRegistration() {
 
-        if(mName.getText().length() == 0) {
-            mName.setText("Пользователь");
-        }
+        if (!isValidEnterData(true))
+            return;
 
         ConnectionHandler.getInstance(getContext()).register(
                 mEmail.getText().toString(),
@@ -97,8 +97,45 @@ public class EmailRegisterView extends LinearLayout {
 
                     @Override
                     public void inetFail() {
+                        Toast.makeText(getContext(), "FAIL", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+
+    protected boolean isValidEnterData(boolean isShowToast) {
+
+        String message = null;
+        boolean isValid = true;
+
+        if (mName.getText().toString().isEmpty() ||
+                mEmail.getText().toString().isEmpty() ||
+                mPassword.getText().toString().isEmpty() ||
+                mPasswordConfirm.getText().toString().isEmpty() ) {
+
+            message = mContext.getString(R.string.warning_you_must_enter_all_fields);
+            isValid = false;
+        } else if (!mPassword.getText().toString().equals(mPasswordConfirm.getText().toString() )) {
+            message = mContext.getString(R.string.warning_password_mismatch);
+            isValid = false;
+        } else if(!isValidEmail(mEmail.getText())) {
+            message = mContext.getString(R.string.warning_no_valid_email);
+            isValid = false;
+        }
+
+        if (!isValid && isShowToast)
+            Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
+
+        return isValid;
+    }
+
+
+    public final static boolean isValidEmail(CharSequence target) {
+        if (target == null) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
     }
 
 }

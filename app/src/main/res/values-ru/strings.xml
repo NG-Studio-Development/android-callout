@@ -37,7 +37,7 @@
     <string name="executor">специалист</string>
     <string name="current_state_free">свободен</string>
     <string name="current_state_busy">занят</string>
-    <string name="empty"></string>
+    <string name="empty">пусто</string>
     <string name="distance_m">%d м</string>
     <string name="distance_km">%d км</string>
     <string name="favorites_restrictions">Добавлять в избранное могут только зарегистрированные пользователи</string>
@@ -104,6 +104,10 @@
     <string name="warning_temporary_not_available">Временно не доступно</string>
 
     <string name="you_not_have_calls"> У Вас нет звонков </string>
+    <string name="not_avialable_in_chosen_city">Не доступно в Вашем регионе</string>
+    <string name="warning_no_valid_email">Не верный формат Email</string>
+    <string name="warning_password_mismatch">Пароли не совподают</string>
+    <string name="warning_you_must_enter_all_fields">Не допустимы пустые поля</string>
 
 
 </resources>

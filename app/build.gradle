@@ -8,8 +8,8 @@ android {
         applicationId "su.whs.call"
         minSdkVersion 11
         targetSdkVersion 18
-        versionCode 1018
-        versionName "1.0.18"
+        versionCode 1021
+        versionName "1.0.21"
     }
 
     buildTypes {

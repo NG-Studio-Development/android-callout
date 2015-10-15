@@ -77,6 +77,8 @@ public class CabinetActivity extends FragmentActivity implements
 
         setupTab(TAG_LOGIN, R.drawable.ic_tab_ic_tab_user, R.string.cabinet, fragment);
 
+        //setupTab(MainActivity.TAG_REGISTER, R.drawable.ic_tab_ic_tab_user, R.string.cabinet, fragment);
+
         servicesConnected();
         mTabHost.setOnTabChangedListener(this);
 
@@ -90,10 +92,20 @@ public class CabinetActivity extends FragmentActivity implements
     public void setupTab(String tag, int drawable, int string, Class<? extends BaseFragment> fragment) {
 
         View tabview = createTabView(mTabHost.getContext(), drawable, string);
+
+        User user = User.create(this);
+        if (user.isLoggedIn()) {
+            if ( MainActivity.TAG_REGISTER.equals(tag) ) {
+                tabview.setBackgroundResource(R.drawable.tab_indicator_disabled);
+                tabview.setEnabled(false);
+            }
+        }
+
         if ("search".equals(tag)) {
 
             tabview.setBackgroundResource(R.drawable.tab_indicator_search_bg_light);
         }
+
         tabview.setTag(tag);
         TabHost.TabSpec setContent = mTabHost.newTabSpec(tag).setIndicator(tabview);
 

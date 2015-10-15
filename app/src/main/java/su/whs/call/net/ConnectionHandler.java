@@ -138,7 +138,7 @@ public class ConnectionHandler {
         params.put("email", email);
         params.put("password", password);
         params.put("password_confirmation", passwordConfirmation);
-        params.put("name", name);
+        params.put("login", name);
 
         AjaxCallback<JSONObject> cb = new AjaxCallback<JSONObject>() {
             @Override
@@ -175,7 +175,7 @@ public class ConnectionHandler {
         };
         cb.header("Accept", "application/json");
 
-        mQuery.ajax(Constants.API + "/users", params, JSONObject.class, cb);
+        mQuery.ajax(Constants.API + "/api/users", params, JSONObject.class, cb);
     }
 
     public void login(String email, String password, final ApiClient.LoginListener loginListener) {
@@ -440,12 +440,34 @@ public class ConnectionHandler {
         });
     }
 
-    public void postAvatar(String token, String imageType, String imageBase64) {
+
+    public interface ChangeAvatarListener {
+        void onChange();
+        void onError();
+    }
+
+    public void postCategoryAvatar(String token, Integer subcategoryId, String imageType, String imageBase64, final ChangeAvatarListener changeAvatarListener) {
+        postAvatar(token, subcategoryId, imageType, imageBase64, changeAvatarListener);
+    }
+
+    public void postUserAvatar(String token, String imageType, String imageBase64) {
+        postAvatar(token, null, imageType, imageBase64, null);
+    }
+
+    private void postAvatar(String token, Integer subcategoryId, String imageType, String imageBase64, final ChangeAvatarListener changeAvatarListener) {
         String url = null;
         Map<String, Object> params = new HashMap<String, Object>();
         try {
 
             url = String.format("%s/api/set/avatar", Constants.API);
+
+            if (subcategoryId != null) {
+                url = String.format("%s/api/set/category/avatar", Constants.API);
+                params.put("id_category", subcategoryId);
+            } else {
+                url = String.format("%s/api/set/avatar", Constants.API);
+            }
+
 
             params.put("token", token);
             params.put("type",imageType);
@@ -460,8 +482,11 @@ public class ConnectionHandler {
             public void callback(String url, JSONObject json, AjaxStatus status) {
                 if (json != null && json.has("data")) {
                     Log.d("CONNECTION_HANDLER","Post image json: "+json.toString());
+                    if ( changeAvatarListener != null )
+                        changeAvatarListener.onChange();
                 } else {
                     Log.d("CONNECTION_HANDLER","Post image json is null ");
+                    changeAvatarListener.onError();
                 }
             }
         });

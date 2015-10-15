@@ -26,6 +26,7 @@ import su.whs.call.R;
 import su.whs.call.fragments.BaseFragment;
 import su.whs.call.fragments.LoginFragment;
 import su.whs.call.fragments.RegisterFragment;
+import su.whs.call.register.User;
 import su.whs.call.utils.BackPressed;
 import su.whs.call.views.SearchPanel;
 import su.whs.call.views.TitleBar;
@@ -74,6 +75,15 @@ public class RegistrationActivtiy extends FragmentActivity  implements
     public void setupTab(String tag, int drawable, int string, Class<? extends BaseFragment> fragment) {
 
         View tabview = createTabView(mTabHost.getContext(), drawable, string);
+
+        User user = User.create(this);
+        if (user.isLoggedIn()) {
+            if ( TAG_REGISTER.equals(tag) ) {
+                tabview.setBackgroundResource(R.drawable.tab_indicator_disabled);
+                tabview.setEnabled(false);
+            }
+        }
+
         if ("search".equals(tag)) {
 
             tabview.setBackgroundResource(R.drawable.tab_indicator_search_bg_light);

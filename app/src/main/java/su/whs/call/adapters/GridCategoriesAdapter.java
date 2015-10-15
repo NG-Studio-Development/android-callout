@@ -95,10 +95,20 @@ public class GridCategoriesAdapter extends BaseAdapter {
             int h = (Screen.getDisplayHeight(mContext) / 8);
 
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(h, h);
-            params.addRule(RelativeLayout.CENTER_IN_PARENT );
+            params.addRule(RelativeLayout.CENTER_IN_PARENT);
             holder.iconButton.setLayoutParams(params);
-            holder.iconButton.setBackground(mContext.getResources().getDrawable(R.drawable.icon_button_active));
-            holder.iconButton.setBackground(mContext.getResources().getDrawable(R.drawable.icon_button_light_normal));
+
+            /*int sdk = android.os.Build.VERSION.SDK_INT;
+            if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                holder.iconButton.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.icon_button_active));
+                holder.iconButton.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.icon_button_light_normal));
+            } else {
+                holder.iconButton.setBackground(mContext.getResources().getDrawable(R.drawable.icon_button_active));
+                holder.iconButton.setBackground(mContext.getResources().getDrawable(R.drawable.icon_button_light_normal));
+            } */
+            setBackground(mContext, holder.iconButton, R.drawable.icon_button_active);
+            setBackground(mContext, holder.iconButton, R.drawable.icon_button_light_normal);
+
 
 
 
@@ -128,12 +138,13 @@ public class GridCategoriesAdapter extends BaseAdapter {
 
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
                     holder.iconButton.setColorFilter(Color.argb(255, 255, 255, 255));
-                    holder.iconButton.setBackground(mContext.getResources().getDrawable(R.drawable.icon_button_active));
+                    //holder.iconButton.setBackground(mContext.getResources().getDrawable(R.drawable.icon_button_active));
+                    setBackground(mContext, holder.iconButton, R.drawable.icon_button_active);
                     //holder.iconImage.setColorFilter(Color.argb(0, 0, 0, 0));
                 } else if(event.getAction() == MotionEvent.ACTION_CANCEL || event.getAction() == MotionEvent.ACTION_UP) {
                     holder.iconButton.setColorFilter(Color.argb(0, 0, 0, 0));
-                    holder.iconButton.setBackground(mContext.getResources().getDrawable(R.drawable.icon_button_light_normal));
-
+                    //holder.iconButton.setBackground(mContext.getResources().getDrawable(R.drawable.icon_button_light_normal));
+                    setBackground(mContext, holder.iconButton, R.drawable.icon_button_light_normal);
                     if (onItemClickListener != null) {
                         int position = (Integer) view.getTag();
                         onItemClickListener.onItemClick(null, view, position, 0);
@@ -175,6 +186,18 @@ public class GridCategoriesAdapter extends BaseAdapter {
             }
         }); */
         return convertView;
+    }
+
+    protected void setBackground(Context context, ImageButton iconButton, int drawable) {
+
+        int sdk = android.os.Build.VERSION.SDK_INT;
+        if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            iconButton.setBackgroundDrawable(context.getResources().getDrawable(drawable));
+            //iconButton.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.icon_button_light_normal));
+        } else {
+            iconButton.setBackground(context.getResources().getDrawable(drawable));
+            //iconButton.setBackground(mContext.getResources().getDrawable(R.drawable.icon_button_light_normal));
+        }
     }
 
     private class Holder {

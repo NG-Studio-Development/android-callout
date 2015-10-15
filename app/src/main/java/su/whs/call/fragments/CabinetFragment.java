@@ -1,7 +1,6 @@
 package su.whs.call.fragments;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -53,12 +52,10 @@ import su.whs.call.net.ConnectionHandler;
 import su.whs.call.register.User;
 import su.whs.call.views.RateStarsView;
 
-public class CabinetFragment extends BaseFragment {
+public class CabinetFragment extends BaseCabinetFragment {
 
     private final static String TAG = "CABINET_FRAGMENT";
 
-    private static final int CAMERA_REQUEST = 1888;
-    private static final int GALLERY_REQUEST = 1889;
 
     public CabinetFragment() {}
 
@@ -84,7 +81,7 @@ public class CabinetFragment extends BaseFragment {
     //private List<CallsExpert> mListCalls;
     private Button executorCategoriesBtn;
     private ArrayList<ExecutorSubcategory> subcategories;
-    private Dialog auth_dialog;
+    //private Dialog auth_dialog;
 
     public static List<RecentCall> calls;
 
@@ -232,7 +229,7 @@ public class CabinetFragment extends BaseFragment {
 
             @Override
             public void onFail() {
-                //Toast.makeText(getActivity(), "Fail in loadUserInformation()", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(), "Fail in loadUserInformation EF()", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -334,7 +331,8 @@ public class CabinetFragment extends BaseFragment {
         }
     }
 
-    private void applyAvatar(Bitmap bitmapAvatar) {
+    @Override
+    protected void applyAvatar(Bitmap bitmapAvatar) {
         if (bitmapAvatar != null) {
 
 
@@ -392,59 +390,22 @@ public class CabinetFragment extends BaseFragment {
         }
     }
 
-    public View.OnClickListener avatarSelectListener = new View.OnClickListener() {
 
-        private Button sourceCameraBtn;
-        private Button sourceGalleryBtn;
-        private Button removeBtn;
+    public void postAvatarToServer(Bitmap photo) {
 
-        @Override
-        public void onClick(View view) {
-            auth_dialog = new Dialog(getActivity());
-            auth_dialog.setContentView(R.layout.avatar_dialog);
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        photo.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
 
-            sourceCameraBtn = (Button) auth_dialog.findViewById(R.id.source_camera);
-            sourceGalleryBtn = (Button) auth_dialog.findViewById(R.id.source_gallery);
-            removeBtn = (Button) auth_dialog.findViewById(R.id.source_remove);
+        byte[] byteArray = bytes.toByteArray();
+        String base64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
-            sourceCameraBtn.setOnClickListener(avatarFromCameraListener);
-            sourceGalleryBtn.setOnClickListener(avatarFromGalleryListener);
-            removeBtn.setOnClickListener(removeAvatarListener);
+        Log.d(TAG, "Base64: " + base64);
 
-            auth_dialog.setTitle(getString(R.string.select_avatar_source));
-            auth_dialog.show();
-        }
+        User user = User.create(getActivity());
+        ConnectionHandler handler = ConnectionHandler.getInstance(getActivity());
+        handler.postUserAvatar(user.getToken(), "jpeg", base64);
 
-    };
-
-    public View.OnClickListener avatarFromCameraListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(cameraIntent, CAMERA_REQUEST);
-        }
-    };
-
-    public View.OnClickListener avatarFromGalleryListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(i, GALLERY_REQUEST);
-        }
-    };
-
-    public View.OnClickListener removeAvatarListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            User user = User.create(getActivity());
-            if (user.isLoggedIn()) {
-                ConnectionHandler handler = ConnectionHandler.getInstance(getActivity());
-                handler.removeAvatar(user.getToken());
-                applyAvatar(null);
-            }
-            if (auth_dialog != null) auth_dialog.dismiss();
-        }
-    };
+    }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -485,26 +446,7 @@ public class CabinetFragment extends BaseFragment {
         return new String(hexChars);
     }
 
-    public void postAvatarToServer(Bitmap photo) {
 
-
-
-        //photo = scaleDownBitmap(photo, 150, 150);
-
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        photo.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-
-        //String base64 = bytesToHex(bytes.toByteArray());
-
-        byte[] byteArray = bytes.toByteArray();
-        String base64 = Base64.encodeToString(byteArray, Base64.DEFAULT);
-
-        Log.d(TAG, "Base64: "+base64);
-
-        User user = User.create(getActivity());
-        ConnectionHandler handler = ConnectionHandler.getInstance(getActivity());
-        handler.postAvatar(user.getToken(), "jpeg", base64);
-    }
 
     public Bitmap scaleDownBitmap(Bitmap originalImage, int width, int height) {
         Bitmap background = Bitmap.createBitmap((int) width, (int) height, Bitmap.Config.ARGB_8888);

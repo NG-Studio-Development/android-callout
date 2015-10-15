@@ -1,13 +1,19 @@
 package su.whs.call.fragments;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -30,7 +36,7 @@ import su.whs.call.models.UserInfo;
 import su.whs.call.net.ConnectionHandler;
 import su.whs.call.register.User;
 
-public class ExecutorSubcategoriesFragment extends BaseFragment/*BaseSearchTabFragment*/ {
+public class ExecutorSubcategoriesFragment extends BaseCabinetFragment {
 
     private static final String SUBCATEGORIES_ARGS = "subcats";
     private static final String USERINFO_ARGS = "userinfo";
@@ -40,6 +46,9 @@ public class ExecutorSubcategoriesFragment extends BaseFragment/*BaseSearchTabFr
     private static UserInfo mUserInfo;
     private static List<ExecutorSubcategory> mSubcategories;
     private static ExecutorSubcategoriesAdapter adapter;
+    private ExecutorSubcategory selectedSubcategory;
+    private ConnectionHandler.ChangeAvatarListener changeAvatarListener = null;
+    private ProgressDialog progressDialog;
 
     private static ExecutorSubcategoriesFragment mInstance = null;
     private RegisteredYear mYear;
@@ -78,46 +87,63 @@ public class ExecutorSubcategoriesFragment extends BaseFragment/*BaseSearchTabFr
         @Override
         public void onDescriptionClick(View clickedView, ExecutorSubcategory subcategory) {
             ExecutorSubcategoriesFragment.clickedView = clickedView;
-            //DialogFragment dlg1 = new ExecutorEditDescriptionFragment();
-            //dlg1.show(getFragmentManager(), dlg1.getClass().getName());
             openFragment(ExecutorEditDescriptionFragment.newInstance(subcategory));
         }
 
         public void onCountCallClick(ExecutorSubcategory subcategory) {
-
             if (subcategory.getCallsList().size() != 0)
                 openFragment( CallsFragment.newInstance( subcategory.getCallsList() ) );
             else
                 Toast.makeText(getActivity(), getString(R.string.you_not_have_calls), Toast.LENGTH_LONG).show();
         }
 
-        public void onChangeState(ExecutorSubcategory subcategory) {
-            ConnectionHandler handler = ConnectionHandler.getInstance(getActivity());
-            handler.postStatus(User.create(getActivity()).getToken(), subcategory/*subcategory.getId(), !subcategory.getStatus()*/);
-
+        public void onChangeState( ExecutorSubcategory subcategory ) {
+            ConnectionHandler handler = ConnectionHandler.getInstance( getActivity() );
+            handler.postStatus( User.create(getActivity()).getToken(), subcategory );
         }
 
         @Override
-        public void onAvatarClick(View view, ExecutorSubcategory subcategory) {
-            TextView tvModerationState = (TextView) view.findViewById(R.id.tvModerationState);
-            tvModerationState.setVisibility(View.INVISIBLE);
+        public void onAvatarClick(final View view, ExecutorSubcategory subcategory) {
+
+            selectedSubcategory = subcategory;
+            progressDialog.setTitle(getString(R.string.loading));
+            onSelectAvatar();
+
+
+            setChangeAvatarListener(new ConnectionHandler.ChangeAvatarListener() {
+                @Override
+                public void onChange() {
+                    selectedSubcategory.setPublished(false);
+                    view.findViewById(R.id.tvModerationState).setVisibility(View.VISIBLE);
+
+                    progressDialog.dismiss();
+                    Toast.makeText(getActivity(), getString(R.string.service_will_be_published), Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onError() {
+
+                    progressDialog.dismiss();
+                    Toast.makeText(getActivity(), getString(R.string.loading_error), Toast.LENGTH_LONG).show();
+                }
+            });
 
         }
     };
 
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        progressDialog = new ProgressDialog(getActivity());
+    }
 
     @SuppressWarnings("unchecked")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.subcategories_fragment, container, false);
 
-
-
         mList = (ListView) v.findViewById(R.id.listView);
-
-
-
 
         final ConnectionHandler.OnExecutorCategoriesListener execotorCategoryListener =
                 new ConnectionHandler.OnExecutorCategoriesListener() {
@@ -159,8 +185,6 @@ public class ExecutorSubcategoriesFragment extends BaseFragment/*BaseSearchTabFr
         mContentView = v;
         return super.onCreateView(inflater, container, savedInstanceState);
     }
-
-
 
     private void setProfileUsername(String username) {
         CabinetActivity activity = (CabinetActivity) getActivity();
@@ -247,5 +271,65 @@ public class ExecutorSubcategoriesFragment extends BaseFragment/*BaseSearchTabFr
         infoDialog.setTitle(getString(R.string.info_executor_subcategories));
         infoDialog.show();
     }
+
+
+    public void setChangeAvatarListener(ConnectionHandler.ChangeAvatarListener changeAvatarListener) {
+        this.changeAvatarListener = changeAvatarListener;
+    }
+
+    public ConnectionHandler.ChangeAvatarListener getChangeAvatarListener() {
+        if ( changeAvatarListener == null )
+            throw new Error("Avatar listener can not be null !!!");
+
+        return changeAvatarListener;
+    }
+
+    @Override
+    protected void applyAvatar(Bitmap bitmapAvatar) { /* Nothing to do */ }
+
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            progressDialog.show();
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            applyAvatar(photo);
+            postAvatarToServer(photo);
+            if (auth_dialog != null) auth_dialog.dismiss();
+        }
+
+        if (requestCode == GALLERY_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            progressDialog.show();
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+            Bitmap photo = BitmapFactory.decodeFile(picturePath);
+            applyAvatar(photo);
+            postAvatarToServer(photo);
+
+            if (auth_dialog != null) auth_dialog.dismiss();
+
+        }
+
+    }
+
+
+
+
+    protected void postAvatarToServer(Bitmap photo) {
+        String base64 = toBase64(photo);
+
+        User user = User.create(getActivity());
+        ConnectionHandler handler = ConnectionHandler.getInstance(getActivity());
+
+        if (selectedSubcategory != null)
+            handler.postCategoryAvatar(user.getToken(), selectedSubcategory.getId(), "jpeg", base64, getChangeAvatarListener());
+
+    }
+
 
 }
